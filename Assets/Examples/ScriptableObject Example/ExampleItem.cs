@@ -12,12 +12,35 @@ public class ExampleItem : Item
 
     private Color normalEmissionColor;
     private Material material;
+    private Vector3 spinVector;
 
     protected override void Awake()
     {
         base.Awake();
         material = GetComponent<Renderer>().material;
         normalEmissionColor = material.GetColor("_EmissionColor");
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        transform.localScale = new Vector3(attributes.Attack / 10f, attributes.Attack / 10f, attributes.Attack / 10f);
+        spinVector = 
+            attributes.Team == Teams.neutral ? new Vector3(1f, 0f, 0f) : 
+            attributes.Team == Teams.good ? new Vector3(0f, 1f, 0f) : 
+            new Vector3(0f, 0f, 1f);
+        // spin speed will simply be attributes.MovementSpeed value
+
+        StartCoroutine(Spin());
+    }
+
+    IEnumerator Spin()
+    {
+        while(true)
+        {
+            yield return new WaitForFixedUpdate();
+            transform.Rotate(spinVector, attributes.MovementSpeed);
+        }
     }
 
     protected override void HighlightObject(bool on)

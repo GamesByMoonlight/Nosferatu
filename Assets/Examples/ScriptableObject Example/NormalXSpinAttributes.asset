@@ -9,12 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d7237d75911f5b4c8e53076b34bb254, type: 3}
-  m_Name: ExampleItemAttributes
+  m_Name: NormalXSpinAttributes
   m_EditorClassIdentifier: 
   attributes:
-    attack: 10
-    health: 5
-    team: 0
-    projectileRange: 3.2
-    projectileSpeed: 1.2
-    movementSpeed: 2.5
+    Attack: 10
+    MaxHealth: 100
+    Team: 0
+    ProjectileRange: 10
+    ProjectileSpeed: 10
+    MovementSpeed: 1

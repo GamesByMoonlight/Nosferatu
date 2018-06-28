@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85fa5690b40074799a0295b40c587b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributesObject: {fileID: 11400000, guid: 49580b3c20c180d4992e8f283e4d29df, type: 2}
+  attributesObject: {fileID: 11400000, guid: 1374437b50ba9c34ba7315366389e2e8, type: 2}
   highlightEmissionColor: {r: 0, g: 0.49411765, b: 1, a: 1}
 --- !u!65 &1474384874
 BoxCollider:

@@ -10,14 +10,14 @@ public enum ItemState { none, placing, idle, activated, exhausted, destroyed} //
 /// </summary>
 public class Item : MonoBehaviour
 {
-    public AttributesObject attributesObject;
-    private Attributes attributes { get {return attributesObject.attributes; } }
+    [SerializeField] private AttributesObject attributesObject;
+    protected Attributes attributes = new Attributes(); // { get {return attributesObject.attributes; } }
 
     private ItemState state;
 
     protected virtual void Awake()
     {
-        
+        attributesObject.Initialize(attributes);
     }
 
     protected virtual void Start()

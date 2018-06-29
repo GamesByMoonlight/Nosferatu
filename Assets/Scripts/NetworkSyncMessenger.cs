@@ -10,7 +10,7 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     public Rigidbody SyncRigidbody;
     
     // Player properties
-    string objectID;
+    
 
     // Movement Properties
     [Header("Movement Properties")]
@@ -36,13 +36,12 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     void Start()
     {
-        objectID = gameObject.name + GetComponent<NetworkIdentity>().netId.ToString();
-        transform.name = objectID;
-        Manager.Instance.AddObjectToConnectedObjects(objectID, gameObject);
+        name = gameObject.name + netId.ToString();
+        Manager.Instance.AddObjectToConnectedObjects(netId, gameObject);
 
         if(isLocalPlayer)
         {
-            Manager.Instance.SetLocalPlayerID(objectID);
+            Manager.Instance.SetLocalPlayerID(netId);
             canSendNetworkMovement = false;
             RegisterNetworkMessages();
         }
@@ -57,7 +56,7 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     {
         SyncMovementMessage _msg = _message.ReadMessage<SyncMovementMessage>();
 
-        if (_msg.forObjectID != transform.name)
+        if (_msg.forObjectID != netId)
         {
             Manager.Instance.ConnectedObjects[_msg.forObjectID].GetComponent<NetworkSyncMessenger>().ReceiveMovementMessage(_msg.objectPosition, _msg.objectRotation, _msg.objectVelocity, _msg.objectDrag, _msg.time);
         }
@@ -138,11 +137,11 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     private void SendNetworkMovement()
     {
         timeBetweenMovementEnd = Time.time;
-        SendMovementMessage(objectID, SyncTransform.position, SyncTransform.rotation, SyncRigidbody.velocity, SyncRigidbody.drag, (timeBetweenMovementEnd - timeBetweenMovementStart));
+        SendMovementMessage(netId, SyncTransform.position, SyncTransform.rotation, SyncRigidbody.velocity, SyncRigidbody.drag, (timeBetweenMovementEnd - timeBetweenMovementStart));
         canSendNetworkMovement = false;
     }
 
-    public void SendMovementMessage(string _playerID, Vector3 _position, Quaternion _rotation, Vector3 _velocity, float _drag, float _timeTolerp)
+    public void SendMovementMessage(NetworkInstanceId _playerID, Vector3 _position, Quaternion _rotation, Vector3 _velocity, float _drag, float _timeTolerp)
     {
         SyncMovementMessage _msg = new SyncMovementMessage()
         {
@@ -159,6 +158,6 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     private void OnDestroy()
     {
-        Manager.Instance.RemoveObjectsFromConnectedObjects(objectID);
+        Manager.Instance.RemoveObjectsFromConnectedObjects(netId);
     }
 }

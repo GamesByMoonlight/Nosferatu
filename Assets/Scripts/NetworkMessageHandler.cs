@@ -10,7 +10,7 @@ public class NetworkMessageHandler : NetworkBehaviour
 
     public class SyncMovementMessage : MessageBase
     {
-        public string forObjectID;
+        public NetworkInstanceId forObjectID;
         public float time;
 
         // Transform

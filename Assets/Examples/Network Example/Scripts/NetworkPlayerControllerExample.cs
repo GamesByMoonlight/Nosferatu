@@ -6,7 +6,7 @@ using UnityEngine.Networking.NetworkSystem;
 using SyncObjectManager;
 using System;
 
-public class NetworkPlayerController : NetworkBehaviour
+public class NetworkPlayerControllerExample : NetworkBehaviour
 {
     public Transform BulletSpawn;
     public Transform CameraPosition;

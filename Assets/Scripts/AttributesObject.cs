@@ -12,8 +12,10 @@ public class AttributesObject : ScriptableObject
     // Use when this Attribute set defines starting values
     public void Initialize(Attributes attr)
     {
+        attr.Name = attributes.Name;
         attr.Attack = attributes.Attack;
         attr.MaxHealth = attributes.MaxHealth;
+        attr.CurrentHealth = attributes.CurrentHealth;
         attr.Team = attributes.Team;
         attr.ProjectileRange = attributes.ProjectileRange;
         attr.ProjectileSpeed = attributes.ProjectileSpeed;
@@ -23,9 +25,10 @@ public class AttributesObject : ScriptableObject
     // Use when this Attribute set defines a change to existing values
     public void Modify(Attributes attr)
     {
-        attr.Attack *= attributes.Attack;
-        attr.MaxHealth *= attributes.MaxHealth;
         attr.Team = attributes.Team;
+        attr.MaxHealth *= attributes.MaxHealth;
+        attr.CurrentHealth *= attributes.CurrentHealth;
+        attr.Attack *= attributes.Attack;
         attr.ProjectileRange *= attributes.ProjectileRange;
         attr.ProjectileSpeed *= attributes.ProjectileSpeed;
         attr.MovementSpeed *= attributes.MovementSpeed;
@@ -34,9 +37,10 @@ public class AttributesObject : ScriptableObject
     // Use to remove changes made in Modify()
     public void UnModify(Attributes attr)
     {
-        attr.Attack /= attributes.Attack;
-        attr.MaxHealth /= attributes.MaxHealth;
         attr.RevertToPreviousTeam();
+        attr.MaxHealth /= attributes.MaxHealth;
+        attr.CurrentHealth /= attributes.CurrentHealth;
+        attr.Attack /= attributes.Attack;
         attr.ProjectileRange /= attributes.ProjectileRange;
         attr.ProjectileSpeed /= attributes.ProjectileSpeed;
         attr.MovementSpeed /= attributes.MovementSpeed;
@@ -53,10 +57,11 @@ public class Attributes
 {
     private Teams previousTeam;
     private Teams currentTeam;
-
-    public float Attack;
-    public float MaxHealth;
     public Teams Team { get { return currentTeam; } set { previousTeam = currentTeam; currentTeam = value; } }
+    public string Name;
+    public float MaxHealth;
+    public float CurrentHealth;
+    public float Attack;
     public float ProjectileRange;
     public float ProjectileSpeed;
     public float MovementSpeed;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetworkPlayerConnection : NetworkBehaviour {
-    public GameObject AvatarPrefab;
+    public GameObject PlayerAvatar;
 
     [SerializeField]
     private AttributesObject PlayerAttributes;
@@ -22,8 +22,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
     void InitAvatar()
     {
-        var avatar = AvatarPrefab; //Instantiate(AvatarPrefab, transform.position, transform.rotation, transform);
+        var avatar = PlayerAvatar; //Instantiate(AvatarPrefab, transform.position, transform.rotation, transform);
         GetComponent<NetworkHealthController>().ForGameObject = attributes;
+        GetComponent<NetworkFireController>().WeaponAttributes = attributes;
 
         if (isLocalPlayer)
         {

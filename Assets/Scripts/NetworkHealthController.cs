@@ -11,9 +11,15 @@ public class NetworkHealthController : NetworkBehaviour {
     private Attributes attributes;
     public Attributes ForGameObject { get { return attributes; }  set { attributes = value; CurrentHealth = attributes.CurrentHealth; } }
     public RectTransform HealthBar;
+    public CanvasGroup cg;
 
     [SyncVar(hook = "OnChangeHealth")]
     private float CurrentHealth = 100f;
+
+    public override void OnStartLocalPlayer()
+    {
+        cg.alpha = 0f;
+    }
 
     public void TakeDamage(float amount)
     {

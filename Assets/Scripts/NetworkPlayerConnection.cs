@@ -34,6 +34,8 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         {
             avatar.GetComponent<FPSMouseLookController>().enabled = false;
             avatar.GetComponent<StepSimulator>().enabled = false;
+            avatar.GetComponentInChildren<Camera>().enabled = false;
+            avatar.GetComponentInChildren<AudioListener>().enabled = false;
         }
     }
 	

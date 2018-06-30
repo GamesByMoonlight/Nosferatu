@@ -78,8 +78,6 @@ public class FPSMouseLookController : MonoBehaviour
         public float shellOffset; //reduce the radius by that ratio to avoid getting stuck in wall (a value of 0.1f is nice)
     }
 
-    public Transform CameraPosition;
-    public GameObject SpotLight;
     public MovementSettings movementSettings = new MovementSettings();
     public MouseLook mouseLook = new MouseLook();
     public AdvancedSettings advancedSettings = new AdvancedSettings();
@@ -133,10 +131,10 @@ public class FPSMouseLookController : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-        cam.transform.SetParent(transform);
-        cam.transform.position = CameraPosition.position;
-        cam.transform.rotation = CameraPosition.rotation;
-        SpotLight.transform.SetParent(cam.transform);
+        //cam.transform.SetParent(transform);
+        //cam.transform.position = CameraPosition.position;
+        //cam.transform.rotation = CameraPosition.rotation;
+        //SpotLight.transform.SetParent(cam.transform);
 
         m_RigidBody = GetComponent<Rigidbody>();
         m_Capsule = GetComponent<CapsuleCollider>();

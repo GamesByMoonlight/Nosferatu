@@ -21,7 +21,8 @@ public class NetworkFireController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        if(Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon)
+
+        if(Input.GetButtonDown(FireAxis)) 
         {
             CmdFire(mainCamera.transform.forward);
         }

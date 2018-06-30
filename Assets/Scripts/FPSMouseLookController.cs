@@ -79,6 +79,7 @@ public class FPSMouseLookController : MonoBehaviour
     }
 
     public Transform CameraPosition;
+    public GameObject SpotLight;
     public MovementSettings movementSettings = new MovementSettings();
     public MouseLook mouseLook = new MouseLook();
     public AdvancedSettings advancedSettings = new AdvancedSettings();
@@ -135,6 +136,7 @@ public class FPSMouseLookController : MonoBehaviour
         cam.transform.SetParent(transform);
         cam.transform.position = CameraPosition.position;
         cam.transform.rotation = CameraPosition.rotation;
+        SpotLight.transform.SetParent(cam.transform);
 
         m_RigidBody = GetComponent<Rigidbody>();
         m_Capsule = GetComponent<CapsuleCollider>();

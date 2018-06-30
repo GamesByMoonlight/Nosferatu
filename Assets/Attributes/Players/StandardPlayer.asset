@@ -17,5 +17,5 @@ MonoBehaviour:
     CurrentHealth: 100
     Attack: 10
     ProjectileRange: 10
-    ProjectileSpeed: 10
+    ProjectileSpeed: 20
     MovementSpeed: 5

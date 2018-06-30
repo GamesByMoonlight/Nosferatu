@@ -33,7 +33,9 @@ public class NetworkFireController : NetworkBehaviour {
     {
         var bullet = Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
         bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * WeaponAttributes.ProjectileSpeed;
+        bullet.GetComponent<BulletController>().Attack = WeaponAttributes.Attack;
+        bullet.GetComponent<BulletController>().Speed = WeaponAttributes.ProjectileSpeed;
         NetworkServer.Spawn(bullet);
-        Destroy(bullet, 2f);
+        Destroy(bullet, WeaponAttributes.ProjectileRange);
     }
 }

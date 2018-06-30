@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 135620102823158072}
   - component: {fileID: 54711349643983126}
   - component: {fileID: 114132708670957324}
+  - component: {fileID: 114809152779614410}
   - component: {fileID: 114143809393305162}
   m_Layer: 0
   m_Name: Bullet
@@ -40,7 +41,7 @@ Transform:
   m_GameObject: {fileID: 1057035609574562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -97,7 +98,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -145,6 +146,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2b97eb08e4f204ab7fc27c3cb20800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Attack: 1
+--- !u!114 &114809152779614410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1057035609574562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!135 &135620102823158072
 SphereCollider:
   m_ObjectHideFlags: 1

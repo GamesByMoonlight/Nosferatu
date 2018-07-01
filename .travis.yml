@@ -1,13 +1,9 @@
-
-
 language: generic
 os: osx
 osx_image: xcode6.4
 
-# # notifications:
-# #    slack: fortworthgamedev:p9yd5tRB0IHi1IhT4yuVxLwk
-# install:
-# - sudo -E sh ./Scripts/install.sh
+install:
+- sudo -E sh ./Scripts/install.sh
 # script:
 # - sudo -E sh ./Scripts/build.sh
 # after_success:

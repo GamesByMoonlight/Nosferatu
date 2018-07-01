@@ -10,12 +10,10 @@ public class NetworkFireController : NetworkBehaviour {
     [SerializeField]
     public Attributes WeaponAttributes;
 
-    private Camera mainCamera;
     private float cooldown;
 
     private void Awake()
     {
-        mainCamera = Camera.main;
         cooldown = Time.time;
     }
 

@@ -782,7 +782,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerAvatar: {fileID: 1265400936876386}
-  PlayerAttributes: {fileID: 11400000, guid: e12274366f77ba34e93d312e239f7b55, type: 2}
+  PlayerAttributesScriptableObject: {fileID: 11400000, guid: e12274366f77ba34e93d312e239f7b55,
+    type: 2}
 --- !u!114 &114311544809744746
 MonoBehaviour:
   m_ObjectHideFlags: 1

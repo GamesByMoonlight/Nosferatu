@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Events;
 
-public class GameManager : NetworkBehaviour {
+public class GameManager : CustomMessagingEventSystem {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
@@ -11,8 +12,9 @@ public class GameManager : NetworkBehaviour {
     public float CurrentTime;
     public float SyncRate = .2f;    // Synce every (1 / SyncRate) seconds
         
-    float TimeLastSyncSent;
-    bool running = false;
+    private float TimeLastSyncSent;
+    private bool running = false;
+    private List<GameObject> ConnectedPlayers;
 
     private void Awake()
     {
@@ -22,15 +24,13 @@ public class GameManager : NetworkBehaviour {
     private void Start()
     {
         CurrentTime = MatchTime;
+        StartMatch();
+
         if(isServer)
         {
             SynchronizeTime();
+            EntityDiedEvent.AddListener(OnEntityDeath);
         }
-    }
-
-    public void StartMatch()
-    {
-        running = true;
     }
 
     private void Update()
@@ -55,15 +55,52 @@ public class GameManager : NetworkBehaviour {
         TimeLastSyncSent = Time.time;
     }
 
+    [ClientRpc]
+    private void RpcSyncTime(float updatedTime)
+    {
+        CurrentTime = updatedTime;
+    }
+
     private void MatchOver()
     {
         running = false;
         Debug.Log("Match Over [Do Something]");
     }
     
-    [ClientRpc]
-    private void RpcSyncTime(float updatedTime)
+    private void OnEntityDeath(GameObject entity)
     {
-        CurrentTime = updatedTime;
+        bool somePlayersAlive = false;
+        Attributes attr;
+
+        foreach (GameObject player in ConnectedPlayers)
+        {
+            attr = player.GetComponent<NetworkPlayerConnection>().PlayerAttributes;
+            if (attr.Team == Teams.good && attr.CurrentHealth > 0f)
+            {
+                somePlayersAlive = true;
+            }
+        }
+
+        if(!somePlayersAlive)
+        {
+            Debug.Log("Game Over.  All good players dead");
+        }
+    }
+
+    public void StartMatch()
+    {
+        running = true;
+    }
+
+    public void RegisterPlayer(GameObject player)
+    {
+        if (ConnectedPlayers == null)
+            ConnectedPlayers = new List<GameObject>();
+        ConnectedPlayers.Add(player);
+    }
+
+    public void UnregisterPlayer(GameObject player)
+    {
+        ConnectedPlayers.Remove(player);
     }
 }

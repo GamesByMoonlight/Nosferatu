@@ -1,22 +1,29 @@
-language: generic
-os: osx
-osx_image: xcode6.4
+language: ruby
+rvm:
+ - 2.2
+ - jruby
+ - rbx-3
 
-# notifications:
-#    slack: fortworthgamedev:p9yd5tRB0IHi1IhT4yuVxLwk
-install:
-- sudo -E sh ./Scripts/install.sh
-script:
-- sudo -E sh ./Scripts/build.sh
-after_success:
-- sudo -E sh ./Scripts/post_build.sh
-deploy:
- provider: s3
-  access_key_id: AKIAJVUITNXKW2CWG2OQ
-  secret_access_key:
-    secure: T/XMrzxJAcahid1i6AcVLDLkH+qu5EEkQoXrsxECfcLSGFGL36+1xVykRSaY1aWOcjgUooqRuW/sPW2DAt52DJjyJv/ggYQyHkiC9nPJ6m7YEaZ/G/B8/QJQ2jnQHsUEqwkjcYbVk5qsySplDYCKVQpUUTxOoH+SQ6Oge7/gy9uT+40IfN+J1eScSr0ici+YVayHxZG42+n4+iNKgRNrm8IxwL7zC8zMKWUfv2Zgar35XMNRy26TMbrKb5Uc7jejjDSKcpElLzKWl6Q8KYKElV/MkDmf1GhNqlAr68notecXtboSN9O2aY2UAR7eL6ubg1tH/IuG1ZlJTGxg7ripRWqAOjV4C2Ly5x6r7Oi89qD4PBuQ5TRzt+AhUybJUG4sD/RVb3RDZlGvwD/NStNgdwSbxIV6/Xq2gXYefwdwhpI5tt1myHBX7VWwrbgrqR3UTO74IoHs1QavP/dkNgxc2qq2gEuTWbLyttHB9Cl42RjcnYHbajyzRhVCQlNHZR1fFYJams/zIX02+VnS+uSWAdSYHHRdQGeTpul7s91dE547wzf3Pyx8RiOf1q8Gzbt8/47psxnmAs/iofs3YucC6YqA8a9REhWtM/EygT1WzX423x2cigZ0KZKVp/6p5ZGpvn1fug43SGEdKIAJfAE/wK3MADcWe9w/MhRp55zA8oY=
-  bucket: games-by-moonlight
-  local_dir: Build
-  skip_cleanup: true
-  on:
-    branch: tool/9
+
+# language: generic
+# os: osx
+# osx_image: xcode6.4
+
+# # notifications:
+# #    slack: fortworthgamedev:p9yd5tRB0IHi1IhT4yuVxLwk
+# install:
+# - sudo -E sh ./Scripts/install.sh
+# script:
+# - sudo -E sh ./Scripts/build.sh
+# after_success:
+# - sudo -E sh ./Scripts/post_build.sh
+# deploy:
+#  provider: s3
+#   access_key_id: AKIAJVUITNXKW2CWG2OQ
+#   secret_access_key:
+#     secure: T/XMrzxJAcahid1i6AcVLDLkH+qu5EEkQoXrsxECfcLSGFGL36+1xVykRSaY1aWOcjgUooqRuW/sPW2DAt52DJjyJv/ggYQyHkiC9nPJ6m7YEaZ/G/B8/QJQ2jnQHsUEqwkjcYbVk5qsySplDYCKVQpUUTxOoH+SQ6Oge7/gy9uT+40IfN+J1eScSr0ici+YVayHxZG42+n4+iNKgRNrm8IxwL7zC8zMKWUfv2Zgar35XMNRy26TMbrKb5Uc7jejjDSKcpElLzKWl6Q8KYKElV/MkDmf1GhNqlAr68notecXtboSN9O2aY2UAR7eL6ubg1tH/IuG1ZlJTGxg7ripRWqAOjV4C2Ly5x6r7Oi89qD4PBuQ5TRzt+AhUybJUG4sD/RVb3RDZlGvwD/NStNgdwSbxIV6/Xq2gXYefwdwhpI5tt1myHBX7VWwrbgrqR3UTO74IoHs1QavP/dkNgxc2qq2gEuTWbLyttHB9Cl42RjcnYHbajyzRhVCQlNHZR1fFYJams/zIX02+VnS+uSWAdSYHHRdQGeTpul7s91dE547wzf3Pyx8RiOf1q8Gzbt8/47psxnmAs/iofs3YucC6YqA8a9REhWtM/EygT1WzX423x2cigZ0KZKVp/6p5ZGpvn1fug43SGEdKIAJfAE/wK3MADcWe9w/MhRp55zA8oY=
+#   bucket: games-by-moonlight
+#   local_dir: Build
+#   skip_cleanup: true
+#   on:
+#     branch: tool/9

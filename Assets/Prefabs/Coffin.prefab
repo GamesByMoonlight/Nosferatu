@@ -327,7 +327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c924719deb444e4f8be340ca5ccc695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributes: {fileID: 11400000, guid: a7e25baca9da7a648b9fc789879e1d97, type: 2}
+  CoffinAttributes: {fileID: 11400000, guid: a7e25baca9da7a648b9fc789879e1d97, type: 2}
+  networkHealthController: {fileID: 114511830386914546}
 --- !u!114 &114471821927659508
 MonoBehaviour:
   m_ObjectHideFlags: 1

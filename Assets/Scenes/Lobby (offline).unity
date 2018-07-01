@@ -231,13 +231,14 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1603016986646090, guid: 5e94471767b74054f9f24002a7168177,
+  m_PlayerPrefab: {fileID: 1766555152787158, guid: 5e94471767b74054f9f24002a7168177,
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: Lobby (offline)
-  m_OnlineScene: Online
-  m_SpawnPrefabs: []
+  m_OnlineScene: Maze (online)
+  m_SpawnPrefabs:
+  - {fileID: 1057035609574562, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -280,7 +281,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -290,7 +291,7 @@ MonoBehaviour:
   m_MatchHost: mm.unet.unity3d.com
   m_MatchPort: 443
   matchName: default
-  matchSize: 4
+  matchSize: 5
   isNetworkActive: 0
   matchMaker: {fileID: 0}
 --- !u!4 &774407061

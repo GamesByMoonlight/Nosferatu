@@ -4,34 +4,43 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetworkPlayerConnection : NetworkBehaviour {
-    public GameObject AvatarPrefab;
+    public GameObject PlayerAvatar;
 
+    [SerializeField]
+    private AttributesObject PlayerAttributes;
+    private Attributes attributes = new Attributes();
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        PlayerAttributes.Initialize(attributes);
+    }
+
+    // Use this for initialization
+    void Start () {
         InitAvatar();
 	}
 
     void InitAvatar()
     {
-        var avatar = Instantiate(AvatarPrefab, transform.position, transform.rotation, transform);
-        var syncMessenger = GetComponent<NetworkSyncMessenger>();
-        syncMessenger.SyncTransform = avatar.transform;
-        syncMessenger.SyncRigidbody = avatar.GetComponent<Rigidbody>();
+        var avatar = PlayerAvatar; //Instantiate(AvatarPrefab, transform.position, transform.rotation, transform);
+        GetComponent<NetworkHealthController>().ForGameObject = attributes;
+        GetComponent<NetworkFireController>().WeaponAttributes = attributes;
 
         if (isLocalPlayer)
         {
             avatar.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+            var inputController = avatar.GetComponent<FPSMouseLookController>();
+            inputController.movementSettings.ForwardSpeed = attributes.ForwardSpeed;
+            inputController.movementSettings.BackwardSpeed = attributes.BackwardSpeed;
+            inputController.movementSettings.StrafeSpeed = attributes.StrafeSpeed;
         }
         else
         {
             avatar.GetComponent<FPSMouseLookController>().enabled = false;
             avatar.GetComponent<StepSimulator>().enabled = false;
+            avatar.GetComponentInChildren<Camera>().enabled = false;
+            avatar.GetComponentInChildren<AudioListener>().enabled = false;
         }
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

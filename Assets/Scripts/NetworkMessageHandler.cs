@@ -10,16 +10,12 @@ public class NetworkMessageHandler : NetworkBehaviour
 
     public class SyncMovementMessage : MessageBase
     {
-        public string forObjectID;
+        public NetworkInstanceId forObjectID;
         public float time;
 
         // Transform
         public Vector3 objectPosition;
         public Quaternion objectRotation;
-
-        // Rigidbody
-        public Vector3 objectVelocity;
-        public float objectDrag;
     }
 
 }

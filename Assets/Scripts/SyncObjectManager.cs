@@ -2,17 +2,18 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace SyncObjectManager
 {
     public class Manager
     {
         private static Manager _instance;
-        public Dictionary<string, GameObject> ConnectedObjects { get; set; }
+        public Dictionary<NetworkInstanceId, GameObject> ConnectedObjects { get; set; }
 
         public int NumberConnectedObjects { get; private set; }
 
-        public string PlayerID { get; private set; }
+        public NetworkInstanceId PlayerID { get; private set; }
 
         private Manager()
         {
@@ -21,7 +22,7 @@ namespace SyncObjectManager
                 return;
             }
 
-            ConnectedObjects = new Dictionary<string, GameObject>();
+            ConnectedObjects = new Dictionary<NetworkInstanceId, GameObject>();
             NumberConnectedObjects = 0;
 
             _instance = this;
@@ -40,7 +41,7 @@ namespace SyncObjectManager
             }
         }
 
-        public void AddObjectToConnectedObjects(string _objectID, GameObject _gameObject)
+        public void AddObjectToConnectedObjects(NetworkInstanceId _objectID, GameObject _gameObject)
         {
             if (!ConnectedObjects.ContainsKey(_objectID))
             {
@@ -49,7 +50,7 @@ namespace SyncObjectManager
             }
         }
 
-        public void RemoveObjectsFromConnectedObjects(string _objectID)
+        public void RemoveObjectsFromConnectedObjects(NetworkInstanceId _objectID)
         {
             if (ConnectedObjects.ContainsKey(_objectID))
             {
@@ -63,12 +64,12 @@ namespace SyncObjectManager
             return ConnectedObjects.Values.ToArray();
         }
 
-        public void SetLocalPlayerID(string _playerID)
+        public void SetLocalPlayerID(NetworkInstanceId _playerID)
         {
             PlayerID = _playerID;
         }
 
-        public GameObject GetObjectFromConnectedObjects(string _objectID)
+        public GameObject GetObjectFromConnectedObjects(NetworkInstanceId _objectID)
         {
             if (ConnectedObjects.ContainsKey(_objectID))
             {

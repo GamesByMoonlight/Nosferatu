@@ -5,12 +5,7 @@ using UnityEngine.Networking;
 using SyncObjectManager;
 
 public class NetworkSyncMessenger : NetworkMessageHandler {
-    [Header("Leave null if not syncing")]
     public Transform SyncTransform;
-    public Rigidbody SyncRigidbody;
-    
-    // Player properties
-    string objectID;
 
     // Movement Properties
     [Header("Movement Properties")]
@@ -23,12 +18,9 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     // Lerping properties
     bool isLerpingPosition;
     bool isLerpingRotation;
-    bool isLerpingVelocity;
     Vector3 realPosition;
-    Vector3 realVelocity;
     Quaternion realRotation;
     Vector3 lastRealPosition;
-    Vector3 lastRealVelocity;
     Quaternion lastRealRotation;
     
     float timeStartedLerping;
@@ -36,13 +28,12 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     void Start()
     {
-        objectID = gameObject.name + GetComponent<NetworkIdentity>().netId.ToString();
-        transform.name = objectID;
-        Manager.Instance.AddObjectToConnectedObjects(objectID, gameObject);
+        name = gameObject.name + netId.ToString();
+        Manager.Instance.AddObjectToConnectedObjects(netId, gameObject);
 
         if(isLocalPlayer)
         {
-            Manager.Instance.SetLocalPlayerID(objectID);
+            Manager.Instance.SetLocalPlayerID(netId);
             canSendNetworkMovement = false;
             RegisterNetworkMessages();
         }
@@ -57,26 +48,22 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     {
         SyncMovementMessage _msg = _message.ReadMessage<SyncMovementMessage>();
 
-        if (_msg.forObjectID != transform.name)
+        if (_msg.forObjectID != netId)
         {
-            Manager.Instance.ConnectedObjects[_msg.forObjectID].GetComponent<NetworkSyncMessenger>().ReceiveMovementMessage(_msg.objectPosition, _msg.objectRotation, _msg.objectVelocity, _msg.objectDrag, _msg.time);
+            Manager.Instance.ConnectedObjects[_msg.forObjectID].GetComponent<NetworkSyncMessenger>().ReceiveMovementMessage(_msg.objectPosition, _msg.objectRotation, _msg.time);
         }
     }
 
-    public void ReceiveMovementMessage(Vector3 position, Quaternion rotation, Vector3 velocity, float drag, float lerpTime)
+    public void ReceiveMovementMessage(Vector3 position, Quaternion rotation, float lerpTime)
     {
         lastRealPosition = realPosition;
         lastRealRotation = realRotation;
-        lastRealVelocity = realVelocity;
         realPosition = position;
         realRotation = rotation;
-        realVelocity = velocity;
         timeToLerp = lerpTime;
-        SyncRigidbody.drag = drag;  // Just set drag directly.  It's an instant change anyway.
 
         isLerpingPosition = realPosition != transform.position;
         isLerpingRotation = realRotation.eulerAngles != transform.rotation.eulerAngles;
-        isLerpingVelocity = realVelocity != SyncRigidbody.velocity;
 
         timeStartedLerping = Time.time;
     }
@@ -112,11 +99,6 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
             SyncTransform.rotation = Quaternion.Lerp(lastRealRotation, realRotation, lerpPercentage);
         }
 
-        if(isLerpingVelocity)
-        {
-            float lerpPercentage = (Time.time - timeStartedLerping) / timeToLerp;
-            SyncRigidbody.velocity = Vector3.Lerp(lastRealVelocity, realVelocity, lerpPercentage);
-        }
     }
 
     void UpdatePlayerMovement()
@@ -138,18 +120,16 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     private void SendNetworkMovement()
     {
         timeBetweenMovementEnd = Time.time;
-        SendMovementMessage(objectID, SyncTransform.position, SyncTransform.rotation, SyncRigidbody.velocity, SyncRigidbody.drag, (timeBetweenMovementEnd - timeBetweenMovementStart));
+        SendMovementMessage(netId, SyncTransform.position, SyncTransform.rotation, (timeBetweenMovementEnd - timeBetweenMovementStart));
         canSendNetworkMovement = false;
     }
 
-    public void SendMovementMessage(string _playerID, Vector3 _position, Quaternion _rotation, Vector3 _velocity, float _drag, float _timeTolerp)
+    public void SendMovementMessage(NetworkInstanceId _playerID, Vector3 _position, Quaternion _rotation, float _timeTolerp)
     {
         SyncMovementMessage _msg = new SyncMovementMessage()
         {
             objectPosition = _position,
             objectRotation = _rotation,
-            objectVelocity = _velocity,
-            objectDrag = _drag,
             forObjectID = _playerID,
             time = _timeTolerp
         };
@@ -159,6 +139,6 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     private void OnDestroy()
     {
-        Manager.Instance.RemoveObjectsFromConnectedObjects(objectID);
+        Manager.Instance.RemoveObjectsFromConnectedObjects(netId);
     }
 }

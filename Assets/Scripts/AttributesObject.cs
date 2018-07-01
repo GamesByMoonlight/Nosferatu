@@ -12,34 +12,47 @@ public class AttributesObject : ScriptableObject
     // Use when this Attribute set defines starting values
     public void Initialize(Attributes attr)
     {
-        attr.Attack = attributes.Attack;
-        attr.MaxHealth = attributes.MaxHealth;
         attr.Team = attributes.Team;
-        attr.ProjectileRange = attributes.ProjectileRange;
+        attr.Name = attributes.Name;
+        attr.MaxHealth = attributes.MaxHealth;
+        attr.CurrentHealth = attributes.CurrentHealth;
+        attr.Attack = attributes.Attack;
         attr.ProjectileSpeed = attributes.ProjectileSpeed;
-        attr.MovementSpeed = attributes.MovementSpeed;
-    }
+        attr.FireRate = attributes.FireRate;
+        attr.ProjectileRange = attributes.ProjectileRange;
+        attr.ForwardSpeed = attributes.ForwardSpeed;
+        attr.BackwardSpeed = attributes.BackwardSpeed;
+        attr.StrafeSpeed = attributes.StrafeSpeed;
+}
 
     // Use when this Attribute set defines a change to existing values
     public void Modify(Attributes attr)
     {
-        attr.Attack *= attributes.Attack;
-        attr.MaxHealth *= attributes.MaxHealth;
         attr.Team = attributes.Team;
-        attr.ProjectileRange *= attributes.ProjectileRange;
+        attr.MaxHealth *= attributes.MaxHealth;
+        attr.CurrentHealth *= attributes.CurrentHealth;
+        attr.Attack *= attributes.Attack;
         attr.ProjectileSpeed *= attributes.ProjectileSpeed;
-        attr.MovementSpeed *= attributes.MovementSpeed;
+        attr.FireRate *= attributes.FireRate;
+        attr.ProjectileRange *= attributes.ProjectileRange;
+        attr.ForwardSpeed *= attributes.ForwardSpeed;
+        attr.BackwardSpeed *= attributes.BackwardSpeed;
+        attr.StrafeSpeed *= attributes.StrafeSpeed;
     }
 
     // Use to remove changes made in Modify()
     public void UnModify(Attributes attr)
     {
-        attr.Attack /= attributes.Attack;
-        attr.MaxHealth /= attributes.MaxHealth;
         attr.RevertToPreviousTeam();
-        attr.ProjectileRange /= attributes.ProjectileRange;
+        attr.MaxHealth /= attributes.MaxHealth;
+        attr.CurrentHealth /= attributes.CurrentHealth;
+        attr.Attack /= attributes.Attack;
         attr.ProjectileSpeed /= attributes.ProjectileSpeed;
-        attr.MovementSpeed /= attributes.MovementSpeed;
+        attr.FireRate /= attributes.FireRate;
+        attr.ProjectileRange /= attributes.ProjectileRange;
+        attr.ForwardSpeed /= attributes.ForwardSpeed;
+        attr.BackwardSpeed /= attributes.BackwardSpeed;
+        attr.StrafeSpeed /= attributes.StrafeSpeed;
     }
 }
 
@@ -53,13 +66,17 @@ public class Attributes
 {
     private Teams previousTeam;
     private Teams currentTeam;
-
-    public float Attack;
-    public float MaxHealth;
     public Teams Team { get { return currentTeam; } set { previousTeam = currentTeam; currentTeam = value; } }
-    public float ProjectileRange;
+    public string Name;
+    public float MaxHealth;
+    public float CurrentHealth;
+    public float Attack;
     public float ProjectileSpeed;
-    public float MovementSpeed;
+    public float FireRate;
+    public float ProjectileRange;
+    public float ForwardSpeed;
+    public float BackwardSpeed;
+    public float StrafeSpeed;
     //Add special ability
     //Add magic
 

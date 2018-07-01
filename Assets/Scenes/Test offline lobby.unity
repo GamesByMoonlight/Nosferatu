@@ -235,10 +235,10 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: Lobby (offline)
-  m_OnlineScene: Maze (online)
+  m_OfflineScene: Test offline lobby
+  m_OnlineScene: Test online
   m_SpawnPrefabs:
-  - {fileID: 1194640302205370, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+  - {fileID: 1057035609574562, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -322,6 +322,48 @@ MonoBehaviour:
   showGUI: 1
   offsetX: 0
   offsetY: 0
+--- !u!1001 &916903067
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044103203427414, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &950304850
 GameObject:
   m_ObjectHideFlags: 0

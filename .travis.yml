@@ -4,10 +4,10 @@ osx_image: xcode6.4
 
 install:
 - sudo -E sh ./Scripts/install.sh
-# script:
-# - sudo -E sh ./Scripts/build.sh
-# after_success:
-# - sudo -E sh ./Scripts/post_build.sh
+script:
+- sudo -E sh ./Scripts/build.sh
+after_success:
+- sudo -E sh ./Scripts/post_build.sh
 # deploy:
 #  provider: s3
 #   access_key_id: AKIAJVUITNXKW2CWG2OQ

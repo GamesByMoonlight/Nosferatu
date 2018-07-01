@@ -39,7 +39,7 @@ public class ExampleItem : Item
         while(true)
         {
             yield return new WaitForFixedUpdate();
-            transform.Rotate(spinVector, attributes.MovementSpeed);
+            transform.Rotate(spinVector, attributes.ForwardSpeed);
         }
     }
 

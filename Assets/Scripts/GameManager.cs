@@ -12,10 +12,15 @@ public class GameManager : NetworkBehaviour {
     public float SyncRate = .2f;    // Synce every (1 / SyncRate) seconds
         
     float TimeLastSyncSent;
+    bool running = false;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
-        _instance = this;
         CurrentTime = MatchTime;
         if(isServer)
         {
@@ -23,9 +28,15 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
+    public void StartMatch()
+    {
+        running = true;
+    }
+
     private void Update()
     {
-        CurrentTime -= Time.deltaTime;
+        if(running)
+            CurrentTime -= Time.deltaTime;
         
         if(isServer && Time.time - TimeLastSyncSent > (1 / SyncRate))
         {
@@ -46,6 +57,7 @@ public class GameManager : NetworkBehaviour {
 
     private void MatchOver()
     {
+        running = false;
         Debug.Log("Match Over [Do Something]");
     }
     

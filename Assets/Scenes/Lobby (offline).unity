@@ -236,7 +236,7 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: Lobby (offline)
-  m_OnlineScene: Test online
+  m_OnlineScene: Maze (online)
   m_SpawnPrefabs:
   - {fileID: 1057035609574562, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
   m_CustomConfig: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_MatchHost: mm.unet.unity3d.com
   m_MatchPort: 443
   matchName: default
-  matchSize: 4
+  matchSize: 5
   isNetworkActive: 0
   matchMaker: {fileID: 0}
 --- !u!4 &774407061

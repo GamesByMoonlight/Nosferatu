@@ -295,8 +295,8 @@ Camera:
   m_GameObject: {fileID: 1938877375631794}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerAvatar: {fileID: 1265400936876386}
-  PlayerAttributes: {fileID: 11400000, guid: d503afedbc508424888027ba8153c9a0, type: 2}
+  PlayerAttributes: {fileID: 11400000, guid: e12274366f77ba34e93d312e239f7b55, type: 2}
 --- !u!114 &114311544809744746
 MonoBehaviour:
   m_ObjectHideFlags: 1

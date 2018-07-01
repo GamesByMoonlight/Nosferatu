@@ -5,12 +5,7 @@ using UnityEngine.Networking;
 using SyncObjectManager;
 
 public class NetworkSyncMessenger : NetworkMessageHandler {
-    [Header("Leave null if not syncing")]
     public Transform SyncTransform;
-    public Rigidbody SyncRigidbody;
-    
-    // Player properties
-    
 
     // Movement Properties
     [Header("Movement Properties")]

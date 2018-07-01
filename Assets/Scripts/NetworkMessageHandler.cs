@@ -16,10 +16,6 @@ public class NetworkMessageHandler : NetworkBehaviour
         // Transform
         public Vector3 objectPosition;
         public Quaternion objectRotation;
-
-        // Rigidbody
-        public Vector3 objectVelocity;
-        public float objectDrag;
     }
 
 }

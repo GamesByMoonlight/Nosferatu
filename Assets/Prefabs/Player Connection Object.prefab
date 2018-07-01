@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireAxis: Fire1
-  BulletPrefab: {fileID: 1057035609574562, guid: a56fce64a6ece964a81de04927dc7620,
+  BulletPrefab: {fileID: 1194640302205370, guid: a56fce64a6ece964a81de04927dc7620,
     type: 2}
   BulletSpawn: {fileID: 4056987353607310}
   WeaponAttributes:
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerAvatar: {fileID: 1265400936876386}
-  PlayerAttributes: {fileID: 11400000, guid: d503afedbc508424888027ba8153c9a0, type: 2}
+  PlayerAttributes: {fileID: 11400000, guid: e12274366f77ba34e93d312e239f7b55, type: 2}
 --- !u!114 &114311544809744746
 MonoBehaviour:
   m_ObjectHideFlags: 1

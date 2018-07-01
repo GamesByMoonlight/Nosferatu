@@ -29,6 +29,10 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         if (isLocalPlayer)
         {
             avatar.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+            var inputController = avatar.GetComponent<FPSMouseLookController>();
+            inputController.movementSettings.ForwardSpeed = attributes.ForwardSpeed;
+            inputController.movementSettings.BackwardSpeed = attributes.BackwardSpeed;
+            inputController.movementSettings.StrafeSpeed = attributes.StrafeSpeed;
         }
         else
         {

@@ -705,9 +705,12 @@ MonoBehaviour:
     MaxHealth: 0
     CurrentHealth: 0
     Attack: 0
-    ProjectileRange: 0
     ProjectileSpeed: 0
-    MovementSpeed: 0
+    FireRate: 0
+    ProjectileRange: 0
+    ForwardSpeed: 0
+    BackwardSpeed: 0
+    StrafeSpeed: 0
 --- !u!114 &114294871521577956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -775,7 +778,7 @@ MonoBehaviour:
     CurrentTargetSpeed: 8
   mouseLook:
     XSensitivity: 2
-    YSensitivity: -2
+    YSensitivity: 2
     clampVerticalRotation: 1
     MinimumX: -45
     MaximumX: 90
@@ -912,7 +915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SyncTransform: {fileID: 4390033407824872}
   SyncRigidbody: {fileID: 54266348129726476}
-  networkSendRate: 6
+  networkSendRate: 9
 --- !u!114 &114965126520887342
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,12 +9,11 @@ public class BulletController : NetworkBehaviour {
     [SyncVar]
     [HideInInspector] public float Speed = 10f;
 
-    [SerializeField]
-    private float baseScale = .3f * 20f;
+    private float baseScale = .3f / 20f;
 
     private void Start()
     {
-        transform.localScale = new Vector3(baseScale / Speed, baseScale / Speed, baseScale / Speed);
+        transform.localScale = new Vector3(baseScale * Attack, baseScale * Attack, baseScale * Attack);
     }
 
     private void OnCollisionEnter(Collision collision)

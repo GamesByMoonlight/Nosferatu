@@ -7,13 +7,16 @@ public class NetworkFireController : NetworkBehaviour {
     public string FireAxis = "Fire1";
     public GameObject BulletPrefab;
     public Transform BulletSpawn;
-    [HideInInspector] public Attributes WeaponAttributes;
+    [SerializeField]
+    public Attributes WeaponAttributes;
 
     private Camera mainCamera;
+    private float cooldown;
 
     private void Awake()
     {
         mainCamera = Camera.main;
+        cooldown = Time.time;
     }
 
     // Update is called once per frame
@@ -22,11 +25,18 @@ public class NetworkFireController : NetworkBehaviour {
             return;
 
 
-        if(Input.GetButtonDown(FireAxis)) 
+        if(PlayerFire()) 
         {
+            cooldown = Time.time;
             CmdFire(mainCamera.transform.forward);
         }
 	}
+
+    bool PlayerFire()
+    {
+        return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate;
+        //return Input.GetButtonDown(FireAxis) && Time.time - cooldown > WeaponAttributes.FireRate
+    }
 
     [Command]
     void CmdFire(Vector3 direction)

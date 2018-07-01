@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireAxis: Fire1
-  BulletPrefab: {fileID: 1057035609574562, guid: a56fce64a6ece964a81de04927dc7620,
+  BulletPrefab: {fileID: 1194640302205370, guid: a56fce64a6ece964a81de04927dc7620,
     type: 2}
   BulletSpawn: {fileID: 4056987353607310}
   WeaponAttributes:

@@ -5,14 +5,15 @@ using UnityEngine.Networking;
 
 public class BulletController : NetworkBehaviour {
     [SyncVar]
-    [HideInInspector] public float Attack = 20f;
+    public float Attack = 20f;
     [SyncVar]
-    [HideInInspector] public float Speed = 10f;
+    public float Speed = 10f;
 
     private float baseScale = .3f / 20f;
 
     private void Start()
     {
+        Debug.Log(Attack);
         transform.localScale = new Vector3(baseScale * Attack, baseScale * Attack, baseScale * Attack);
     }
 

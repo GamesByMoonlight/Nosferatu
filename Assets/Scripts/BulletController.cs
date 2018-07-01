@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class BulletController : NetworkBehaviour {
     [SyncVar]
-    [HideInInspector] public float Attack = 1f;
+    [HideInInspector] public float Attack = 20f;
     [SyncVar]
     [HideInInspector] public float Speed = 10f;
 

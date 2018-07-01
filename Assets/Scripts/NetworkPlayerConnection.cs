@@ -43,4 +43,14 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         }
     }
 	
+
+    public void ModifyAttributes(AttributesObject modification)
+    {
+        modification.Modify(attributes);
+    }
+
+    public void UnModifyAttributes(AttributesObject modification)
+    {
+        modification.UnModify(attributes);
+    }
 }

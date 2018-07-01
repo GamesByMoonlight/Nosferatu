@@ -1,9 +1,7 @@
 language: generic
 os: osx
 osx_image: xcode6.4
-branches:
-  only:
-  - tool/9
+
 # notifications:
 #    slack: fortworthgamedev:p9yd5tRB0IHi1IhT4yuVxLwk
 install:

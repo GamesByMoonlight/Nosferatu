@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class GameManager : NetworkBehaviour {
-    public float MatchTime = 10f * 60f * 60f; // 10min
+    private static GameManager _instance;
+    public static GameManager Instance { get { return _instance; } }
+
+    public float MatchTime = 10f * 60f; // 10min
     public float CurrentTime;
     public float SyncRate = .2f;    // Synce every (1 / SyncRate) seconds
         
@@ -12,6 +15,7 @@ public class GameManager : NetworkBehaviour {
 
     private void Start()
     {
+        _instance = this;
         CurrentTime = MatchTime;
         if(isServer)
         {

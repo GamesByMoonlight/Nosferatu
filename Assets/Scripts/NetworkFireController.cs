@@ -28,7 +28,7 @@ public class NetworkFireController : NetworkBehaviour {
         if(PlayerFire()) 
         {
             cooldown = Time.time;
-            CmdFire(mainCamera.transform.forward);
+            CmdFire(BulletSpawn.position, BulletSpawn.rotation);
         }
 	}
 
@@ -39,9 +39,9 @@ public class NetworkFireController : NetworkBehaviour {
     }
 
     [Command]
-    void CmdFire(Vector3 direction)
+    void CmdFire(Vector3 position, Quaternion direction)
     {
-        var bullet = Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
+        var bullet = Instantiate(BulletPrefab, position, direction);
         bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * WeaponAttributes.ProjectileSpeed;
         bullet.GetComponent<BulletController>().Attack = WeaponAttributes.Attack;
         bullet.GetComponent<BulletController>().Speed = WeaponAttributes.ProjectileSpeed;

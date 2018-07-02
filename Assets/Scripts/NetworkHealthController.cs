@@ -39,7 +39,11 @@ public class NetworkHealthController : NetworkBehaviour {
 
     void OnChangeHealth(float updatedHealth)
     {
-        HealthBar.sizeDelta = new Vector2(updatedHealth, HealthBar.sizeDelta.y);
+        if (HealthBar != null)
+        {
+            HealthBar.sizeDelta = new Vector2(updatedHealth, HealthBar.sizeDelta.y);
+        }
+            
         ForGameObject.CurrentHealth = updatedHealth;
     }
 }

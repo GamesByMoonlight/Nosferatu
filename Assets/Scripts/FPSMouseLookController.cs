@@ -136,6 +136,10 @@ public class FPSMouseLookController : MonoBehaviour
         //cam.transform.rotation = CameraPosition.rotation;
         //SpotLight.transform.SetParent(cam.transform);
 
+        cam.gameObject.AddComponent<VolumetricLightRenderer>();
+
+
+
         m_RigidBody = GetComponent<Rigidbody>();
         m_Capsule = GetComponent<CapsuleCollider>();
         mouseLook.Init (transform, cam.transform);

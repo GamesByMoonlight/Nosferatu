@@ -41,7 +41,8 @@ public class NetworkHealthController : NetworkBehaviour {
     {
         if (HealthBar != null)
         {
-            HealthBar.sizeDelta = new Vector2(updatedHealth, HealthBar.sizeDelta.y);
+            var health = (updatedHealth / attributes.MaxHealth) * 100f;
+            HealthBar.sizeDelta = new Vector2(health, HealthBar.sizeDelta.y);
         }
             
         ForGameObject.CurrentHealth = updatedHealth;

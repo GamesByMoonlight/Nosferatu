@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 222876615620224112}
   - component: {fileID: 114871852740591828}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: Game State Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,6 +62,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1571213073035442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224991224309545624}
+  - component: {fileID: 222001975907098550}
+  - component: {fileID: 114869206813234488}
+  m_Layer: 5
+  m_Name: Timer Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1641782820559868
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,6 +92,7 @@ GameObject:
   - component: {fileID: 114240401490226042}
   - component: {fileID: 114890458040770152}
   - component: {fileID: 114873352856994416}
+  - component: {fileID: 114106367056031092}
   m_Layer: 5
   m_Name: UI (scratch)
   m_TagString: Untagged
@@ -93,7 +111,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224795412153861078}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114013418828318340
 MonoBehaviour:
@@ -134,6 +152,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114106367056031092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641782820559868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22879d93de53d7c448dc48a52d3d8eac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameStateText: {fileID: 114871852740591828}
 --- !u!114 &114240401490226042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,6 +227,39 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '[Y] Invert Y'
+--- !u!114 &114869206813234488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571213073035442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 5
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Time remaining: '
 --- !u!114 &114871852740591828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,7 +292,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Time remaining: '
+  m_Text: 'Match is '
 --- !u!114 &114873352856994416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c9f66a003bbb14ba53151d8043aa78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeRemainingText: {fileID: 114871852740591828}
+  TimeRemainingText: {fileID: 114869206813234488}
 --- !u!114 &114890458040770152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -253,6 +316,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c7ec86e2483f524ab0025f3f02ec935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!222 &222001975907098550
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571213073035442}
 --- !u!222 &222279984861497372
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -314,12 +383,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224795412153861078}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: -27.05}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -10, y: -57.56}
+  m_SizeDelta: {x: 400, y: 30}
   m_Pivot: {x: 1, y: 1}
 --- !u!224 &224795412153861078
 RectTransform:
@@ -332,6 +401,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 224132120374989040}
+  - {fileID: 224991224309545624}
   - {fileID: 224714036623910258}
   - {fileID: 4881946602672868}
   m_Father: {fileID: 0}
@@ -342,3 +412,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!224 &224991224309545624
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571213073035442}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224795412153861078}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -10, y: -27.05}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 1, y: 1}

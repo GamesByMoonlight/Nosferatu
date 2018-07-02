@@ -30,7 +30,6 @@ public class NetworkHealthController : NetworkBehaviour {
 
         if(CurrentHealth < 0)
         {
-            Debug.Log(ForGameObject.Name + " is dead [Do something]");
             GameManager.Instance.EntityDiedEvent.Invoke(gameObject);
         }
 

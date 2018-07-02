@@ -306,6 +306,11 @@ Prefab:
       propertyPath: m_AssetId.i15
       value: 194
       objectReference: {fileID: 0}
+    - target: {fileID: 114450368510622436, guid: c28ff4cad0341f64a98ec9ac293546c2,
+        type: 2}
+      propertyPath: MatchTime
+      value: 600
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c28ff4cad0341f64a98ec9ac293546c2, type: 2}
   m_IsPrefabParent: 0

@@ -13,16 +13,18 @@ public class BulletController : NetworkBehaviour {
 
     private void Start()
     {
-        Debug.Log(Attack);
         transform.localScale = new Vector3(baseScale * Attack, baseScale * Attack, baseScale * Attack);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!isServer)
+            return;
+
         var health = collision.gameObject.GetComponentsInParent<NetworkHealthController>();
         if (health.Length > 0)
         {
-            // an isServer check is made in TakeDamage()
+            // an isServer check is made in TakeDamage() also
             health[0].TakeDamage(Attack);
         }
 

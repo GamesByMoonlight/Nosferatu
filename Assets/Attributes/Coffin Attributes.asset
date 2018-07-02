@@ -13,8 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributes:
     Name: Coffin
-    MaxHealth: 10
-    CurrentHealth: 10
+    currentTeam: 0
+    MaxHealth: 200
+    CurrentHealth: 200
     Attack: 0
     ProjectileSpeed: 0
     FireRate: 0

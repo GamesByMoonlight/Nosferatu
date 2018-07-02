@@ -31,6 +31,7 @@ public class NetworkHealthController : NetworkBehaviour {
         if(CurrentHealth < 0)
         {
             Debug.Log(ForGameObject.Name + " is dead [Do something]");
+            GameManager.Instance.EntityDiedEvent.Invoke(gameObject);
         }
 
 
@@ -40,7 +41,8 @@ public class NetworkHealthController : NetworkBehaviour {
     {
         if (HealthBar != null)
         {
-            HealthBar.sizeDelta = new Vector2(updatedHealth, HealthBar.sizeDelta.y);
+            var health = (updatedHealth / attributes.MaxHealth) * 100f;
+            HealthBar.sizeDelta = new Vector2(health, HealthBar.sizeDelta.y);
         }
             
         ForGameObject.CurrentHealth = updatedHealth;

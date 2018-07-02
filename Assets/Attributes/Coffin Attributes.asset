@@ -9,17 +9,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d7237d75911f5b4c8e53076b34bb254, type: 3}
-  m_Name: LightPlayerBuild
+  m_Name: Coffin Attributes
   m_EditorClassIdentifier: 
   attributes:
-    Name: Ranger
-    currentTeam: 1
-    MaxHealth: 100
-    CurrentHealth: 100
-    Attack: 5
-    ProjectileSpeed: 30
-    FireRate: 0.2
-    ProjectileRange: 10
-    ForwardSpeed: 8
-    BackwardSpeed: 5
-    StrafeSpeed: 5
+    Name: Coffin
+    currentTeam: 0
+    MaxHealth: 200
+    CurrentHealth: 200
+    Attack: 0
+    ProjectileSpeed: 0
+    FireRate: 0
+    ProjectileRange: 0
+    ForwardSpeed: 0
+    BackwardSpeed: 0
+    StrafeSpeed: 0

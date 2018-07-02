@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Events;
 
+public enum GameState { Stopped, Running, VampireWinsByTime, VampireWinsByElimination, AdventurersWin }
+
 public class GameManager : CustomMessagingEventSystem {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+    public GameState CurrentState = GameState.Stopped;
     public float MatchTime = 10f * 60f; // 10min
     public float CurrentTime;
     public float SyncRate = .2f;    // Synce every (1 / SyncRate) seconds
@@ -35,17 +38,21 @@ public class GameManager : CustomMessagingEventSystem {
 
     private void Update()
     {
-        if(running)
+        if (running)
             CurrentTime -= Time.deltaTime;
+
+        if (!isServer)
+            return;
         
-        if(isServer && Time.time - TimeLastSyncSent > (1 / SyncRate))
+        if(Time.time - TimeLastSyncSent > (1 / SyncRate))
         {
             SynchronizeTime();
         }
 
-        if(CurrentTime <= 0f)
+        if(running && CurrentTime <= 0f)
         {
-            MatchOver();
+            SynchronizeTime();
+            RpcMatchOver(GameState.VampireWinsByTime);
         }
     }
 
@@ -60,18 +67,22 @@ public class GameManager : CustomMessagingEventSystem {
     {
         CurrentTime = updatedTime;
     }
-
-    private void MatchOver()
-    {
-        running = false;
-        Debug.Log("Match Over [Do Something]");
-    }
     
     private void OnEntityDeath(GameObject entity)
     {
+        if (!running)
+            return;
+
+        // Check coffin death
+        if(entity.GetComponent<CoffinController>() != null)
+        {
+            RpcMatchOver(GameState.AdventurersWin);
+            return;
+        }
+
+        // Check if all good players dead
         bool somePlayersAlive = false;
         Attributes attr;
-
         foreach (GameObject player in ConnectedPlayers)
         {
             attr = player.GetComponent<NetworkPlayerConnection>().PlayerAttributes;
@@ -83,13 +94,37 @@ public class GameManager : CustomMessagingEventSystem {
 
         if(!somePlayersAlive)
         {
-            Debug.Log("Game Over.  All good players dead");
+            RpcMatchOver(GameState.VampireWinsByElimination);
         }
+    }
+
+    [ClientRpc]
+    private void RpcMatchOver(GameState state)
+    {
+        running = false;
+        CurrentState = state;
+
+        switch (state)
+        {
+            case GameState.AdventurersWin:
+                Debug.Log("Adventurers win!");
+                break;
+            case GameState.VampireWinsByElimination:
+                Debug.Log("Vampire wins.  All adventurers dead or converted.");
+                break;
+            case GameState.VampireWinsByTime:
+                Debug.Log("Vampire wins.  Time ran out and adventurers lost forever.");
+                break;
+        }
+
+        GameStateChanged.Invoke();
     }
 
     public void StartMatch()
     {
         running = true;
+        CurrentState = GameState.Running;
+        GameStateChanged.Invoke();
     }
 
     public void RegisterPlayer(GameObject player)

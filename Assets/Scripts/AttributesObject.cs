@@ -64,10 +64,13 @@ public class AttributesObject : ScriptableObject
 [System.Serializable]
 public class Attributes
 {
-    private Teams previousTeam;
-    private Teams currentTeam;
-    public Teams Team { get { return currentTeam; } set { previousTeam = currentTeam; currentTeam = value; } }
     public string Name;
+
+    [SerializeField]
+    private Teams currentTeam;
+    private Teams previousTeam;
+    public Teams Team { get { return currentTeam; } set { previousTeam = currentTeam; currentTeam = value; } }
+    
     public float MaxHealth;
     public float CurrentHealth;
     public float Attack;

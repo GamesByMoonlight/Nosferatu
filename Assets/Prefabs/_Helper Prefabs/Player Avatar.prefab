@@ -489,7 +489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51579c1273440b54ba7714c818cf1b15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraPosition: {fileID: 4546248852770002}
   movementSettings:
     ForwardSpeed: 8
     BackwardSpeed: 4

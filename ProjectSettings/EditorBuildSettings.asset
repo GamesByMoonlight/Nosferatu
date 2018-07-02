@@ -5,12 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Examples/Network Example/Scenes/Network Offline.unity
-    guid: 4a5342fdc01ca6644b136288c6f62b8f
-  - enabled: 0
-    path: Assets/Examples/Network Example/Scenes/Network Online.unity
-    guid: a851dadd3164142cbae5710b928b5878
+  - enabled: 1
+    path: Assets/Scenes/LobbyNetwork.unity
+    guid: 80ee1a6a927b49f4cab1a50af55e0a84
   - enabled: 1
     path: Assets/Scenes/Lobby (offline).unity
     guid: 48ed665a78171304e93c6cf5a88b88ed
@@ -20,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test online.unity
     guid: d4409340b5c82594a976b9b49790576e
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

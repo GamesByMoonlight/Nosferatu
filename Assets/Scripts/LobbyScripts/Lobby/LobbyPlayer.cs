@@ -133,10 +133,10 @@ namespace Prototype.NetworkLobby
             //we switch from simple name display to name input
             colorButton.interactable = true;
             nameInput.interactable = true;
-
             ddPlayerType.interactable = true;
-           // ddPlayerType.onValueChanged.RemoveAllListeners();
-           // ddPlayerType.onValueChanged.AddListener(OnPlayerTypeChanged );
+           
+            // ddPlayerType.onValueChanged.RemoveAllListeners();
+            // ddPlayerType.onValueChanged.AddListener(OnPlayerTypeChanged );
 
            
 

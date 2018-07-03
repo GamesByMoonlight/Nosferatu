@@ -19,11 +19,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
     // Use this for initialization
     void Start () {
         InitAvatar();
-
-        if(isServer)
-        {
-            GameManager.Instance.RegisterPlayer(gameObject);
-        }
+        GameManager.Instance.RegisterPlayer(gameObject, isLocalPlayer);
 	}
 
     private void OnDisconnectedFromServer(NetworkDisconnection info)

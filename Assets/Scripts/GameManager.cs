@@ -133,6 +133,11 @@ public class GameManager : CustomMessagingEventSystem {
 
     public void RegisterPlayer(GameObject player, bool theLocalPlayer)
     {
+        if(isServer)
+        {
+            Debug.Log("How many on server?");
+        }
+
         connectedPlayers.Add(player);
         if(theLocalPlayer)
         {

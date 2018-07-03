@@ -48,6 +48,10 @@ namespace Prototype.NetworkLobby
         //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
 
+        private void Start()
+        {
+            // do nothing.  Prevent parent Start() from being called and invoking DontDestroyOnLoad()
+        }
 
         public override void OnClientEnterLobby()
         {

@@ -20,18 +20,20 @@ namespace Prototype.NetworkLobby
         public Button readyButton;
         public Button waitingPlayerButton;
         public Button removePlayerButton;
-        public Dropdown ddplayerType;
+        public Dropdown ddPlayerType;
+
 
         public GameObject localIcone;
         public GameObject remoteIcone;
 
         //OnMyName function will be invoked on clients when server change the value of playerName
+        [SyncVar(hook = "OnMyPlayerType")]
+        public string playerType = "";
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
         [SyncVar(hook = "OnMyColor")]
         public Color playerColor = Color.white;
-        [SyncVar(hook = "OnMyPlayerType")]
-        public string playerType = "Nosferatu";
+
 
 
 
@@ -69,6 +71,7 @@ namespace Prototype.NetworkLobby
             //will be created with the right value currently on server
             OnMyName(playerName);
             OnMyColor(playerColor);
+            OnMyPlayerType(playerType);
         }
 
         public override void OnStartAuthority()
@@ -127,6 +130,12 @@ namespace Prototype.NetworkLobby
             //we switch from simple name display to name input
             colorButton.interactable = true;
             nameInput.interactable = true;
+
+            ddPlayerType.interactable = true;
+           // ddPlayerType.onValueChanged.RemoveAllListeners();
+           // ddPlayerType.onValueChanged.AddListener(OnPlayerTypeChanged );
+
+           
 
             nameInput.onEndEdit.RemoveAllListeners();
             nameInput.onEndEdit.AddListener(OnNameChanged);
@@ -187,6 +196,13 @@ namespace Prototype.NetworkLobby
         }
 
         ///===== callback from sync var
+        public void OnMyPlayerType(string newPlayerType)
+        {
+            playerType = newPlayerType;
+            //dropdown selected
+            //nameInput.text = playerType;
+        }
+
 
         public void OnMyName(string newName)
         {
@@ -199,17 +215,11 @@ namespace Prototype.NetworkLobby
             playerColor = newColor;
             colorButton.GetComponent<Image>().color = newColor;
         }
-        public void OnMyPlayerType(string newPlayerType)
-        {
-            playerType = newPlayerType;
-            // 
-        }
+
         //===== UI Handler
 
         //Note that those handler use Command function, as we need to change the value on the server not locally
         //so that all client get the new value throught syncvar
-
-
         public void OnColorClicked()
         {
             CmdColorChange();
@@ -220,6 +230,10 @@ namespace Prototype.NetworkLobby
             SendReadyToBeginMessage();
         }
 
+        public void OnPlayerTypeChanged(string str)
+        {
+            CmdPlayerTypeChanged(str);
+        }
         public void OnNameChanged(string str)
         {
             CmdNameChanged(str);
@@ -297,15 +311,16 @@ namespace Prototype.NetworkLobby
         }
 
         [Command]
+        public void CmdPlayerTypeChanged(string pt)
+        {
+            playerType = pt;
+        }
+
+
+        [Command]
         public void CmdNameChanged(string name)
         {
             playerName = name;
-        }
-
-        [Command]
-        public void CmdPlayerTypeChanged(string pt)//playertype
-        {
-            playerType = pt;
         }
 
         //Cleanup thing when get destroy (which happen when client kick or disconnect)

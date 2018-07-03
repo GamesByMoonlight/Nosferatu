@@ -26,6 +26,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
+        
         InitAvatar();
         GameManager.Instance.RegisterPlayer(gameObject, isLocalPlayer);
 	}

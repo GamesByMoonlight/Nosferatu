@@ -9,8 +9,8 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
 
     [SerializeField]
-    private AttributesObject PlayerAttributes;
-    private Attributes attributes = new Attributes();
+    private AttributesObject PlayerAttributesScriptableObject;
+    public Attributes PlayerAttributes { get; private set; }
 
     [SyncVar (hook ="OnNameChanged")] public string playerName;
     [SyncVar (hook ="OnColorChanged") ] public Color playerColor;
@@ -20,19 +20,30 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
     private void Awake()
     {
-        PlayerAttributes.Initialize(attributes);
+        PlayerAttributes = new Attributes();
+        PlayerAttributesScriptableObject.Initialize(PlayerAttributes);
     }
 
     // Use this for initialization
     void Start () {
         InitAvatar();
+        GameManager.Instance.RegisterPlayer(gameObject, isLocalPlayer);
 	}
+
+    private void OnDisconnectedFromServer(NetworkDisconnection info)
+    {
+        if (isServer)
+        {
+            GameManager.Instance.UnregisterPlayer(gameObject);
+            Debug.Log("Disconnected");
+        }
+    }
 
     void InitAvatar()
     {
         var avatar = PlayerAvatar; //Instantiate(AvatarPrefab, transform.position, transform.rotation, transform);
-        GetComponent<NetworkHealthController>().ForGameObject = attributes;
-        GetComponent<NetworkFireController>().WeaponAttributes = attributes;
+        GetComponent<NetworkHealthController>().ForGameObject = PlayerAttributes;
+        GetComponent<NetworkFireController>().WeaponAttributes = PlayerAttributes;
 
         if (isLocalPlayer)
         {
@@ -40,9 +51,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
             
             avatar.GetComponentInChildren<MeshRenderer>().material.color = playerColor;
             var inputController = avatar.GetComponent<FPSMouseLookController>();
-            inputController.movementSettings.ForwardSpeed = attributes.ForwardSpeed;
-            inputController.movementSettings.BackwardSpeed = attributes.BackwardSpeed;
-            inputController.movementSettings.StrafeSpeed = attributes.StrafeSpeed;
+            inputController.movementSettings.ForwardSpeed = PlayerAttributes.ForwardSpeed;
+            inputController.movementSettings.BackwardSpeed = PlayerAttributes.BackwardSpeed;
+            inputController.movementSettings.StrafeSpeed = PlayerAttributes.StrafeSpeed;
         }
         else
         {
@@ -73,4 +84,16 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         playerType = value;
     }
 	
+
+    public void ModifyAttributes(AttributesObject modification)
+    {
+        modification.Modify(PlayerAttributes);
+    }
+
+    public void UnModifyAttributes(AttributesObject modification)
+    {
+        modification.UnModify(PlayerAttributes);
+    }
+
+    
 }

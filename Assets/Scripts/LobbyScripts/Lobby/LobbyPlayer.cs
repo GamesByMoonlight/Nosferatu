@@ -27,8 +27,8 @@ namespace Prototype.NetworkLobby
         public GameObject remoteIcone;
 
         //OnMyName function will be invoked on clients when server change the value of playerName
-        [SyncVar(hook = "OnMyPlayerType")]
-        public string playerType = "";
+        [SyncVar]
+        public PlayerClass playerType;
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
         [SyncVar(hook = "OnMyColor")]
@@ -75,7 +75,6 @@ namespace Prototype.NetworkLobby
             //will be created with the right value currently on server
             OnMyName(playerName);
             OnMyColor(playerColor);
-            OnMyPlayerType(playerType);
         }
 
         public override void OnStartAuthority()
@@ -200,14 +199,6 @@ namespace Prototype.NetworkLobby
         }
 
         ///===== callback from sync var
-        public void OnMyPlayerType(string newPlayerType)
-        {
-            playerType = newPlayerType;
-            //dropdown selected
-            //nameInput.text = playerType;
-        }
-
-
         public void OnMyName(string newName)
         {
             playerName = newName;
@@ -234,10 +225,11 @@ namespace Prototype.NetworkLobby
             SendReadyToBeginMessage();
         }
 
-        public void OnPlayerTypeChanged(string str)
+        public void OnPlayerTypeChanged(int index)
         {
-            CmdPlayerTypeChanged(str);
+            CmdPlayerTypeChanged(index);
         }
+
         public void OnNameChanged(string str)
         {
             CmdNameChanged(str);
@@ -315,9 +307,9 @@ namespace Prototype.NetworkLobby
         }
 
         [Command]
-        public void CmdPlayerTypeChanged(string pt)
+        public void CmdPlayerTypeChanged(int index)
         {
-            playerType = pt;
+            playerType = (PlayerClass)index;
         }
 
 

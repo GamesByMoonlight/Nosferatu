@@ -6,15 +6,13 @@ using UnityEngine.Networking;
 public class NetworkPlayerConnection : NetworkBehaviour {
     public GameObject PlayerAvatar;
 
-
-
     [SerializeField]
     private AttributesObject PlayerAttributesScriptableObject;
     public Attributes PlayerAttributes { get; private set; }
 
-    [SyncVar (hook ="OnNameChanged")] public string playerName;
-    [SyncVar (hook ="OnColorChanged") ] public Color playerColor;
-    [SyncVar (hook ="OnPlayerTypeChanged")] public string playerType;
+    [SyncVar] public string playerName;
+    [SyncVar] public Color playerColor;
+    [SyncVar (hook ="OnPlayerTypeChanged")] public PlayerClass playerType;
 
 
 
@@ -65,24 +63,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         }
     }
 
-    void OnNameChanged(string value)
+    void OnPlayerTypeChanged(PlayerClass value)
     {
-        playerName = value;
-        gameObject.name = playerName;
-        //set text
-    }
-
-    void OnColorChanged(Color value)
-    {
-        playerColor = value;
-        // demo had rendertoggler
-        //GetComponentInChildren<RendererToggler>().ChangeColor(playerColor);
-
-    }
-
-    void OnPlayerTypeChanged(string value)
-    {
-        playerType = value;
+        // playerType = value;
     }
 	
 

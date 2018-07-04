@@ -782,12 +782,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b93aee7480d7b542b300d2f43a23b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PossibleClassTypes:
+  - {fileID: 11400000, guid: e519a1db0dc450748b6fde761882ec52, type: 2}
+  - {fileID: 11400000, guid: d503afedbc508424888027ba8153c9a0, type: 2}
+  - {fileID: 11400000, guid: e12274366f77ba34e93d312e239f7b55, type: 2}
   PlayerAvatar: {fileID: 1265400936876386}
   PlayerAttributesScriptableObject: {fileID: 11400000, guid: d503afedbc508424888027ba8153c9a0,
     type: 2}
   playerName: 
   playerColor: {r: 0, g: 0, b: 0, a: 0}
-  playerType: 
+  playerType: 0
 --- !u!114 &114311544809744746
 MonoBehaviour:
   m_ObjectHideFlags: 1

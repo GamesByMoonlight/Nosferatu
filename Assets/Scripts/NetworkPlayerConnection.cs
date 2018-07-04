@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetworkPlayerConnection : NetworkBehaviour {
+    [SerializeField]
+    private AttributesObject[] PossibleClassTypes;
+
     public GameObject PlayerAvatar;
 
+    
     [SerializeField]
     private AttributesObject PlayerAttributesScriptableObject;
     public Attributes PlayerAttributes { get; private set; }
@@ -65,7 +69,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
     void OnPlayerTypeChanged(PlayerClass value)
     {
-        // playerType = value;
+        playerType = value;
+        PlayerAttributesScriptableObject = PossibleClassTypes[(int)value];
+        PlayerAttributesScriptableObject.Initialize(PlayerAttributes);
     }
 	
 

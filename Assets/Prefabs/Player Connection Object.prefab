@@ -673,7 +673,7 @@ MonoBehaviour:
     i14: 129
     i15: 119
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114136903859832486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -998,7 +998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SyncTransform: {fileID: 4390033407824872}
-  networkSendRate: 9
+  networkSendRate: 5
 --- !u!114 &114965126520887342
 MonoBehaviour:
   m_ObjectHideFlags: 1

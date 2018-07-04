@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Online.unity
     guid: d8268dffe62a678438cb74f44be9f88e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Test offline lobby.unity
     guid: 4940f4e9d5cf4cc469ad8bbe0ac25602
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Test online.unity
     guid: d4409340b5c82594a976b9b49790576e
   - enabled: 1

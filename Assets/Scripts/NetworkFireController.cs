@@ -33,7 +33,6 @@ public class NetworkFireController : NetworkBehaviour {
     bool PlayerFire()
     {
         return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate;
-        //return Input.GetButtonDown(FireAxis) && Time.time - cooldown > WeaponAttributes.FireRate
     }
 
     [Command]

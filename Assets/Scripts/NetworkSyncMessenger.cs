@@ -71,15 +71,15 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     // Update is called once per frame
     void Update () {
 
-        if (!isLocalPlayer)
+        if (!hasAuthority)
             return;
-
+        Debug.Log(transform.rotation);
         UpdatePlayerMovement();
 	}
 
     void FixedUpdate()
     {
-        if (!isLocalPlayer)
+        if (!hasAuthority)
         {
             NetworkLerp();
         }

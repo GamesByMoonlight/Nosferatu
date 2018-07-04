@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum HUDState { none, gameStart, gamePlay, gameOver } //Doing this for now. Not the best method, probably.
+public enum HUDState { none, gameStart, gamePlay, inGameMenu, gameOver } //Doing this for now. Not the best method, probably.
 
 [RequireComponent(typeof(Animator))]
 public class HUDManager : MonoBehaviour
@@ -21,10 +21,12 @@ public class HUDManager : MonoBehaviour
     private Animator animator;
     private GameObject localPlayer;
     private NetworkPlayerConnection localPlayerConnection;
+    private InGameMenuManager menuManager;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        menuManager = FindObjectOfType<InGameMenuManager>();
     }
 
     private void Start()
@@ -35,6 +37,7 @@ public class HUDManager : MonoBehaviour
 
     private void Update()
     {
+        CheckMenu();
         UpdateTime();
         UpdateCompass();
         UpdateHealth();
@@ -67,11 +70,12 @@ public class HUDManager : MonoBehaviour
 
 
     /// <summary>
-    /// Opens menu for this player. Does not pause game or impact other players.
+    /// Closes menu for this player and sets HUD state appropriately.
     /// </summary>
-    public void OpenMenu()
+    public void CloseMenu()
     {
-
+        if (state == HUDState.inGameMenu)
+            state = HUDState.gamePlay;
     }
 
     private void InitializeNetworkedItems()
@@ -121,8 +125,20 @@ public class HUDManager : MonoBehaviour
     private void OpenHUD()
     {
         animator.SetTrigger("appear");
+        state = HUDState.gamePlay;
     }
 
+    private void CheckMenu()
+    {
+        if (state != HUDState.gamePlay)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            state = HUDState.inGameMenu;
+            menuManager.OpenMenu(this);
+        }
+    }
 
     #region EditorTestStuff
 

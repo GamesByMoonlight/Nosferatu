@@ -13,12 +13,18 @@ public class NetworkHealthController : NetworkBehaviour {
     public RectTransform HealthBar;
     public CanvasGroup cg;
 
+    //private HUDManager hudManager;
+
+
     [SyncVar(hook = "OnChangeHealth")]
     private float CurrentHealth = 100f;
 
     public override void OnStartLocalPlayer()
     {
         cg.alpha = 0f;
+
+        //if(GetComponent<NetworkPlayerConnection>()) //This is a player object, so it has a HUD.
+        //    hudManager = FindObjectOfType<HUDManager>();
     }
 
     public void TakeDamage(float amount)
@@ -30,7 +36,7 @@ public class NetworkHealthController : NetworkBehaviour {
 
         if(CurrentHealth < 0)
         {
-            Debug.Log(ForGameObject.Name + " is dead [Do something]");
+            GameManager.Instance.EntityDiedEvent.Invoke(gameObject);
         }
 
 
@@ -38,7 +44,18 @@ public class NetworkHealthController : NetworkBehaviour {
 
     void OnChangeHealth(float updatedHealth)
     {
-        HealthBar.sizeDelta = new Vector2(updatedHealth, HealthBar.sizeDelta.y);
+        if (HealthBar != null)
+        {
+            var health = (updatedHealth / attributes.MaxHealth) * 100f;
+            HealthBar.sizeDelta = new Vector2(health, HealthBar.sizeDelta.y);
+        }
+
+        
+        //if (hudManager != null)
+        //{
+        //    int health = Mathf.RoundToInt((updatedHealth / attributes.MaxHealth) * 100);
+        //}
+            
         ForGameObject.CurrentHealth = updatedHealth;
     }
 }

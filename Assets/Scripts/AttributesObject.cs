@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Teams { neutral, good, bad } // The neutral option is for items that don't lean either way.
+public enum PlayerClass { Vampire, Heavy, Light }  // Refactor to match player classes once we decide on player types
 
 [CreateAssetMenu (fileName = "NewAttributesObject", menuName = "AttributesObject")]
 public class AttributesObject : ScriptableObject
@@ -64,10 +65,13 @@ public class AttributesObject : ScriptableObject
 [System.Serializable]
 public class Attributes
 {
-    private Teams previousTeam;
-    private Teams currentTeam;
-    public Teams Team { get { return currentTeam; } set { previousTeam = currentTeam; currentTeam = value; } }
     public string Name;
+
+    [SerializeField]
+    private Teams currentTeam;
+    private Teams previousTeam;
+    public Teams Team { get { return currentTeam; } set { previousTeam = currentTeam; currentTeam = value; } }
+    
     public float MaxHealth;
     public float CurrentHealth;
     public float Attack;

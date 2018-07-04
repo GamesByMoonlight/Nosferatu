@@ -239,6 +239,8 @@ MonoBehaviour:
   m_OnlineScene: Maze (online)
   m_SpawnPrefabs:
   - {fileID: 1194640302205370, guid: a56fce64a6ece964a81de04927dc7620, type: 2}
+  - {fileID: 1374083766070530, guid: c28ff4cad0341f64a98ec9ac293546c2, type: 2}
+  - {fileID: 1746125419065162, guid: bdbb0461f4e7521469bd547497132639, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:

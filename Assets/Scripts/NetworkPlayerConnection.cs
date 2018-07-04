@@ -4,11 +4,21 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetworkPlayerConnection : NetworkBehaviour {
+    [SerializeField]
+    private AttributesObject[] PossibleClassTypes;
+
     public GameObject PlayerAvatar;
 
+    
     [SerializeField]
     private AttributesObject PlayerAttributesScriptableObject;
     public Attributes PlayerAttributes { get; private set; }
+
+    [SyncVar] public string playerName;
+    [SyncVar] public Color playerColor;
+    [SyncVar (hook ="OnPlayerTypeChanged")] public PlayerClass playerType;
+
+
 
     private void Awake()
     {
@@ -18,12 +28,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
+        
         InitAvatar();
-
-        if(isServer)
-        {
-            GameManager.Instance.RegisterPlayer(gameObject);
-        }
+        GameManager.Instance.RegisterPlayer(gameObject, isLocalPlayer);
 	}
 
     private void OnDisconnectedFromServer(NetworkDisconnection info)
@@ -43,7 +50,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
         if (isLocalPlayer)
         {
-            avatar.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+            //avatar.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+            
+            avatar.GetComponentInChildren<MeshRenderer>().material.color = playerColor;
             var inputController = avatar.GetComponent<FPSMouseLookController>();
             inputController.movementSettings.ForwardSpeed = PlayerAttributes.ForwardSpeed;
             inputController.movementSettings.BackwardSpeed = PlayerAttributes.BackwardSpeed;
@@ -56,6 +65,13 @@ public class NetworkPlayerConnection : NetworkBehaviour {
             avatar.GetComponentInChildren<Camera>().enabled = false;
             avatar.GetComponentInChildren<AudioListener>().enabled = false;
         }
+    }
+
+    void OnPlayerTypeChanged(PlayerClass value)
+    {
+        playerType = value;
+        PlayerAttributesScriptableObject = PossibleClassTypes[(int)value];
+        PlayerAttributesScriptableObject.Initialize(PlayerAttributes);
     }
 	
 

@@ -13,7 +13,7 @@ public class NetworkHealthController : NetworkBehaviour {
     public RectTransform HealthBar;
     public CanvasGroup cg;
 
-    private HUDManager hudManager;
+    //private HUDManager hudManager;
 
 
     [SyncVar(hook = "OnChangeHealth")]
@@ -23,8 +23,8 @@ public class NetworkHealthController : NetworkBehaviour {
     {
         cg.alpha = 0f;
 
-        if(GetComponent<NetworkPlayerConnection>()) //This is a player object, so it has a HUD.
-            hudManager = FindObjectOfType<HUDManager>();
+        //if(GetComponent<NetworkPlayerConnection>()) //This is a player object, so it has a HUD.
+        //    hudManager = FindObjectOfType<HUDManager>();
     }
 
     public void TakeDamage(float amount)
@@ -50,10 +50,11 @@ public class NetworkHealthController : NetworkBehaviour {
             HealthBar.sizeDelta = new Vector2(health, HealthBar.sizeDelta.y);
         }
 
-        if (hudManager != null)
-        {
-            int health = Mathf.RoundToInt((updatedHealth / attributes.MaxHealth) * 100);
-        }
+        
+        //if (hudManager != null)
+        //{
+        //    int health = Mathf.RoundToInt((updatedHealth / attributes.MaxHealth) * 100);
+        //}
             
         ForGameObject.CurrentHealth = updatedHealth;
     }

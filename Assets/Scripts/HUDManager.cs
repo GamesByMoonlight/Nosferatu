@@ -20,6 +20,7 @@ public class HUDManager : MonoBehaviour
     private HUDState state;
     private Animator animator;
     private GameObject localPlayer;
+    private NetworkPlayerConnection localPlayerConnection;
 
     private void Awake()
     {
@@ -36,6 +37,21 @@ public class HUDManager : MonoBehaviour
     {
         UpdateTime();
         UpdateCompass();
+        UpdateHealth();
+    }
+
+    /// <summary>
+    /// Checks for localPlayer then updates health via other method
+    /// </summary>
+    private void UpdateHealth()
+    {
+        if (localPlayerConnection == null)
+        {
+            InitializeNetworkedItems();
+            return; //Try again next frame
+        }
+
+        UpdateHealth(localPlayerConnection.PlayerAttributes.CurrentHealth, localPlayerConnection.PlayerAttributes.MaxHealth);
     }
 
     /// <summary>
@@ -43,7 +59,7 @@ public class HUDManager : MonoBehaviour
     /// </summary>
     /// <param name="health"></param>
     /// <param name="maxHealth"></param>
-    public void UpdateHealth(int health, int maxHealth)
+    private void UpdateHealth(float health, float maxHealth)
     {
         healthStatsTextField.text = health + "/" + maxHealth + " HP";
         healthBarImage.rectTransform.localScale = new Vector2(Mathf.Clamp01(((float)health / (float)maxHealth)), healthBarImage.rectTransform.localScale.y);
@@ -72,6 +88,10 @@ public class HUDManager : MonoBehaviour
         else
         {
             localPlayer = GameManager.Instance.LocalPlayer;
+            if(localPlayer != null)
+            {
+                localPlayerConnection = localPlayer.GetComponent<NetworkPlayerConnection>();
+            }
         }
     }
 

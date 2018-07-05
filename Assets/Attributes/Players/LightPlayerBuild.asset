@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: LightPlayerBuild
   m_EditorClassIdentifier: 
   attributes:
-    Name: Player
+    Name: Ranger
+    currentTeam: 1
     MaxHealth: 100
     CurrentHealth: 100
     Attack: 5

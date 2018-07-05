@@ -14,10 +14,14 @@ public class NetworkMessageHandler : NetworkBehaviour
         public ushort time;
 
         // Transform
-        public Vector3 objectPosition;
-        public Quaternion objectRotation;
-        
-        
+        //public Vector3 objectPosition;
+        //public Quaternion objectRotation;
+        public int positionX;
+        public int positionY;
+        public int positionZ;
+        public int eulerY;
+
+
     }
 
     /// <summary>

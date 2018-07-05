@@ -50,20 +50,17 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
         if (_msg.forObjectID != netId)
         {
-            Manager.Instance.ConnectedObjects[_msg.forObjectID].GetComponent<NetworkSyncMessenger>().ReceiveMovementMessage(_msg.objectPosition, _msg.objectRotation, _msg.time);
+            Manager.Instance.ConnectedObjects[_msg.forObjectID].GetComponent<NetworkSyncMessenger>().ReceiveMovementMessage(_msg.positionX, _msg.positionY, _msg.positionZ, _msg.eulerY, _msg.time);
         }
     }
 
-    public void ReceiveMovementMessage(Vector3 position, Quaternion rotation, float lerpTime)
+    public void ReceiveMovementMessage(int posX, int posY, int posZ, int rotation, ushort lerpTime)
     {
         lastRealPosition = realPosition;
         lastRealRotation = realRotation;
-        realPosition = position;
-        realRotation = rotation;
-        timeToLerp = lerpTime;
-        //Debug.Log("Float: " + timeToLerp.ToString("F12"));
-        //Debug.Log("integer and back: " + IntToFloat(FloatToInt(timeToLerp)));
-        
+        realPosition = new Vector3(IntToFloat(posX), IntToFloat(posY), IntToFloat(posZ));
+        realRotation = Quaternion.Euler(0f, IntToFloat(rotation), 0f);
+        timeToLerp = HalfToFloat(lerpTime);
 
         isLerpingPosition = realPosition != transform.position;
         isLerpingRotation = realRotation.eulerAngles != transform.rotation.eulerAngles;
@@ -131,10 +128,12 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     {
         SyncMovementMessage _msg = new SyncMovementMessage()
         {
-            objectPosition = _position,
-            objectRotation = _rotation,
+            positionX = FloatToInt(_position.x),
+            positionY = FloatToInt(_position.y),
+            positionZ = FloatToInt(_position.z),
+            eulerY = FloatToInt(_rotation.eulerAngles.y),
             forObjectID = _playerID,
-            time = _timeTolerp
+            time = FloatToHalf(_timeTolerp)
         };
 
         NetworkManager.singleton.client.Send(movement_msg, _msg);

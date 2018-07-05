@@ -80,8 +80,21 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
     public void ModifyAttributes(AttributesObject modification)
     {
-        modification.Modify(PlayerAttributes);
+        CmdModify(modification.attributes);
     }
+
+    [Command]
+    public void CmdModify(Attributes attr)
+    {
+        RpcModify(attr);
+    }
+
+    [ClientRpc]
+    public void RpcModify(Attributes attr)
+    {
+        PlayerAttributes.Modify(attr);
+    }
+
 
     public void UnModifyAttributes(AttributesObject modification)
     {

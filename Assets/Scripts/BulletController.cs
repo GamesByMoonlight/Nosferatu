@@ -8,9 +8,10 @@ public class BulletController : NetworkBehaviour {
     [SyncVar]
     public NetworkInstanceId playerNetID;
 
-    private float Attack = 20f;
+    //private float Attack = 20f;
     private float baseScale = .3f / 20f;
     private Rigidbody rb;
+    private Attributes bulletAttributes;    // Needs to point to player attributes
 
     [SerializeField]
     private GameObject bulletGameObject;
@@ -23,7 +24,9 @@ public class BulletController : NetworkBehaviour {
 
     private void Start()
     {
-        transform.SetParent(Manager.Instance.ConnectedObjects[playerNetID].transform);
+        var myPlayer = Manager.Instance.ConnectedObjects[playerNetID];
+        transform.SetParent(myPlayer.transform);
+        bulletAttributes = myPlayer.GetComponent<NetworkPlayerConnection>().PlayerAttributes;
         SetChildrenActive(false);
     }
 
@@ -41,7 +44,7 @@ public class BulletController : NetworkBehaviour {
         if (health.Length > 0 && health[0].gameObject != transform.parent.gameObject)
         {
             // an isServer check is made in TakeDamage() also
-            health[0].TakeDamage(Attack);
+            health[0].TakeDamage(bulletAttributes.Attack);
             RpcSetActive(false);
         }
     }
@@ -54,13 +57,13 @@ public class BulletController : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcFired(Vector3 position, Vector3 velocity, float attack)
+    public void RpcFired(Vector3 position, Vector3 velocity)//, float attack)
     {
-        Attack = attack;
+        var atk = bulletAttributes.Attack;
 
         transform.position = position;
         rb.velocity = velocity;
-        transform.localScale = new Vector3(baseScale * Attack, baseScale * Attack, baseScale * Attack);
+        transform.localScale = new Vector3(baseScale * atk, baseScale * atk, baseScale * atk);
 
         SetChildrenActive(true);
         CancelInvoke();

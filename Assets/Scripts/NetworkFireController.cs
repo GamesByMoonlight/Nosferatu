@@ -49,7 +49,7 @@ public class NetworkFireController : NetworkBehaviour {
         if(PlayerFire()) 
         {
             cooldown = Time.time;
-            CmdFire(BulletSpawn.position, BulletSpawn.forward * WeaponAttributes.ProjectileSpeed, WeaponAttributes.Attack);
+            CmdFire(BulletSpawn.position, BulletSpawn.forward * WeaponAttributes.ProjectileSpeed);
         }
 	}
 
@@ -59,9 +59,9 @@ public class NetworkFireController : NetworkBehaviour {
     }
 
     [Command]
-    void CmdFire(Vector3 position, Vector3 velocity, float attack)
+    void CmdFire(Vector3 position, Vector3 velocity)
     {
-        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity, attack);
+        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity);
         if(nextBulletIndex >= 100000)
         {
             nextBulletIndex = 0;

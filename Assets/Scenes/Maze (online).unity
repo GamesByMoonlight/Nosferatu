@@ -1113,6 +1113,14 @@ Prefab:
       propertyPath: m_Name
       value: Maze 1 Buff Spawn Locations
       objectReference: {fileID: 0}
+    - target: {fileID: 4651227836828116, guid: 784c3e07be2b8dd41bb51c4be54a6cc1, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -27.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4651227836828116, guid: 784c3e07be2b8dd41bb51c4be54a6cc1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.54
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 784c3e07be2b8dd41bb51c4be54a6cc1, type: 2}
   m_IsPrefabParent: 0

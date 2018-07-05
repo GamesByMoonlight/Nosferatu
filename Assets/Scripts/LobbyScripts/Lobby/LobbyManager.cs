@@ -417,5 +417,20 @@ namespace Prototype.NetworkLobby
             ChangeTo(mainMenuPanel);
             infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
         }
+
+        public override void OnLobbyServerSceneChanged(string scene)
+        {
+            base.OnLobbyServerSceneChanged(scene);
+
+            switch (GameManager.Instance.CurrentState)
+            {
+                case GameState.ReadyToStart:
+                    GameManager.Instance.StartMatch();
+                    break;
+                default:
+                    GameManager.Instance.ResetMatch();
+                    break;
+            }
+        }
     }
 }

@@ -23,7 +23,7 @@ public class NetworkServerRelay : NetworkMessageHandler
 
     private void OnReceivePlayerMovementMessage(NetworkMessage _message)
     {
-        SyncMovementMessage _msg = _message.ReadMessage<SyncMovementMessage>();
+        SyncTransformMessage _msg = _message.ReadMessage<SyncTransformMessage>();
         NetworkServer.SendToAll(movement_msg, _msg);
     }
 }

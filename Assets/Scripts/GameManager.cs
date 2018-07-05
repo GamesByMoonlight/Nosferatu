@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Events;
 
-public enum GameState { Stopped, Running, VampireWinsByTime, VampireWinsByElimination, AdventurersWin }
+public enum GameState { ReadyToStart, Running, VampireWinsByTime, VampireWinsByElimination, AdventurersWin }
 
 public class GameManager : CustomMessagingEventSystem {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-    public GameState CurrentState = GameState.Stopped;
+    public GameState CurrentState = GameState.ReadyToStart;
     public float MatchTime = 10f * 60f; // 10min
     public float CurrentTime;
     public float SyncRate = .2f;    // Synce every (1 / SyncRate) seconds
@@ -30,12 +30,10 @@ public class GameManager : CustomMessagingEventSystem {
 
     private void Start()
     {
-        CurrentTime = MatchTime;
-        StartMatch();
+        ResetMatch();
 
         if(isServer)
         {
-            SynchronizeTime();
             EntityDiedEvent.AddListener(OnEntityDeath);
         }
     }
@@ -128,6 +126,19 @@ public class GameManager : CustomMessagingEventSystem {
     {
         running = true;
         CurrentState = GameState.Running;
+        GameStateChanged.Invoke();
+    }
+
+    public void ResetMatch()
+    {
+        CurrentTime = MatchTime;
+        running = false;
+        CurrentState = GameState.ReadyToStart;
+        if (isServer)
+        {
+            SynchronizeTime();
+        }
+
         GameStateChanged.Invoke();
     }
 

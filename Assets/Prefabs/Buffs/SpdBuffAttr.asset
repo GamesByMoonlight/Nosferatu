@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7237d75911f5b4c8e53076b34bb254, type: 3}
+  m_Name: SpdBuffAttr
+  m_EditorClassIdentifier: 
+  attributes:
+    Name: Speed Buff
+    currentTeam: 0
+    MaxHealth: 1
+    CurrentHealth: 1
+    Attack: 1
+    ProjectileSpeed: 1
+    FireRate: 1
+    ProjectileRange: 1
+    ForwardSpeed: 1.16
+    BackwardSpeed: 1.16
+    StrafeSpeed: 1.16

@@ -1151,18 +1151,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 114913279446701308, guid: 784c3e07be2b8dd41bb51c4be54a6cc1,
-        type: 2}
-      propertyPath: buffsAvailable.Array.data[0]
-      value: 
-      objectReference: {fileID: 1511122054549470, guid: d559800daabde514e904893a58a61133,
-        type: 2}
-    - target: {fileID: 114913279446701308, guid: 784c3e07be2b8dd41bb51c4be54a6cc1,
-        type: 2}
-      propertyPath: buffsAvailable.Array.data[1]
-      value: 
-      objectReference: {fileID: 1934279085954824, guid: 6d66cbdc35138084caa45b7a2f2a6e38,
-        type: 2}
     - target: {fileID: 1103091811040342, guid: 784c3e07be2b8dd41bb51c4be54a6cc1, type: 2}
       propertyPath: m_Name
       value: Maze 1 Buff Spawn Locations

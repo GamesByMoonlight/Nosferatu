@@ -61,6 +61,8 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
         realPosition = position;
         realRotation = rotation;
         timeToLerp = lerpTime;
+        Debug.Log("Float: " + timeToLerp.ToString("F12"));
+        Debug.Log("ushort and back: " + Mathf.HalfToFloat(Mathf.FloatToHalf(timeToLerp)));
 
         isLerpingPosition = realPosition != transform.position;
         isLerpingRotation = realRotation.eulerAngles != transform.rotation.eulerAngles;
@@ -73,7 +75,9 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
         if (!hasAuthority)
             return;
-        Debug.Log(transform.rotation);
+        //Debug.Log("Quaternion: " + SyncTransform.rotation);
+        //Debug.Log("Euler Angles: " + SyncTransform.rotation.eulerAngles);
+        
         UpdatePlayerMovement();
 	}
 

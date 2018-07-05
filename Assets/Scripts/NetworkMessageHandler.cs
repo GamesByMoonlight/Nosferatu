@@ -18,4 +18,27 @@ public class NetworkMessageHandler : NetworkBehaviour
         public Quaternion objectRotation;
     }
 
+    /// <summary>
+    /// Gives 2 decimals of precision 
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    protected float IntToFloat(int i)
+    {
+        return i / 100f;
+    }
+
+    /// <summary>
+    /// Gives 2 decimals of precision 
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    protected int FloatToInt(float i)
+    {
+        //Mathf.flo
+        //return (int)(System.Math.Round(i * 100, 2));
+        return Mathf.RoundToInt(i * 100);
+    }
+
+    //protected ushort
 }

@@ -54,12 +54,12 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
         }
     }
 
-    public void ReceiveMovementMessage(int posX, int posY, int posZ, int rotation, ushort lerpTime)
+    public void ReceiveMovementMessage(int posX, int posY, ushort posZ, ushort rotation, ushort lerpTime)
     {
         lastRealPosition = realPosition;
         lastRealRotation = realRotation;
-        realPosition = new Vector3(IntToFloat(posX), IntToFloat(posY), IntToFloat(posZ));
-        realRotation = Quaternion.Euler(0f, IntToFloat(rotation), 0f);
+        realPosition = new Vector3(IntToFloat(posX), IntToFloat(posY), HalfToFloat(posZ));
+        realRotation = Quaternion.Euler(0f, HalfToFloat(rotation), 0f);
         timeToLerp = HalfToFloat(lerpTime);
 
         isLerpingPosition = realPosition != transform.position;
@@ -130,8 +130,8 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
         {
             positionX = FloatToInt(_position.x),
             positionY = FloatToInt(_position.y),
-            positionZ = FloatToInt(_position.z),
-            eulerY = FloatToInt(_rotation.eulerAngles.y),
+            positionZ = FloatToHalf(_position.z),
+            eulerY = FloatToHalf(_rotation.eulerAngles.y),
             forObjectID = _playerID,
             time = FloatToHalf(_timeTolerp)
         };

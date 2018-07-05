@@ -18,8 +18,8 @@ public class NetworkMessageHandler : NetworkBehaviour
         //public Quaternion objectRotation;
         public int positionX;
         public int positionY;
-        public int positionZ;
-        public int eulerY;
+        public ushort positionZ;
+        public ushort eulerY;
 
 
     }

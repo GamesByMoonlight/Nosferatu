@@ -50,6 +50,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
         if (isServer)
         {
+            Debug.Log("WTF??");
             GetComponent<NetworkFireController>().SpawnBulletPool();
         }
 

@@ -30,10 +30,13 @@ public class NetworkFireController : NetworkBehaviour {
         BulletPool = new BulletController[BulletPoolLength];
         for(int i = 0; i < BulletPoolLength; ++i)
         {
+            Debug.Log("spawned bullet # " + i);
             var bullet = Instantiate(BulletPrefab);
             NetworkServer.Spawn(bullet);
             BulletPool[i] = bullet.GetComponent<BulletController>();
         }
+
+        bulletPoolSpawned = true;
     }
 
     // Update is called once per frame
@@ -61,7 +64,7 @@ public class NetworkFireController : NetworkBehaviour {
         {
             if(!BulletPool[i].gameObject.activeInHierarchy)
             {
-                BulletPool[i].RpcFired(spawn.position, spawn.direction, spawn.forward * WeaponAttributes.ProjectileSpeed, WeaponAttributes.Attack);
+                BulletPool[i].RpcFired(spawn.position, spawn.forward * WeaponAttributes.ProjectileSpeed, WeaponAttributes.Attack);
                 //BulletPool[i].GetComponent<Rigidbody>().velocity = bullet.transform.forward * WeaponAttributes.ProjectileSpeed;
             }
         }

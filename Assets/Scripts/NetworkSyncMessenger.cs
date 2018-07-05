@@ -46,7 +46,7 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     private void OnReceiveMovementMessage(NetworkMessage _message)
     {
-        SyncMovementMessage _msg = _message.ReadMessage<SyncMovementMessage>();
+        SyncTransformMessage _msg = _message.ReadMessage<SyncTransformMessage>();
 
         if (_msg.forObjectID != netId)
         {
@@ -126,7 +126,7 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     public void SendMovementMessage(NetworkInstanceId _playerID, Vector3 _position, Quaternion _rotation, float _timeTolerp)
     {
-        SyncMovementMessage _msg = new SyncMovementMessage()
+        SyncTransformMessage _msg = new SyncTransformMessage()
         {
             positionX = FloatToInt(_position.x),
             positionY = FloatToInt(_position.y),

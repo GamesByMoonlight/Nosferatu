@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 114665043039154592}
   - component: {fileID: 33667567398695970}
   - component: {fileID: 23949318921398424}
-  - component: {fileID: 114985591698427378}
   m_Layer: 0
   m_Name: Bullet (Fire)
   m_TagString: Untagged
@@ -241,19 +240,6 @@ MonoBehaviour:
     i15: 32
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114985591698427378
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1194640302205370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f81349a4f2699448691da471ad9e349e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncTransform: {fileID: 4460619669668852}
-  networkSendRate: 5
 --- !u!135 &135200048722901832
 SphereCollider:
   m_ObjectHideFlags: 1

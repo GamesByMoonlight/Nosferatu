@@ -48,10 +48,13 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         GetComponent<NetworkHealthController>().ForGameObject = PlayerAttributes;
         GetComponent<NetworkFireController>().WeaponAttributes = PlayerAttributes;
 
+        if (isServer)
+        {
+            GetComponent<NetworkFireController>().SpawnBulletPool();
+        }
+
         if (isLocalPlayer)
         {
-            //avatar.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
-            
             avatar.GetComponentInChildren<MeshRenderer>().material.color = playerColor;
             var inputController = avatar.GetComponent<FPSMouseLookController>();
             inputController.movementSettings.ForwardSpeed = PlayerAttributes.ForwardSpeed;
@@ -60,6 +63,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         }
         else
         {
+            
             avatar.GetComponent<FPSMouseLookController>().enabled = false;
             avatar.GetComponent<StepSimulator>().enabled = false;
             avatar.GetComponentInChildren<Camera>().enabled = false;

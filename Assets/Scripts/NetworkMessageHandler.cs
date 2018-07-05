@@ -8,7 +8,7 @@ public class NetworkMessageHandler : NetworkBehaviour
 {
     public const short movement_msg = 3778;
 
-    public class SyncMovementMessage : MessageBase
+    public class SyncTransformMessage : MessageBase
     {
         public NetworkInstanceId forObjectID;
         public ushort time;

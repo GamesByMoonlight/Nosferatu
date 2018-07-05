@@ -4,11 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class BulletController : NetworkBehaviour {
-    [SyncVar]
-    public float Attack = 20f;
-    [SyncVar]
-    public float Speed = 10f;
-
+    private float Attack = 20f;
     private float baseScale = .3f / 20f;
 
     private void Start()
@@ -29,5 +25,11 @@ public class BulletController : NetworkBehaviour {
         }
 
         Destroy(gameObject);
+    }
+
+    [ClientRpc]
+    public void RpcFired()
+    {
+
     }
 }

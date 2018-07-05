@@ -14,12 +14,12 @@ MonoBehaviour:
   attributes:
     Name: HP Buff
     currentTeam: 1
-    MaxHealth: 150
-    CurrentHealth: 150
-    Attack: 0
-    ProjectileSpeed: 0
-    FireRate: 0
-    ProjectileRange: 0
-    ForwardSpeed: 0
-    BackwardSpeed: 0
-    StrafeSpeed: 0
+    MaxHealth: 1.5
+    CurrentHealth: 1.5
+    Attack: 1
+    ProjectileSpeed: 1
+    FireRate: 1
+    ProjectileRange: 1
+    ForwardSpeed: 1
+    BackwardSpeed: 1
+    StrafeSpeed: 1

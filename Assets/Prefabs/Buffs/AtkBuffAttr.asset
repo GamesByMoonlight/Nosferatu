@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Name: AtkBuffAttr
   m_EditorClassIdentifier: 
   attributes:
-    Name: 
+    Name: Attack Buff
     currentTeam: 0
-    MaxHealth: 0
-    CurrentHealth: 0
-    Attack: 150
-    ProjectileSpeed: 0
-    FireRate: 0
-    ProjectileRange: 0
-    ForwardSpeed: 0
-    BackwardSpeed: 0
-    StrafeSpeed: 0
+    MaxHealth: 1
+    CurrentHealth: 1
+    Attack: 1.5
+    ProjectileSpeed: 1
+    FireRate: 1
+    ProjectileRange: 1
+    ForwardSpeed: 1
+    BackwardSpeed: 1
+    StrafeSpeed: 1

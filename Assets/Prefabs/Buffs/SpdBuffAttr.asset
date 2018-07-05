@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Name: SpdBuffAttr
   m_EditorClassIdentifier: 
   attributes:
-    Name: 
+    Name: Speed Buff
     currentTeam: 0
-    MaxHealth: 0
-    CurrentHealth: 0
-    Attack: 0
-    ProjectileSpeed: 0
-    FireRate: 0
-    ProjectileRange: 0
-    ForwardSpeed: 300
-    BackwardSpeed: 50
-    StrafeSpeed: 150
+    MaxHealth: 1
+    CurrentHealth: 1
+    Attack: 1
+    ProjectileSpeed: 1
+    FireRate: 1
+    ProjectileRange: 1
+    ForwardSpeed: 1.16
+    BackwardSpeed: 1.16
+    StrafeSpeed: 1.16

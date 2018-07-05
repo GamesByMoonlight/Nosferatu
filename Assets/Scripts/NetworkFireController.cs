@@ -23,7 +23,6 @@ public class NetworkFireController : NetworkBehaviour {
 
     public void SpawnBulletPool()
     {
-        Debug.Log("Called for " + name);
         if (!isServer)
             Debug.LogError("Bullet Pool must be initiated on server only");
         if (bulletPoolSpawned)
@@ -32,9 +31,10 @@ public class NetworkFireController : NetworkBehaviour {
         BulletPool = new BulletController[BulletPoolLength];
         for(int i = 0; i < BulletPoolLength; ++i)
         {
-            var bullet = Instantiate(BulletPrefab);
+            var bullet = Instantiate(BulletPrefab).GetComponent<BulletController>();
+            bullet.playerNetID = netId;
             NetworkServer.Spawn(bullet.gameObject);
-            BulletPool[i] = bullet.GetComponent<BulletController>();
+            BulletPool[i] = bullet;
         }
 
         bulletPoolSpawned = true;
@@ -61,7 +61,7 @@ public class NetworkFireController : NetworkBehaviour {
     [Command]
     void CmdFire(Vector3 position, Vector3 velocity, float attack)
     {
-        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity, WeaponAttributes.Attack);
+        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity, attack);
         if(nextBulletIndex >= 100000)
         {
             nextBulletIndex = 0;

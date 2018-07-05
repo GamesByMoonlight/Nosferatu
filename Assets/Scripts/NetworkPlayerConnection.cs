@@ -28,17 +28,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-        
-        InitAvatar();
         GameManager.Instance.RegisterPlayer(gameObject, isLocalPlayer);
+        InitAvatar();
 	}
-
-    public override void OnStartServer()
-    {
-        Debug.Log("On Server " + isServer);
-        GetComponent<NetworkFireController>().SpawnBulletPool();
-
-    }
 
     private void OnDisconnectedFromServer(NetworkDisconnection info)
     {
@@ -54,6 +46,11 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         var avatar = PlayerAvatar; //Instantiate(AvatarPrefab, transform.position, transform.rotation, transform);
         GetComponent<NetworkHealthController>().ForGameObject = PlayerAttributes;
         GetComponent<NetworkFireController>().WeaponAttributes = PlayerAttributes;
+
+        if(isServer)
+        {
+            GetComponent<NetworkFireController>().SpawnBulletPool();
+        }
 
         if (isLocalPlayer)
         {

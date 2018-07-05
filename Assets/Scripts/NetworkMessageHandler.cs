@@ -11,25 +11,29 @@ public class NetworkMessageHandler : NetworkBehaviour
     public class SyncMovementMessage : MessageBase
     {
         public NetworkInstanceId forObjectID;
-        public float time;
+        public ushort time;
 
         // Transform
         public Vector3 objectPosition;
         public Quaternion objectRotation;
+        
+        
     }
 
     /// <summary>
-    /// Gives 2 decimals of precision 
+    /// Gives 2 decimals of precision for floats up to magnitude of +/- ~2.1M.  3rd decimal rounded accurately.
+    /// Useful for sending position floats across network.
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
     protected float IntToFloat(int i)
     {
-        return i / 100f;
+        return i / 1000f;
     }
 
     /// <summary>
-    /// Gives 2 decimals of precision 
+    /// Gives 2 decimals of precision for floats up to magnitude of +/- ~2.1M.  3rd decimal rounded accurately.
+    /// Useful for sending position floats across network.
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
@@ -37,8 +41,28 @@ public class NetworkMessageHandler : NetworkBehaviour
     {
         //Mathf.flo
         //return (int)(System.Math.Round(i * 100, 2));
-        return Mathf.RoundToInt(i * 100);
+        return Mathf.RoundToInt(i * 1000);
     }
 
-    //protected ushort
+    /// <summary>
+    /// Gives 4 decimals of precision for numbers less than 0.  5th decimal rounded accurately.
+    /// Useful for sending deltaTime across network.
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    protected float HalfToFloat(ushort i)
+    {
+        return Mathf.HalfToFloat(i);
+    }
+
+    /// <summary>
+    /// Gives 4 decimals of precision for numbers less than 0.  5th decimal rounded accurately.
+    /// Useful for sending deltaTime across network.
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    protected ushort FloatToHalf(float i)
+    {
+        return Mathf.FloatToHalf(i);
+    }
 }

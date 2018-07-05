@@ -87,6 +87,8 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
+            if (GameManager.Instance == null)
+                return;
             localPlayer = GameManager.Instance.LocalPlayer;
             if(localPlayer != null)
             {

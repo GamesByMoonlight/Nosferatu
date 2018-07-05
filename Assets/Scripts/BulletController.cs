@@ -11,13 +11,20 @@ public class BulletController : NetworkBehaviour {
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        gameObject.SetActive(false);
     }
+
+    //private void Start()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 
     private void OnCollisionEnter(Collision collision)
     {
         if (!isServer)
+        {
+            gameObject.SetActive(false);
             return;
+        }
 
         var health = collision.gameObject.GetComponentsInParent<NetworkHealthController>();
         if (health.Length > 0)
@@ -36,6 +43,7 @@ public class BulletController : NetworkBehaviour {
         rb.velocity = velocity;
         transform.localScale = new Vector3(baseScale * Attack, baseScale * Attack, baseScale * Attack);
         gameObject.SetActive(true);
+        CancelInvoke();
         Invoke("Shutoff", 10f);
     }
 

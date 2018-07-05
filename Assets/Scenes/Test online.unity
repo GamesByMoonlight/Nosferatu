@@ -114,52 +114,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &276959316
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.707737
-      objectReference: {fileID: 0}
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.706476
-      objectReference: {fileID: 0}
-    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1746125419065162, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-      propertyPath: m_Name
-      value: Coffin
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: bdbb0461f4e7521469bd547497132639, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &451664094
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +468,48 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9430a4abaccabd142b6a0b103419f083, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &1466358211
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 5.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -19.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.707737
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.706476
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776789856423564, guid: bdbb0461f4e7521469bd547497132639, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: bdbb0461f4e7521469bd547497132639, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1532612974
 Prefab:

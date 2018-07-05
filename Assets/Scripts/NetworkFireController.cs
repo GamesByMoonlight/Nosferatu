@@ -12,8 +12,9 @@ public class NetworkFireController : NetworkBehaviour {
     public Attributes WeaponAttributes;
 
     private float cooldown;
-    private BulletController[] BulletPool;
     private bool bulletPoolSpawned = false;
+    private BulletController[] BulletPool;
+    private int nextBulletIndex = 0;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class NetworkFireController : NetworkBehaviour {
 
     public void SpawnBulletPool()
     {
+        Debug.Log("Called for " + name);
         if (!isServer)
             Debug.LogError("Bullet Pool must be initiated on server only");
         if (bulletPoolSpawned)
@@ -30,9 +32,8 @@ public class NetworkFireController : NetworkBehaviour {
         BulletPool = new BulletController[BulletPoolLength];
         for(int i = 0; i < BulletPoolLength; ++i)
         {
-            Debug.Log("spawned bullet # " + i);
             var bullet = Instantiate(BulletPrefab);
-            NetworkServer.Spawn(bullet);
+            NetworkServer.Spawn(bullet.gameObject);
             BulletPool[i] = bullet.GetComponent<BulletController>();
         }
 
@@ -48,7 +49,7 @@ public class NetworkFireController : NetworkBehaviour {
         if(PlayerFire()) 
         {
             cooldown = Time.time;
-            CmdFire(BulletSpawn);
+            CmdFire(BulletSpawn.position, BulletSpawn.forward * WeaponAttributes.ProjectileSpeed, WeaponAttributes.Attack);
         }
 	}
 
@@ -58,17 +59,12 @@ public class NetworkFireController : NetworkBehaviour {
     }
 
     [Command]
-    void CmdFire(Transform spawn)
+    void CmdFire(Vector3 position, Vector3 velocity, float attack)
     {
-        for(int i = 0; i < BulletPool.Length; ++i)
+        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity, WeaponAttributes.Attack);
+        if(nextBulletIndex >= 100000)
         {
-            if(!BulletPool[i].gameObject.activeInHierarchy)
-            {
-                BulletPool[i].RpcFired(spawn.position, spawn.forward * WeaponAttributes.ProjectileSpeed, WeaponAttributes.Attack);
-                //BulletPool[i].GetComponent<Rigidbody>().velocity = bullet.transform.forward * WeaponAttributes.ProjectileSpeed;
-            }
+            nextBulletIndex = 0;
         }
-        
-        //Destroy(bullet, WeaponAttributes.ProjectileRange);
     }
 }

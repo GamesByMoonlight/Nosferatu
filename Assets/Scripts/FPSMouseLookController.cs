@@ -4,8 +4,8 @@ using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Characters.FirstPerson;
 
 
-[RequireComponent(typeof (Rigidbody))]
-[RequireComponent(typeof (CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class FPSMouseLookController : MonoBehaviour
 {
 
@@ -16,7 +16,7 @@ public class FPSMouseLookController : MonoBehaviour
         public float BackwardSpeed = 4.0f;  // Speed when walking backwards
         public float StrafeSpeed = 4.0f;    // Speed when walking sideways
         public float RunMultiplier = 2.0f;   // Speed when sprinting
-	    public KeyCode RunKey = KeyCode.LeftShift;
+        public KeyCode RunKey = KeyCode.LeftShift;
         public float JumpForce = 30f;
         public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
         [HideInInspector] public float CurrentTargetSpeed = 8f;
@@ -28,33 +28,33 @@ public class FPSMouseLookController : MonoBehaviour
 
         public void UpdateDesiredTargetSpeed(Vector2 input)
         {
-	        if (input == Vector2.zero) return;
-			if (input.x > 0 || input.x < 0)
-			{
-				//strafe
-				CurrentTargetSpeed = StrafeSpeed;
-			}
-			if (input.y < 0)
-			{
-				//backwards
-				CurrentTargetSpeed = BackwardSpeed;
-			}
-			if (input.y > 0)
-			{
-				//forwards
-				//handled last as if strafing and moving forward at the same time forwards speed should take precedence
-				CurrentTargetSpeed = ForwardSpeed;
-			}
+            if (input == Vector2.zero) return;
+            if (input.x > 0 || input.x < 0)
+            {
+                //strafe
+                CurrentTargetSpeed = StrafeSpeed;
+            }
+            if (input.y < 0)
+            {
+                //backwards
+                CurrentTargetSpeed = BackwardSpeed;
+            }
+            if (input.y > 0)
+            {
+                //forwards
+                //handled last as if strafing and moving forward at the same time forwards speed should take precedence
+                CurrentTargetSpeed = ForwardSpeed;
+            }
 #if !MOBILE_INPUT
-	        if (Input.GetKey(RunKey))
-	        {
-		        CurrentTargetSpeed *= RunMultiplier;
-		        m_Running = true;
-	        }
-	        else
-	        {
-		        m_Running = false;
-	        }
+            if (Input.GetKey(RunKey))
+            {
+                CurrentTargetSpeed *= RunMultiplier;
+                m_Running = true;
+            }
+            else
+            {
+                m_Running = false;
+            }
 #endif
         }
 
@@ -121,7 +121,7 @@ public class FPSMouseLookController : MonoBehaviour
         get
         {
 #if !MOBILE_INPUT
-			return movementSettings.Running;
+            return movementSettings.Running;
 #else
 	        return false;
 #endif
@@ -136,13 +136,11 @@ public class FPSMouseLookController : MonoBehaviour
         //cam.transform.rotation = CameraPosition.rotation;
         //SpotLight.transform.SetParent(cam.transform);
 
-        cam.gameObject.AddComponent<VolumetricLightRenderer>();
-
-
+        AddVolumetricLightRendererToCamera(cam);
 
         m_RigidBody = GetComponent<Rigidbody>();
         m_Capsule = GetComponent<CapsuleCollider>();
-        mouseLook.Init (transform, cam.transform);
+        mouseLook.Init(transform, cam.transform);
     }
 
 
@@ -165,16 +163,16 @@ public class FPSMouseLookController : MonoBehaviour
         if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded))
         {
             // always move along the camera forward as it is the direction that it being aimed at
-            Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
+            Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
             desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
 
-            desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
-            desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
-            desiredMove.y = desiredMove.y*movementSettings.CurrentTargetSpeed;
+            desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed;
+            desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed;
+            desiredMove.y = desiredMove.y * movementSettings.CurrentTargetSpeed;
             if (m_RigidBody.velocity.sqrMagnitude <
-                (movementSettings.CurrentTargetSpeed*movementSettings.CurrentTargetSpeed))
+                (movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed))
             {
-                m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
+                m_RigidBody.AddForce(desiredMove * SlopeMultiplier(), ForceMode.Impulse);
             }
         }
 
@@ -218,7 +216,7 @@ public class FPSMouseLookController : MonoBehaviour
     {
         RaycastHit hitInfo;
         if (Physics.SphereCast(transform.position, m_Capsule.radius * (1.0f - advancedSettings.shellOffset), Vector3.down, out hitInfo,
-                                ((m_Capsule.height/2f) - m_Capsule.radius) +
+                                ((m_Capsule.height / 2f) - m_Capsule.radius) +
                                 advancedSettings.stickToGroundHelperDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
             if (Mathf.Abs(Vector3.Angle(hitInfo.normal, Vector3.up)) < 85f)
@@ -231,13 +229,13 @@ public class FPSMouseLookController : MonoBehaviour
 
     private Vector2 GetInput()
     {
-            
+
         Vector2 input = new Vector2
-            {
-                x = CrossPlatformInputManager.GetAxis("Horizontal"),
-                y = CrossPlatformInputManager.GetAxis("Vertical")
-            };
-		movementSettings.UpdateDesiredTargetSpeed(input);
+        {
+            x = CrossPlatformInputManager.GetAxis("Horizontal"),
+            y = CrossPlatformInputManager.GetAxis("Vertical")
+        };
+        movementSettings.UpdateDesiredTargetSpeed(input);
         return input;
     }
 
@@ -250,13 +248,13 @@ public class FPSMouseLookController : MonoBehaviour
         // get the rotation before it's changed
         float oldYRotation = transform.eulerAngles.y;
 
-        mouseLook.LookRotation (transform, cam.transform);
+        mouseLook.LookRotation(transform, cam.transform);
 
         if (m_IsGrounded || advancedSettings.airControl)
         {
             // Rotate the rigidbody velocity to match the new direction that the character is looking
             Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);
-            m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
+            m_RigidBody.velocity = velRotation * m_RigidBody.velocity;
         }
     }
 
@@ -266,7 +264,7 @@ public class FPSMouseLookController : MonoBehaviour
         m_PreviouslyGrounded = m_IsGrounded;
         RaycastHit hitInfo;
         if (Physics.SphereCast(transform.position, m_Capsule.radius * (1.0f - advancedSettings.shellOffset), Vector3.down, out hitInfo,
-                                ((m_Capsule.height/2f) - m_Capsule.radius) + advancedSettings.groundCheckDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                                ((m_Capsule.height / 2f) - m_Capsule.radius) + advancedSettings.groundCheckDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
             m_IsGrounded = true;
             m_GroundContactNormal = hitInfo.normal;
@@ -285,5 +283,31 @@ public class FPSMouseLookController : MonoBehaviour
     private void OnDestroy()
     {
         mouseLook.SetCursorLock(false);
+    }
+
+    private void AddVolumetricLightRendererToCamera(Camera myCam)
+    {
+        myCam.gameObject.AddComponent<VolumetricLightRenderer>();
+
+        Texture spotCookieTexture = null;
+
+        foreach (Texture texture in Resources.FindObjectsOfTypeAll(typeof(Texture)))
+        {
+            bool foundSuccess = false;
+            if (texture.name == "spot")
+            {
+                spotCookieTexture = texture;
+                foundSuccess = true;
+            }
+
+            if (foundSuccess)
+                break;
+
+        }
+
+        myCam.GetComponent<VolumetricLightRenderer>().DefaultSpotCookie = spotCookieTexture;
+
+        if (spotCookieTexture == null)
+            Debug.Log("spotCookieTexture not found");
     }
 }

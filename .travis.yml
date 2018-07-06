@@ -11,7 +11,7 @@ deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
-  bucket: test-davila
+  bucket: games-by-moonlight
   local_dir: Nosferatu
   skip_cleanup: true
   on:

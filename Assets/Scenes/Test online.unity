@@ -226,8 +226,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114658934465534116, guid: a2cb09cf998faef4fb7887e15c3608c1, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a2cb09cf998faef4fb7887e15c3608c1, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &569798040
@@ -805,57 +804,6 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1750447134 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100016, guid: a2cb09cf998faef4fb7887e15c3608c1, type: 2}
-  m_PrefabInternal: {fileID: 511805629}
---- !u!114 &1750447135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1750447134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15ddceecd3d864fd2b75044d0d6a698d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 3
-  RotationSpeed: 5
-  Range: 10
-  Stop: 5
---- !u!114 &1750447136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1750447134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 162
-    i1: 203
-    i2: 9
-    i3: 207
-    i4: 153
-    i5: 143
-    i6: 174
-    i7: 244
-    i8: 251
-    i9: 120
-    i10: 135
-    i11: 225
-    i12: 92
-    i13: 54
-    i14: 8
-    i15: 193
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!1 &1897913955
 GameObject:
   m_ObjectHideFlags: 0

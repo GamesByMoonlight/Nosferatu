@@ -5,8 +5,15 @@ using UnityEngine.Networking;
 
 
 public class MonsterMovement : NetworkBehaviour {
+    private enum AnimationTypes : byte
+    {
+        dance,
+        run,
+        attack,
+        waitingforbattle,
+    }
 
-	private GameObject[] players;
+    private GameObject[] players;
 	public int MoveSpeed = 3;
 	public int RotationSpeed = 5;
 
@@ -19,24 +26,43 @@ public class MonsterMovement : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.animation  = this.GetComponent<Animation>();
-		this.SetCurrentAnimation("dance");
+        if(hasAuthority)
+		    this.SetCurrentAnimation(AnimationTypes.dance);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (!hasAuthority)
+            return;
+
 		ChasePlayers();
 	}
 
-	private void SetCurrentAnimation(string animationName) {
-		if (!this.animation.IsPlaying(animationName)) {
-			this.animation.Play(animationName, PlayMode.StopSameLayer);
-		}
+	private void SetCurrentAnimation(AnimationTypes animationName) {
+        RpcSetCurrentAnimation(animationName);
 	}
 
+    
+
+    [ClientRpc]
+    private void RpcSetCurrentAnimation(AnimationTypes animationName)
+    {
+        if(this.animation == null)
+            this.animation = this.GetComponent<Animation>();
+
+        if (!this.animation.IsPlaying(animationName.ToString()))
+        {
+            this.animation.Play(animationName.ToString(), PlayMode.StopSameLayer);
+        }
+    }
+
 	void ChasePlayers() {
+        if (!hasAuthority)
+            return;
+
 		this.players = GameObject.FindGameObjectsWithTag("Player");
 		if (this.players.Length == 0) {
-			this.SetCurrentAnimation("dance");
+			this.SetCurrentAnimation(AnimationTypes.dance);
 			return;
 		}
 		
@@ -60,7 +86,7 @@ public class MonsterMovement : NetworkBehaviour {
 		}
 
 		//player is too far away, just wait 
-		this.SetCurrentAnimation("waitingforbattle");
+		this.SetCurrentAnimation(AnimationTypes.waitingforbattle);
 
 	}
 
@@ -108,13 +134,13 @@ public class MonsterMovement : NetworkBehaviour {
 	}
 
 	private void RunTowardsPlayer(GameObject player) {
-		this.SetCurrentAnimation("run");
+		this.SetCurrentAnimation(AnimationTypes.run);
 		// this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
 		this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
 	}
 
 	private void AttackPlayer(GameObject player) {
-		this.SetCurrentAnimation("attack");
+		this.SetCurrentAnimation(AnimationTypes.attack);
 		if (!this.isServer) {
 			return;
 		}

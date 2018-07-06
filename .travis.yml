@@ -12,6 +12,7 @@ deploy:
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
   bucket: games-by-moonlight
+  local_dir: nosferatu
   skip_cleanup: true
   on:
     branch: tool/9

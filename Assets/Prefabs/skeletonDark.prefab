@@ -170,7 +170,8 @@ GameObject:
   m_Component:
   - component: {fileID: 400016}
   - component: {fileID: 11100006}
-  - component: {fileID: 114658934465534116}
+  - component: {fileID: 114653299798087124}
+  - component: {fileID: 114813404389131738}
   m_Layer: 0
   m_Name: skeletonDark
   m_TagString: Untagged
@@ -2256,7 +2257,7 @@ Prefab:
 --- !u!1002 &100100001
 EditorExtensionImpl:
   serializedVersion: 6
---- !u!114 &114658934465534116
+--- !u!114 &114653299798087124
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2268,6 +2269,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 3
-  RotationSpeed: 3
+  RotationSpeed: 5
   Range: 10
   Stop: 1
+--- !u!114 &114813404389131738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 162
+    i1: 203
+    i2: 9
+    i3: 207
+    i4: 153
+    i5: 143
+    i6: 174
+    i7: 244
+    i8: 251
+    i9: 120
+    i10: 135
+    i11: 225
+    i12: 92
+    i13: 54
+    i14: 8
+    i15: 193
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

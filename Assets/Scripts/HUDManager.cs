@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
@@ -14,6 +16,7 @@ public class HUDManager : MonoBehaviour
     public Text healthStatsTextField;
     public Image healthBarImage;
     public Image compass;
+    public Text gameOverTextField;
 
     public bool testingOffline;
 
@@ -31,6 +34,7 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.GameStateChanged.AddListener(GameOver);
         state = HUDState.gameStart;
         OpenHUD();
     }
@@ -138,6 +142,23 @@ public class HUDManager : MonoBehaviour
             state = HUDState.inGameMenu;
             menuManager.OpenMenu(this);
         }
+    }
+
+    private void GameOver()
+    {
+        switch (GameManager.Instance.CurrentState)
+        {
+            case GameState.AdventurersWin:
+                gameOverTextField.text = "Adventurers Win!";
+                break;
+            case GameState.VampireWinsByElimination:
+                gameOverTextField.text = "Vampire Win!";
+                break;
+            case GameState.VampireWinsByTime:
+                gameOverTextField.text = "Vampire Win!";
+                break;
+        }
+        animator.SetTrigger("gameOver");
     }
 
     #region EditorTestStuff

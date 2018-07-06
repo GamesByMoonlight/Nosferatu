@@ -4,34 +4,36 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Events;
 
-public enum GameState { Stopped, Running, VampireWinsByTime, VampireWinsByElimination, AdventurersWin }
+public enum GameState { ReadyToStart, Running, VampireWinsByTime, VampireWinsByElimination, AdventurersWin }
 
 public class GameManager : CustomMessagingEventSystem {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-    public GameState CurrentState = GameState.Stopped;
+    public GameState CurrentState = GameState.ReadyToStart;
     public float MatchTime = 10f * 60f; // 10min
     public float CurrentTime;
     public float SyncRate = .2f;    // Synce every (1 / SyncRate) seconds
-        
+    public GameObject[] ConnectedPlayers { get { return connectedPlayers.ToArray(); } }
+    public GameObject LocalPlayer { get { return localPlayer; } }
+
     private float TimeLastSyncSent;
     private bool running = false;
-    private List<GameObject> ConnectedPlayers;
+    private List<GameObject> connectedPlayers;
+    private GameObject localPlayer;
 
     private void Awake()
     {
         _instance = this;
+        connectedPlayers = new List<GameObject>();
     }
 
     private void Start()
     {
-        CurrentTime = MatchTime;
-        StartMatch();
+        ResetMatch();
 
         if(isServer)
         {
-            SynchronizeTime();
             EntityDiedEvent.AddListener(OnEntityDeath);
         }
     }
@@ -83,7 +85,7 @@ public class GameManager : CustomMessagingEventSystem {
         // Check if all good players dead
         bool somePlayersAlive = false;
         Attributes attr;
-        foreach (GameObject player in ConnectedPlayers)
+        foreach (GameObject player in connectedPlayers)
         {
             attr = player.GetComponent<NetworkPlayerConnection>().PlayerAttributes;
             if (attr.Team == Teams.good && attr.CurrentHealth > 0f)
@@ -127,15 +129,30 @@ public class GameManager : CustomMessagingEventSystem {
         GameStateChanged.Invoke();
     }
 
-    public void RegisterPlayer(GameObject player)
+    public void ResetMatch()
     {
-        if (ConnectedPlayers == null)
-            ConnectedPlayers = new List<GameObject>();
-        ConnectedPlayers.Add(player);
+        CurrentTime = MatchTime;
+        running = false;
+        CurrentState = GameState.ReadyToStart;
+        if (isServer)
+        {
+            SynchronizeTime();
+        }
+
+        GameStateChanged.Invoke();
+    }
+
+    public void RegisterPlayer(GameObject player, bool theLocalPlayer)
+    {
+        connectedPlayers.Add(player);
+        if(theLocalPlayer)
+        {
+            localPlayer = player;
+        }
     }
 
     public void UnregisterPlayer(GameObject player)
     {
-        ConnectedPlayers.Remove(player);
+        connectedPlayers.Remove(player);
     }
 }

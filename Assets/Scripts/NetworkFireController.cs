@@ -7,14 +7,37 @@ public class NetworkFireController : NetworkBehaviour {
     public string FireAxis = "Fire1";
     public GameObject BulletPrefab;
     public Transform BulletSpawn;
+    public int BulletPoolLength = 20;
     [SerializeField]
     public Attributes WeaponAttributes;
 
     private float cooldown;
+    private bool bulletPoolSpawned = false;
+    private BulletController[] BulletPool;
+    private int nextBulletIndex = 0;
 
     private void Awake()
     {
         cooldown = Time.time;
+    }
+
+    public void SpawnBulletPool()
+    {
+        if (!isServer)
+            Debug.LogError("Bullet Pool must be initiated on server only");
+        if (bulletPoolSpawned)
+            Debug.LogWarning("Bullet pool has already been spawned on server");
+
+        BulletPool = new BulletController[BulletPoolLength];
+        for(int i = 0; i < BulletPoolLength; ++i)
+        {
+            var bullet = Instantiate(BulletPrefab).GetComponent<BulletController>();
+            bullet.playerNetID = netId;
+            NetworkServer.Spawn(bullet.gameObject);
+            BulletPool[i] = bullet;
+        }
+
+        bulletPoolSpawned = true;
     }
 
     // Update is called once per frame
@@ -26,24 +49,22 @@ public class NetworkFireController : NetworkBehaviour {
         if(PlayerFire()) 
         {
             cooldown = Time.time;
-            CmdFire(BulletSpawn.position, BulletSpawn.rotation);
+            CmdFire(BulletSpawn.position, BulletSpawn.forward * WeaponAttributes.ProjectileSpeed);
         }
 	}
 
     bool PlayerFire()
     {
         return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate;
-        //return Input.GetButtonDown(FireAxis) && Time.time - cooldown > WeaponAttributes.FireRate
     }
 
     [Command]
-    void CmdFire(Vector3 position, Quaternion direction)
+    void CmdFire(Vector3 position, Vector3 velocity)
     {
-        var bullet = Instantiate(BulletPrefab, position, direction);
-        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * WeaponAttributes.ProjectileSpeed;
-        bullet.GetComponent<BulletController>().Attack = WeaponAttributes.Attack;
-        bullet.GetComponent<BulletController>().Speed = WeaponAttributes.ProjectileSpeed;
-        NetworkServer.Spawn(bullet);
-        Destroy(bullet, WeaponAttributes.ProjectileRange);
+        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity);
+        if(nextBulletIndex >= 100000)
+        {
+            nextBulletIndex = 0;
+        }
     }
 }

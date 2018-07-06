@@ -16,7 +16,7 @@ public class GameStateHelperScript : MonoBehaviour {
 	void Update () {
 		switch(GameManager.Instance.CurrentState)
         {
-            case GameState.Stopped:
+            case GameState.ReadyToStart:
                 GameStateText.text = message + "Stopped";
                 break;
             case GameState.Running:

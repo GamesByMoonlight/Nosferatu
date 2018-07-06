@@ -6,10 +6,12 @@ using UnityEngine.Networking;
 public class CoffinController : NetworkBehaviour {
 
     public AttributesObject CoffinAttributes;
+    private Attributes attributes = new Attributes();
 
     private void Start()
     {
-        GetComponent<NetworkHealthController>().ForGameObject = CoffinAttributes.attributes;
+        CoffinAttributes.Initialize(attributes);
+        GetComponent<NetworkHealthController>().ForGameObject = attributes;
     }
 
 }

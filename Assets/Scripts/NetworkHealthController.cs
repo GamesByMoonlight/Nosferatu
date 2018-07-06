@@ -13,12 +13,18 @@ public class NetworkHealthController : NetworkBehaviour {
     public RectTransform HealthBar;
     public CanvasGroup cg;
 
+    //private HUDManager hudManager;
+
+
     [SyncVar(hook = "OnChangeHealth")]
     private float CurrentHealth = 100f;
 
     public override void OnStartLocalPlayer()
     {
         cg.alpha = 0f;
+
+        //if(GetComponent<NetworkPlayerConnection>()) //This is a player object, so it has a HUD.
+        //    hudManager = FindObjectOfType<HUDManager>();
     }
 
     public void TakeDamage(float amount)
@@ -38,6 +44,9 @@ public class NetworkHealthController : NetworkBehaviour {
 
     void OnChangeHealth(float updatedHealth)
     {
+        if (attributes == null || ForGameObject == null)
+            return;
+
         if (HealthBar != null)
         {
             var health = (updatedHealth / attributes.MaxHealth) * 100f;

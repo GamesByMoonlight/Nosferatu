@@ -46,21 +46,21 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     private void OnReceiveMovementMessage(NetworkMessage _message)
     {
-        SyncMovementMessage _msg = _message.ReadMessage<SyncMovementMessage>();
+        SyncTransformMessage _msg = _message.ReadMessage<SyncTransformMessage>();
 
         if (_msg.forObjectID != netId)
         {
-            Manager.Instance.ConnectedObjects[_msg.forObjectID].GetComponent<NetworkSyncMessenger>().ReceiveMovementMessage(_msg.objectPosition, _msg.objectRotation, _msg.time);
+            Manager.Instance.ConnectedObjects[_msg.forObjectID].GetComponent<NetworkSyncMessenger>().ReceiveMovementMessage(_msg.positionX, _msg.positionY, _msg.positionZ, _msg.eulerY, _msg.time);
         }
     }
 
-    public void ReceiveMovementMessage(Vector3 position, Quaternion rotation, float lerpTime)
+    public void ReceiveMovementMessage(int posX, int posY, ushort posZ, ushort rotation, ushort lerpTime)
     {
         lastRealPosition = realPosition;
         lastRealRotation = realRotation;
-        realPosition = position;
-        realRotation = rotation;
-        timeToLerp = lerpTime;
+        realPosition = new Vector3(IntToFloat(posX), IntToFloat(posY), HalfToFloat(posZ));
+        realRotation = Quaternion.Euler(0f, HalfToFloat(rotation), 0f);
+        timeToLerp = HalfToFloat(lerpTime);
 
         isLerpingPosition = realPosition != transform.position;
         isLerpingRotation = realRotation.eulerAngles != transform.rotation.eulerAngles;
@@ -71,15 +71,15 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
     // Update is called once per frame
     void Update () {
 
-        if (!isLocalPlayer)
+        if (!hasAuthority)
             return;
-
+        
         UpdatePlayerMovement();
 	}
 
     void FixedUpdate()
     {
-        if (!isLocalPlayer)
+        if (!hasAuthority)
         {
             NetworkLerp();
         }
@@ -126,12 +126,14 @@ public class NetworkSyncMessenger : NetworkMessageHandler {
 
     public void SendMovementMessage(NetworkInstanceId _playerID, Vector3 _position, Quaternion _rotation, float _timeTolerp)
     {
-        SyncMovementMessage _msg = new SyncMovementMessage()
+        SyncTransformMessage _msg = new SyncTransformMessage()
         {
-            objectPosition = _position,
-            objectRotation = _rotation,
+            positionX = FloatToInt(_position.x),
+            positionY = FloatToInt(_position.y),
+            positionZ = FloatToHalf(_position.z),
+            eulerY = FloatToHalf(_rotation.eulerAngles.y),
             forObjectID = _playerID,
-            time = _timeTolerp
+            time = FloatToHalf(_timeTolerp)
         };
 
         NetworkManager.singleton.client.Send(movement_msg, _msg);

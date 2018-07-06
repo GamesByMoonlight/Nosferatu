@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
-public class MonsterMovement : MonoBehaviour {
+public class MonsterMovement : NetworkBehaviour {
 
 	private GameObject[] players;
 	public int MoveSpeed = 3;
@@ -39,17 +40,17 @@ public class MonsterMovement : MonoBehaviour {
 			return;
 		}
 		
-		var player = FindClosestPlayer();
+		var player = FindClosestPlayer(); 
 
-		var distance = GetPlayerDistance(player);
+		var distance = GetPlayerDistance( GetPlayerAvatar( player) );
 
 		if (distance<= this.Range) {
 
-			FacePlayer(player);
+			FacePlayer( GetPlayerAvatar(player));
 
 			//move towards player.  might need to use something else
 			if (distance > Stop) {
-				RunTowardsPlayer(player);
+				RunTowardsPlayer( GetPlayerAvatar( player));
 			}
 			else {
 				AttackPlayer(player);
@@ -86,8 +87,12 @@ public class MonsterMovement : MonoBehaviour {
 		}
 
 		//grab the playerAVatar from the clostest tagged network object
-		var closestPlayer = this.players[lastPlayerIndex].GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
+		var closestPlayer = this.players[lastPlayerIndex];//.GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
 		return closestPlayer;
+	}
+
+	private GameObject GetPlayerAvatar(GameObject rootPlayerObject) {
+		return rootPlayerObject.GetComponent<NetworkPlayerConnection>().PlayerAvatar;
 	}
 
 	private float GetPlayerDistance(GameObject player) {
@@ -110,6 +115,14 @@ public class MonsterMovement : MonoBehaviour {
 
 	private void AttackPlayer(GameObject player) {
 		this.SetCurrentAnimation("attack");
+		if (!this.isServer) {
+			return;
+		}
+
+		var playerHeath = player.GetComponent<NetworkHealthController>();
+		playerHeath.TakeDamage( 10.0f);
+
+
 
 	}
 }

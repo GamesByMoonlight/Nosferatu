@@ -1,13 +1,14 @@
 #! /bin/sh
 
 # ls -LR /Applications/Unity/
+echo  $(pwd)/../ 
 echo "Attempting to build for Windows"
 /Applications/Unity//Unity.app/Contents/MacOS/Unity \
   -silent-crashes \
   -batchmode \
   -nographics \
   -logFile $(pwd)/unity.log \
-  -projectPath $(pwd)/../ \
+  -projectPath $(pwd)/ \
   -executeMethod MyEditorScript.PerformBuild  \
   -quit
 
@@ -17,7 +18,7 @@ echo "Attempting to build for Windows"
   -batchmode \
   -nographics \
   -logFile $(pwd)/unity.log \
-  -projectPath $(pwd)/../ \
+  -projectPath $(pwd)/ \
   -executeMethod MyEditorScript.PerformOSXBuild  \
   -quit
 

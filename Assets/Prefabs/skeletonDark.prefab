@@ -170,8 +170,9 @@ GameObject:
   m_Component:
   - component: {fileID: 400016}
   - component: {fileID: 11100006}
-  - component: {fileID: 114653299798087124}
-  - component: {fileID: 114813404389131738}
+  - component: {fileID: 114963230858931740}
+  - component: {fileID: 114375169886585138}
+  - component: {fileID: 114901067966054650}
   m_Layer: 0
   m_Name: skeletonDark
   m_TagString: Untagged
@@ -2257,22 +2258,7 @@ Prefab:
 --- !u!1002 &100100001
 EditorExtensionImpl:
   serializedVersion: 6
---- !u!114 &114653299798087124
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15ddceecd3d864fd2b75044d0d6a698d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 3
-  RotationSpeed: 5
-  Range: 10
-  Stop: 1
---- !u!114 &114813404389131738
+--- !u!114 &114375169886585138
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2304,3 +2290,31 @@ MonoBehaviour:
     i15: 193
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114901067966054650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81349a4f2699448691da471ad9e349e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncTransform: {fileID: 400016}
+  networkSendRate: 5
+--- !u!114 &114963230858931740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ddceecd3d864fd2b75044d0d6a698d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 3
+  RotationSpeed: 5
+  Range: 10
+  Stop: 1

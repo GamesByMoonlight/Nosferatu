@@ -6,9 +6,9 @@ public class MyEditorScript
 {
 
 	 static string[] scenes = { "Assets/Scenes/Lobby (offline).unity", 
-		"Assets/Scenes/LobbyNetwork",
-		"Assets/Scenes/Online",
-		"Assets/Scenes/Maze (online)"  };
+		"Assets/Scenes/LobbyNetwork.unity",
+		"Assets/Scenes/Online.unity",
+		"Assets/Scenes/Maze (online).unity"  };
 
 	public static void PerformBuild ()
 	{

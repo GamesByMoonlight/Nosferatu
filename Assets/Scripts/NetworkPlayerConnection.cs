@@ -30,7 +30,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
     void Start () {
         GameManager.Instance.RegisterPlayer(gameObject, isLocalPlayer);
         InitAvatar();
-	}
+    }
 
     private void OnDisconnectedFromServer(NetworkDisconnection info)
     {

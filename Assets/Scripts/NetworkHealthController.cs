@@ -44,17 +44,14 @@ public class NetworkHealthController : NetworkBehaviour {
 
     void OnChangeHealth(float updatedHealth)
     {
+        if (attributes == null || ForGameObject == null)
+            return;
+
         if (HealthBar != null)
         {
             var health = (updatedHealth / attributes.MaxHealth) * 100f;
             HealthBar.sizeDelta = new Vector2(health, HealthBar.sizeDelta.y);
         }
-
-        
-        //if (hudManager != null)
-        //{
-        //    int health = Mathf.RoundToInt((updatedHealth / attributes.MaxHealth) * 100);
-        //}
             
         ForGameObject.CurrentHealth = updatedHealth;
     }

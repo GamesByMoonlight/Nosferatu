@@ -17,7 +17,7 @@ public class HUDManager : MonoBehaviour
 
     public bool testingOffline;
 
-    private HUDState state;
+    //private HUDState state;
     private Animator animator;
     private GameObject localPlayer;
     private NetworkPlayerConnection localPlayerConnection;
@@ -29,7 +29,7 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
-        state = HUDState.gameStart;
+        //state = HUDState.gameStart;
         OpenHUD();
     }
 
@@ -87,6 +87,8 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
+            if (GameManager.Instance == null)
+                return;
             localPlayer = GameManager.Instance.LocalPlayer;
             if(localPlayer != null)
             {

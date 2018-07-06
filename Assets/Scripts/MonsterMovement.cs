@@ -13,8 +13,6 @@ public class MonsterMovement : MonoBehaviour {
 
 	public float Stop = 5f;
 
-
-
 	private Animation animation;
 
 	// Use this for initialization
@@ -41,7 +39,7 @@ public class MonsterMovement : MonoBehaviour {
 			return;
 		}
 		
-		var player = GetClosestPlayer();
+		var player = FindClosestPlayer();
 
 		var distance = GetPlayerDistance(player);
 
@@ -65,9 +63,31 @@ public class MonsterMovement : MonoBehaviour {
 
 	}
 
-	private GameObject GetClosestPlayer() {
-		var player = this.players[0].GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
-		return player;
+	private GameObject FindClosestPlayer() {
+		//may need to only run this every few seconds for performance reasons
+		//TODO: check game delta time
+
+		//loop thru players and find the nearest one
+		var lastPlayerIndex = -1;
+		var lastDistance = 10000000.0f;
+
+		for (var i = 0;i<this.players.Length;i++) {
+			var possibleTarget = this.players[i];
+			var distance = Vector3.Distance(this.transform.position, possibleTarget.transform.position);
+			if (distance < lastDistance) {
+				lastDistance = distance;
+				lastPlayerIndex = i;
+			}
+		}
+
+		//all the players are gone?
+		if (lastPlayerIndex == -1) {
+			return null;
+		}
+
+		//grab the playerAVatar from the clostest tagged network object
+		var closestPlayer = this.players[lastPlayerIndex].GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
+		return closestPlayer;
 	}
 
 	private float GetPlayerDistance(GameObject player) {
@@ -86,7 +106,6 @@ public class MonsterMovement : MonoBehaviour {
 		this.SetCurrentAnimation("run");
 		// this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
 		this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
-
 	}
 
 	private void AttackPlayer(GameObject player) {

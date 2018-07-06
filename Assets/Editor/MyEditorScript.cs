@@ -4,9 +4,14 @@ using UnityEditor;
 
 public class MyEditorScript
 {
+
+	 static string[] scenes = { "Assets/Scenes/Lobby (offline).unity", 
+		"Assets/Scenes/LobbyNetwork",
+		"Assets/Scenes/Online",
+		"Assets/Scenes/Maze (online)"  };
+
 	public static void PerformBuild ()
 	{
-        string[] scenes = { "Assets/_Scenes/Lobby (offline).unity" };
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = scenes;
 		buildPlayerOptions.locationPathName = "Build/windows/Windows.exe";
@@ -17,7 +22,6 @@ public class MyEditorScript
 
 	public static void PerformOSXBuild ()
 	{
-        string[] scenes = { "Assets/_Scenes/Lobby (offline).unity" };
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = scenes;
 		buildPlayerOptions.locationPathName = "Build/osx/OSX.app";

@@ -19,25 +19,20 @@ public class MonsterMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		this.animation  = this.GetComponent<Animation>();
+		this.SetCurrentAnimation("dance");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		this.animation  = this.GetComponent<Animation>();
-		this.SetCurrentAnimation("dance");
-
 		ChasePlayers();
-
 	}
 
-	private string currentAnimation;
 
 	private void SetCurrentAnimation(string animationName) {
-
 		if (!this.animation.IsPlaying(animationName)) {
-			this.animation.Play(animationName);
+			this.animation.Play(animationName, PlayMode.StopSameLayer);
 		}
-		this.currentAnimation = animationName;
 	}
 
 	void ChasePlayers() {
@@ -47,7 +42,7 @@ public class MonsterMovement : MonoBehaviour {
 		}
 		
 
-		var player = this.players[0]; //TODO: find nearest player
+		var player = this.players[0].GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
 
 		var distance = Vector3.Distance(this.transform.position, player.transform.position);
 
@@ -61,14 +56,19 @@ public class MonsterMovement : MonoBehaviour {
 			if (distance > Stop) {
 				this.SetCurrentAnimation("run");
 
-				this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
-				// this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
+				// this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
+				this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
 			}
 			else {
 				this.SetCurrentAnimation("attack");
 				
 
 			}
+
+			return;
 		}
+
+		this.SetCurrentAnimation("waitingforbattle");
+
 	}
 }

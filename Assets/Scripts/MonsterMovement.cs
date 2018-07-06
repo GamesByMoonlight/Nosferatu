@@ -28,7 +28,6 @@ public class MonsterMovement : MonoBehaviour {
 		ChasePlayers();
 	}
 
-
 	private void SetCurrentAnimation(string animationName) {
 		if (!this.animation.IsPlaying(animationName)) {
 			this.animation.Play(animationName, PlayMode.StopSameLayer);
@@ -38,37 +37,60 @@ public class MonsterMovement : MonoBehaviour {
 	void ChasePlayers() {
 		this.players = GameObject.FindGameObjectsWithTag("Player");
 		if (this.players.Length == 0) {
+			this.SetCurrentAnimation("dance");
 			return;
 		}
 		
+		var player = GetClosestPlayer();
 
-		var player = this.players[0].GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
-
-		var distance = Vector3.Distance(this.transform.position, player.transform.position);
+		var distance = GetPlayerDistance(player);
 
 		if (distance<= this.Range) {
 
-			//rotate towards player
-			var rotation = Quaternion.LookRotation(player.transform.position - this.transform.position);
-			this.transform.rotation = Quaternion.Slerp(this.transform.rotation, rotation, RotationSpeed*Time.deltaTime);			
+			FacePlayer(player);
 
 			//move towards player.  might need to use something else
 			if (distance > Stop) {
-				this.SetCurrentAnimation("run");
-
-				// this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
-				this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
+				RunTowardsPlayer(player);
 			}
 			else {
-				this.SetCurrentAnimation("attack");
-				
-
+				AttackPlayer(player);
 			}
 
 			return;
 		}
 
+		//player is too far away, just wait 
 		this.SetCurrentAnimation("waitingforbattle");
+
+	}
+
+	private GameObject GetClosestPlayer() {
+		var player = this.players[0].GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
+		return player;
+	}
+
+	private float GetPlayerDistance(GameObject player) {
+		var distance = Vector3.Distance(this.transform.position, player.transform.position);
+		return distance;
+	}
+
+	private void FacePlayer(GameObject player) {
+		//rotate towards player
+		var rotation = Quaternion.LookRotation(player.transform.position - this.transform.position);
+		this.transform.rotation = Quaternion.Slerp(this.transform.rotation, rotation, RotationSpeed*Time.deltaTime);			
+
+	}
+
+	private void RunTowardsPlayer(GameObject player) {
+		this.SetCurrentAnimation("run");
+		// this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
+		this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
+
+	}
+
+	private void AttackPlayer(GameObject player) {
+		this.SetCurrentAnimation("attack");
 
 	}
 }

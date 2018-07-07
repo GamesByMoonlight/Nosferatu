@@ -75,51 +75,58 @@ public class NetworkFireController : NetworkBehaviour {
         if(playerFired) 
         {
             cooldown = Time.time;
-            var position = BulletSpawn.position;
-            var velocity = BulletSpawn.forward * WeaponAttributes.ProjectileSpeed;
-
-            Fire(position, velocity);
-            CmdFire(position, velocity);
+            FireOnNetwork(BulletSpawn.position, BulletSpawn.forward);
         }
 	}
 
-    void Fire(Vector3 position, Vector3 velocity)
+    void FireOnNetwork(Vector3 position, Vector3 direction)
+    {
+        ////position = GetComponent<NetworkSyncMessenger>().SyncTransform.position - position;
+        //Debug.Log("****************************");
+        //var nVector = new Vector3(Mathf.HalfToFloat(Mathf.FloatToHalf(direction.x)), Mathf.HalfToFloat(Mathf.FloatToHalf(direction.y)), Mathf.HalfToFloat(Mathf.FloatToHalf(direction.z)));
+        //// Debug.Log("Original: " + position.ToString("F4") + " | Net: " + nVector.ToString("F4"));
+        //Debug.Log((direction - nVector).ToString("F4"));
+
+        var x = Mathf.FloatToHalf(position.x);
+        var y = Mathf.FloatToHalf(position.y);
+        var z = Mathf.FloatToHalf(position.z);
+        var dirX = Mathf.FloatToHalf(direction.x);
+        var dirY = Mathf.FloatToHalf(direction.y);
+        var dirZ = Mathf.FloatToHalf(direction.z);
+
+        Fire(x, y, z, dirX, dirY, dirZ);
+        CmdFire(z, y, z, dirX, dirY, dirZ);
+    }
+
+    void Fire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
     {
         if (alreadyFired)
             return;
 
+        var position = new Vector3(Mathf.HalfToFloat(x), Mathf.HalfToFloat(y), Mathf.HalfToFloat(z));
+        var direction = new Vector3(Mathf.HalfToFloat(dirX), Mathf.HalfToFloat(dirY), Mathf.HalfToFloat(dirZ));
+
         lastIndexFired = nextBulletIndex;
-        BulletPool[nextBulletIndex % BulletPool.Length].Fired(position, velocity);
+        BulletPool[nextBulletIndex % BulletPool.Length].Fired(position, direction * WeaponAttributes.ProjectileSpeed);
     }
 
     [Command]
-    void CmdFire(Vector3 position, Vector3 velocity)
+    void CmdFire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
     {
-        //BulletPool[nextBulletIndex++ % BulletPool.Length].Fired(position, velocity);    // Set server bullets to fire immediately 
-        Fire(position, velocity);
-        RpcFire(position, velocity);    // Then update clients
+        Fire(x, y, z, dirX, dirY, dirZ);
+        RpcFire(z, y, z, dirX, dirY, dirZ);    // Then update clients
     }
 
     [ClientRpc]
-    void RpcFire(Vector3 position, Vector3 velocity)
+    void RpcFire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
     {
-       // //position = GetComponent<NetworkSyncMessenger>().SyncTransform.position - position;
-       // Debug.Log("****************************");
-       // var nVector = new Vector3(Mathf.HalfToFloat(Mathf.FloatToHalf(position.x)), Mathf.HalfToFloat(Mathf.FloatToHalf(position.y)), Mathf.HalfToFloat(Mathf.FloatToHalf(position.z)));
-       //// Debug.Log("Original: " + position.ToString("F4") + " | Net: " + nVector.ToString("F4"));
-       // Debug.Log((position - nVector).ToString("F4"));
-
-
-
         if (alreadyFired)
         {
             ++nextBulletIndex;
             return;
         }
 
-        
-
-        Fire(position, velocity);
+        Fire(x, y, z, dirX, dirY, dirZ);
         ++nextBulletIndex;
     }
 }

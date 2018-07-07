@@ -16,12 +16,13 @@ public class MonsterMovement : NetworkBehaviour {
     private List<NetworkPlayerConnection> players = new List<NetworkPlayerConnection>(5);
 	public int MoveSpeed = 3;
 	public int RotationSpeed = 5;
-
 	public float Range = 10f;
-
 	public float Stop = 5f;
+    public float CheckForPlayerEvery = 1f;
 
-	private Animation _animation;
+    private float LastPlayerCheckTime = -100f; // Guarantee a check on first frame
+    private GameObject closestPlayer;
+    private Animation _animation;
 
 	// Use this for initialization
 	void Start () {
@@ -64,7 +65,7 @@ public class MonsterMovement : NetworkBehaviour {
 
 
     private void SetCurrentAnimation(AnimationTypes animationName) {
-        // Put this check on the server so we don't send network traffic every frame, from every skeleton, when players not in range
+        // Put this check on the server so we don't send network traffic every frame, from every skeleton 
         if (!this._animation.IsPlaying(animationName.ToString()))
             RpcSetCurrentAnimation(animationName);
 	}
@@ -119,8 +120,10 @@ public class MonsterMovement : NetworkBehaviour {
 	}
 
 	private GameObject FindClosestPlayerAvatar() {
-		//may need to only run this every few seconds for performance reasons
-		//TODO: check game delta time
+        //may need to only run this every few seconds for performance reasons
+        if (Time.time - LastPlayerCheckTime < CheckForPlayerEvery)
+            return closestPlayer;
+        LastPlayerCheckTime = Time.time;
 
 		//loop thru players and find the nearest one
 		var lastPlayerIndex = -1;
@@ -141,7 +144,7 @@ public class MonsterMovement : NetworkBehaviour {
 		}
 
 		//grab the player avatar from the clostest tagged network object
-		var closestPlayer = this.players[lastPlayerIndex].PlayerAvatar;
+		closestPlayer = this.players[lastPlayerIndex].PlayerAvatar;
 		return closestPlayer;
 	}
 

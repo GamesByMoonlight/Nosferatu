@@ -7,18 +7,31 @@ public class NetworkFireController : NetworkBehaviour {
     public string FireAxis = "Fire1";
     public GameObject BulletPrefab;
     public Transform BulletSpawn;
-    public int BulletPoolLength = 20;
+    [SerializeField]
+    private int BulletPoolLength = 20;
     [SerializeField]
     public Attributes WeaponAttributes;
+
+    private bool playerFired { get { return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate; } }
+    private bool alreadyFired { get { return lastIndexFired == nextBulletIndex; } }
 
     private float cooldown;
     private bool bulletPoolSpawned = false;
     private BulletController[] BulletPool;
     private int nextBulletIndex = 0;
+    private int lastIndexFired = -1;
 
     private void Awake()
     {
         cooldown = Time.time;
+    }
+
+    private void Start()
+    {
+        if (!isServer)
+        {
+            StartCoroutine(WaitForBulletsToSpawn(BulletPoolLength));
+        }
     }
 
     public void SpawnBulletPool()
@@ -40,31 +53,73 @@ public class NetworkFireController : NetworkBehaviour {
         bulletPoolSpawned = true;
     }
 
+    IEnumerator WaitForBulletsToSpawn(int length)
+    {
+        BulletController[] bullets = GetComponentsInChildren<BulletController>();
+
+        while (bullets.Length != length)
+        {
+            yield return new WaitForSeconds(.1f);
+            bullets = GetComponentsInChildren<BulletController>();
+        }
+
+        BulletPool = bullets;
+    }
+
     // Update is called once per frame
     void Update () {
         if (!isLocalPlayer)
             return;
 
 
-        if(PlayerFire()) 
+        if(playerFired) 
         {
             cooldown = Time.time;
-            CmdFire(BulletSpawn.position, BulletSpawn.forward * WeaponAttributes.ProjectileSpeed);
+            var position = BulletSpawn.position;
+            var velocity = BulletSpawn.forward * WeaponAttributes.ProjectileSpeed;
+
+            Fire(position, velocity);
+            CmdFire(position, velocity);
         }
 	}
 
-    bool PlayerFire()
+    void Fire(Vector3 position, Vector3 velocity)
     {
-        return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate;
+        if (alreadyFired)
+            return;
+
+        lastIndexFired = nextBulletIndex;
+        BulletPool[nextBulletIndex % BulletPool.Length].Fired(position, velocity);
     }
 
     [Command]
     void CmdFire(Vector3 position, Vector3 velocity)
     {
-        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity);
-        if(nextBulletIndex >= 100000)
+        //BulletPool[nextBulletIndex++ % BulletPool.Length].Fired(position, velocity);    // Set server bullets to fire immediately 
+        Fire(position, velocity);
+        RpcFire(position, velocity);    // Then update clients
+    }
+
+    [ClientRpc]
+    void RpcFire(Vector3 position, Vector3 velocity)
+    {
+       // //position = GetComponent<NetworkSyncMessenger>().SyncTransform.position - position;
+       // Debug.Log("****************************");
+       // var nVector = new Vector3(Mathf.HalfToFloat(Mathf.FloatToHalf(position.x)), Mathf.HalfToFloat(Mathf.FloatToHalf(position.y)), Mathf.HalfToFloat(Mathf.FloatToHalf(position.z)));
+       //// Debug.Log("Original: " + position.ToString("F4") + " | Net: " + nVector.ToString("F4"));
+       // Debug.Log((position - nVector).ToString("F4"));
+
+
+
+        if (alreadyFired)
         {
-            nextBulletIndex = 0;
+            ++nextBulletIndex;
+            return;
         }
+
+        
+
+        Fire(position, velocity);
+        ++nextBulletIndex;
     }
 }

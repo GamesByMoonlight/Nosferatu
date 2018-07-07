@@ -139,15 +139,35 @@ public class MonsterMovement : NetworkBehaviour {
 		this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
 	}
 
+
+	public float AttackCoolDownTime = 1.5f;
+	private float lastAttackTime = 0.0f;
+
 	private void AttackPlayer(GameObject player) {
-		this.SetCurrentAnimation(AnimationTypes.attack);
 		if (!this.isServer) {
 			return;
 		}
 
-		var playerHeath = player.GetComponent<NetworkHealthController>();
-		playerHeath.TakeDamage( 10.0f);
 
+		if (lastAttackTime <= AttackCoolDownTime) {
+			lastAttackTime += Time.deltaTime;
+			return;
+		}
+
+		lastAttackTime = 0.0f;
+
+		this.SetCurrentAnimation(AnimationTypes.attack);
+		StartCoroutine(DealDamage(player));
+	}
+
+	public float AttackDamage = 10.0f;
+	private IEnumerator DealDamage(GameObject player) {
+		yield return new  WaitForSeconds(0.5f);
+
+		var playerHeath = player.GetComponent<NetworkHealthController>();
+		playerHeath.TakeDamage( AttackDamage);
+
+		yield return null;
 
 
 	}

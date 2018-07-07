@@ -14,12 +14,18 @@ public class MonsterMovement : NetworkBehaviour {
     }
 
     private List<NetworkPlayerConnection> players = new List<NetworkPlayerConnection>(5);
-	public int MoveSpeed = 3;
-	public int RotationSpeed = 5;
-	public float Range = 10f;
-	public float Stop = 5f;
+    public AttributesObject MonsterAttributes;
+    private Attributes attributes = new Attributes();
+
+    public int MoveSpeed { get { return (int)attributes.ForwardSpeed; } } // = 3;
+	public int RotationSpeed { get { return (int)attributes.StrafeSpeed; } } // = 5;
+    public float DetectionRange { get { return attributes.ProjectileRange; } } // = 10f;
+    public float FightingRange { get { return attributes.ProjectileSpeed; } } // = 5f;
+    public float AttackDamage { get { return attributes.Attack; } } // = 10.0f;
+    public float AttackCoolDownTime { get { return attributes.FireRate; } } // = 1.5f;
     public float CheckForPlayerEvery = 1f;
 
+    private float lastAttackTime = 0.0f;
     private float LastPlayerCheckTime = -100f; // Guarantee a check on first frame
     private GameObject closestPlayer;
     private Animation _animation;
@@ -29,6 +35,7 @@ public class MonsterMovement : NetworkBehaviour {
 		this._animation  = this.GetComponent<Animation>();
         if(hasAuthority)
 		    this.SetCurrentAnimation(AnimationTypes.dance);
+        MonsterAttributes.Initialize(attributes);
 	}
 	
 	// Update is called once per frame
@@ -98,12 +105,12 @@ public class MonsterMovement : NetworkBehaviour {
 
 		var distance = GetPlayerDistance(  player );
 
-		if (distance<= this.Range) {
+		if (distance<= this.DetectionRange) {
 
 			FacePlayer( player );
 
 			//move towards player.  might need to use something else
-			if (distance > Stop) {
+			if (distance > FightingRange) {
 				lastAttackTime = 100;
 				RunTowardsPlayer( player );
 			}
@@ -167,8 +174,7 @@ public class MonsterMovement : NetworkBehaviour {
 	}
 
 
-	public float AttackCoolDownTime = 1.5f;
-	private float lastAttackTime = 0.0f;
+	
 
 	private void AttackPlayer(GameObject player) {
 		if (!this.isServer) {
@@ -187,7 +193,7 @@ public class MonsterMovement : NetworkBehaviour {
 		StartCoroutine(DealDamage(player));
 	}
 
-	public float AttackDamage = 10.0f;
+	
 	private IEnumerator DealDamage(GameObject playerAvatar) {
 		yield return new  WaitForSeconds(0.5f);
 

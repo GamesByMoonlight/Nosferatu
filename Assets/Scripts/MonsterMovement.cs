@@ -15,7 +15,7 @@ public class MonsterMovement : MonoBehaviour {
 
 
 
-	private Animation animation;
+	private Animation _animation;
 
 	// Use this for initialization
 	void Start () {
@@ -23,21 +23,18 @@ public class MonsterMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.animation  = this.GetComponent<Animation>();
+		this._animation  = this.GetComponent<Animation>();
 		this.SetCurrentAnimation("dance");
 
 		ChasePlayers();
 
 	}
 
-	private string currentAnimation;
-
 	private void SetCurrentAnimation(string animationName) {
 
-		if (!this.animation.IsPlaying(animationName)) {
-			this.animation.Play(animationName);
+		if (!this._animation.IsPlaying(animationName)) {
+			this._animation.Play(animationName);
 		}
-		this.currentAnimation = animationName;
 	}
 
 	void ChasePlayers() {

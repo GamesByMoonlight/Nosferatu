@@ -13,13 +13,11 @@ public class NetworkFireController : NetworkBehaviour {
     public Attributes WeaponAttributes;
 
     private bool playerFired { get { return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate; } }
-    private bool alreadyFired { get { return lastIndexFired == nextBulletIndex; } }
 
     private float cooldown;
     private bool bulletPoolSpawned = false;
     private BulletController[] BulletPool;
     private int nextBulletIndex = 0;
-    private int lastIndexFired = -1;
 
     private void Awake()
     {
@@ -94,33 +92,22 @@ public class NetworkFireController : NetworkBehaviour {
 
     void Fire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
     {
-        if (alreadyFired)
-            return;
-
         var position = new Vector3(Mathf.HalfToFloat(x), Mathf.HalfToFloat(y), Mathf.HalfToFloat(z));
         var direction = new Vector3(Mathf.HalfToFloat(dirX), Mathf.HalfToFloat(dirY), Mathf.HalfToFloat(dirZ));
 
-        lastIndexFired = nextBulletIndex;
-        BulletPool[nextBulletIndex % BulletPool.Length].Fired(position, direction * WeaponAttributes.ProjectileSpeed);
+        BulletPool[nextBulletIndex++ % BulletPool.Length].Fired(position, direction * WeaponAttributes.ProjectileSpeed);
     }
 
     [Command]
     void CmdFire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
     {
-        Fire(x, y, z, dirX, dirY, dirZ);
-        RpcFire(x, y, z, dirX, dirY, dirZ);    // Then update clients
+        RpcFire(x, y, z, dirX, dirY, dirZ);
     }
 
     [ClientRpc]
     void RpcFire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
     {
-        if (alreadyFired)
-        {
-            ++nextBulletIndex;
-            return;
-        }
-
-        Fire(x, y, z, dirX, dirY, dirZ);
-        ++nextBulletIndex;
+        if (!isLocalPlayer)
+            Fire(x, y, z, dirX, dirY, dirZ);
     }
 }

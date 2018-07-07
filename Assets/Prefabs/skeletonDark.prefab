@@ -170,7 +170,9 @@ GameObject:
   m_Component:
   - component: {fileID: 400016}
   - component: {fileID: 11100006}
-  - component: {fileID: 114658934465534116}
+  - component: {fileID: 114963230858931740}
+  - component: {fileID: 114375169886585138}
+  - component: {fileID: 114901067966054650}
   m_Layer: 0
   m_Name: skeletonDark
   m_TagString: Untagged
@@ -1006,7 +1008,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100016}
   m_LocalRotation: {x: 0, y: -0.96521026, z: 0, w: 0.26147518}
-  m_LocalPosition: {x: -1.1863109, y: -2.39, z: 3.3419337}
+  m_LocalPosition: {x: -135.50645, y: -1.2069748e-16, z: 5.435731}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400090}
@@ -2256,7 +2258,52 @@ Prefab:
 --- !u!1002 &100100001
 EditorExtensionImpl:
   serializedVersion: 6
---- !u!114 &114658934465534116
+--- !u!114 &114375169886585138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 162
+    i1: 203
+    i2: 9
+    i3: 207
+    i4: 153
+    i5: 143
+    i6: 174
+    i7: 244
+    i8: 251
+    i9: 120
+    i10: 135
+    i11: 225
+    i12: 92
+    i13: 54
+    i14: 8
+    i15: 193
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114901067966054650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81349a4f2699448691da471ad9e349e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncTransform: {fileID: 400016}
+  networkSendRate: 5
+--- !u!114 &114963230858931740
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2268,6 +2315,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 3
-  RotationSpeed: 3
+  RotationSpeed: 5
   Range: 10
   Stop: 1
+  AttackCoolDownTime: 1.5
+  AttackDamage: 10

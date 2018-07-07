@@ -21,11 +21,11 @@ public class MonsterMovement : NetworkBehaviour {
 
 	public float Stop = 5f;
 
-	private Animation animation;
+	private Animation _animation;
 
 	// Use this for initialization
 	void Start () {
-		this.animation  = this.GetComponent<Animation>();
+		this._animation  = this.GetComponent<Animation>();
         if(hasAuthority)
 		    this.SetCurrentAnimation(AnimationTypes.dance);
 	}
@@ -47,12 +47,12 @@ public class MonsterMovement : NetworkBehaviour {
     [ClientRpc]
     private void RpcSetCurrentAnimation(AnimationTypes animationName)
     {
-        if(this.animation == null)
-            this.animation = this.GetComponent<Animation>();
+        if(this._animation == null)
+            this._animation = this.GetComponent<Animation>();
 
-        if (!this.animation.IsPlaying(animationName.ToString()))
+        if (!this._animation.IsPlaying(animationName.ToString()))
         {
-            this.animation.Play(animationName.ToString(), PlayMode.StopSameLayer);
+            this._animation.Play(animationName.ToString(), PlayMode.StopSameLayer);
         }
     }
 

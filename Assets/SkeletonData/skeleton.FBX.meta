@@ -40,8 +40,8 @@ ModelImporter:
     100068: R_Hand
     100070: R_Shin
     100072: R_Shoulder
-    100074: skeleton
-    100076: //RootNode
+    100074: //RootNode
+    100076: skeleton
     400000: Bip01
     400002: Bip01 HeadNub
     400004: Bip01 L Clavicle
@@ -124,7 +124,7 @@ ModelImporter:
       takeName: 
       firstFrame: 0
       lastFrame: 240
-      wrapMode: 2
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -152,7 +152,7 @@ ModelImporter:
       takeName: 
       firstFrame: 241
       lastFrame: 263
-      wrapMode: 2
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -180,7 +180,7 @@ ModelImporter:
       takeName: 
       firstFrame: 264
       lastFrame: 314
-      wrapMode: 2
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -208,7 +208,7 @@ ModelImporter:
       takeName: 
       firstFrame: 315
       lastFrame: 350
-      wrapMode: 1
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -236,7 +236,7 @@ ModelImporter:
       takeName: 
       firstFrame: 351
       lastFrame: 386
-      wrapMode: 1
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -264,7 +264,7 @@ ModelImporter:
       takeName: 
       firstFrame: 387
       lastFrame: 457
-      wrapMode: 1
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -292,7 +292,7 @@ ModelImporter:
       takeName: 
       firstFrame: 458
       lastFrame: 1275
-      wrapMode: 2
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0

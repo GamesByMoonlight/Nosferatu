@@ -76,6 +76,7 @@ public class MonsterMovement : NetworkBehaviour {
 
 			//move towards player.  might need to use something else
 			if (distance > Stop) {
+				lastAttackTime = 100;
 				RunTowardsPlayer( GetPlayerAvatar( player));
 			}
 			else {

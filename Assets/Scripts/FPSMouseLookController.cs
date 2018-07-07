@@ -136,7 +136,6 @@ public class FPSMouseLookController : MonoBehaviour
         //cam.transform.rotation = CameraPosition.rotation;
         //SpotLight.transform.SetParent(cam.transform);
 
-        AddVolumetricLightRendererToCamera(cam);
 
         m_RigidBody = GetComponent<Rigidbody>();
         m_Capsule = GetComponent<CapsuleCollider>();
@@ -285,29 +284,6 @@ public class FPSMouseLookController : MonoBehaviour
         mouseLook.SetCursorLock(false);
     }
 
-    private void AddVolumetricLightRendererToCamera(Camera myCam)
-    {
-        myCam.gameObject.AddComponent<VolumetricLightRenderer>();
 
-        Texture spotCookieTexture = null;
-
-        foreach (Texture texture in Resources.FindObjectsOfTypeAll(typeof(Texture)))
-        {
-            bool foundSuccess = false;
-            if (texture.name == "spot")
-            {
-                spotCookieTexture = texture;
-                foundSuccess = true;
-            }
-
-            if (foundSuccess)
-                break;
-
-        }
-
-        myCam.GetComponent<VolumetricLightRenderer>().DefaultSpotCookie = spotCookieTexture;
-
-        if (spotCookieTexture == null)
-            Debug.Log("spotCookieTexture not found");
-    }
+    
 }

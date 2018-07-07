@@ -13,21 +13,29 @@ public class MonsterMovement : NetworkBehaviour {
         waitingforbattle,
     }
 
-    private GameObject[] players;
-	public int MoveSpeed = 3;
-	public int RotationSpeed = 5;
+    private List<NetworkPlayerConnection> players = new List<NetworkPlayerConnection>(5);
+    public AttributesObject MonsterAttributes;
+    private Attributes attributes = new Attributes();
 
-	public float Range = 10f;
+    public int MoveSpeed { get { return (int)attributes.ForwardSpeed; } } // = 3;
+	public int RotationSpeed { get { return (int)attributes.StrafeSpeed; } } // = 5;
+    public float DetectionRange { get { return attributes.ProjectileRange; } } // = 10f;
+    public float FightingRange { get { return attributes.ProjectileSpeed; } } // = 5f;
+    public float AttackDamage { get { return attributes.Attack; } } // = 10.0f;
+    public float AttackCoolDownTime { get { return attributes.FireRate; } } // = 1.5f;
+    public float CheckForPlayerEvery = 1f;
 
-	public float Stop = 5f;
-
-	private Animation _animation;
+    private float lastAttackTime = 0.0f;
+    private float LastPlayerCheckTime = -100f; // Guarantee a check on first frame
+    private GameObject closestPlayer;
+    private Animation _animation;
 
 	// Use this for initialization
 	void Start () {
 		this._animation  = this.GetComponent<Animation>();
         if(hasAuthority)
 		    this.SetCurrentAnimation(AnimationTypes.dance);
+        MonsterAttributes.Initialize(attributes);
 	}
 	
 	// Update is called once per frame
@@ -38,8 +46,35 @@ public class MonsterMovement : NetworkBehaviour {
 		ChasePlayers();
 	}
 
-	private void SetCurrentAnimation(AnimationTypes animationName) {
-        RpcSetCurrentAnimation(animationName);
+
+    // ------- On Trigger Enter/Exit definitions ----------------------------------------------------------------
+    // Using Colliders, we can detect when a player is close enough.  This is far less expensive then using GameObject.FindGameObjectsWithTag every frame.
+    //
+    private void OnTriggerEnter(Collider other)
+    {
+        var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+        if(player != null && !players.Contains(player))
+        {
+            players.Add(player);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+        if (player != null && players.Contains(player))
+        {
+            players.Remove(player);
+        }
+    }
+    // ------------------------------------------------------------------------------------------------------------
+    // ----
+
+
+    private void SetCurrentAnimation(AnimationTypes animationName) {
+        // Put this check on the server so we don't send network traffic every frame, from every skeleton 
+        if (!this._animation.IsPlaying(animationName.ToString()))
+            RpcSetCurrentAnimation(animationName);
 	}
 
     
@@ -60,24 +95,24 @@ public class MonsterMovement : NetworkBehaviour {
         if (!hasAuthority)
             return;
 
-		this.players = GameObject.FindGameObjectsWithTag("Player");
-		if (this.players.Length == 0) {
+		//this.players = GameObject.FindGameObjectsWithTag("Player"); // Too expensive an operation to use every frame
+		if (this.players.Count == 0) {
 			this.SetCurrentAnimation(AnimationTypes.dance);
 			return;
 		}
 		
-		var player = FindClosestPlayer(); 
+		var player = FindClosestPlayerAvatar(); 
 
-		var distance = GetPlayerDistance( GetPlayerAvatar( player) );
+		var distance = GetPlayerDistance(  player );
 
-		if (distance<= this.Range) {
+		if (distance<= this.DetectionRange) {
 
-			FacePlayer( GetPlayerAvatar(player));
+			FacePlayer( player );
 
 			//move towards player.  might need to use something else
-			if (distance > Stop) {
+			if (distance > FightingRange) {
 				lastAttackTime = 100;
-				RunTowardsPlayer( GetPlayerAvatar( player));
+				RunTowardsPlayer( player );
 			}
 			else {
 				AttackPlayer(player);
@@ -91,17 +126,19 @@ public class MonsterMovement : NetworkBehaviour {
 
 	}
 
-	private GameObject FindClosestPlayer() {
-		//may need to only run this every few seconds for performance reasons
-		//TODO: check game delta time
+	private GameObject FindClosestPlayerAvatar() {
+        //may need to only run this every few seconds for performance reasons
+        if (Time.time - LastPlayerCheckTime < CheckForPlayerEvery)
+            return closestPlayer;
+        LastPlayerCheckTime = Time.time;
 
 		//loop thru players and find the nearest one
 		var lastPlayerIndex = -1;
 		var lastDistance = 10000000.0f;
 
-		for (var i = 0;i<this.players.Length;i++) {
+		for (var i = 0; i<this.players.Count; i++) {
 			var possibleTarget = this.players[i];
-			var distance = Vector3.Distance(this.transform.position, possibleTarget.transform.position);
+			var distance = Vector3.Distance(this.transform.position, possibleTarget.PlayerAvatar.transform.position);
 			if (distance < lastDistance) {
 				lastDistance = distance;
 				lastPlayerIndex = i;
@@ -113,13 +150,9 @@ public class MonsterMovement : NetworkBehaviour {
 			return null;
 		}
 
-		//grab the playerAVatar from the clostest tagged network object
-		var closestPlayer = this.players[lastPlayerIndex];//.GetComponent<NetworkPlayerConnection>().PlayerAvatar; //TODO: find nearest player
+		//grab the player avatar from the clostest tagged network object
+		closestPlayer = this.players[lastPlayerIndex].PlayerAvatar;
 		return closestPlayer;
-	}
-
-	private GameObject GetPlayerAvatar(GameObject rootPlayerObject) {
-		return rootPlayerObject.GetComponent<NetworkPlayerConnection>().PlayerAvatar;
 	}
 
 	private float GetPlayerDistance(GameObject player) {
@@ -141,8 +174,7 @@ public class MonsterMovement : NetworkBehaviour {
 	}
 
 
-	public float AttackCoolDownTime = 1.5f;
-	private float lastAttackTime = 0.0f;
+	
 
 	private void AttackPlayer(GameObject player) {
 		if (!this.isServer) {
@@ -161,12 +193,12 @@ public class MonsterMovement : NetworkBehaviour {
 		StartCoroutine(DealDamage(player));
 	}
 
-	public float AttackDamage = 10.0f;
-	private IEnumerator DealDamage(GameObject player) {
+	
+	private IEnumerator DealDamage(GameObject playerAvatar) {
 		yield return new  WaitForSeconds(0.5f);
 
-		var playerHeath = player.GetComponent<NetworkHealthController>();
-		playerHeath.TakeDamage( AttackDamage);
+		var playerHeath = playerAvatar.transform.parent.GetComponent<NetworkHealthController>();
+		playerHeath.TakeDamage(AttackDamage);
 
 		yield return null;
 

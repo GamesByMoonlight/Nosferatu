@@ -35,18 +35,26 @@ public class BulletController : NetworkBehaviour {
         bulletGameObject.gameObject.SetActive(active);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!isServer)
+        if (!isServer || collision.collider.isTrigger)
+        {
+            SetChildrenActive(false);
             return;
+        }
 
-        var health = other.gameObject.GetComponentsInParent<NetworkHealthController>();
-        if (health.Length > 0 && health[0].gameObject != transform.parent.gameObject)
+        var health = collision.gameObject.GetComponentsInParent<NetworkHealthController>();
+        if (health.Length > 0 && health[0].gameObject == transform.parent.gameObject)
+        {
+            return;
+        }
+        else if (health.Length > 0)
         {
             // an isServer check is made in TakeDamage() also
             health[0].TakeDamage(bulletAttributes.Attack);
-            RpcSetActive(false);
         }
+        
+        RpcSetActive(false);
     }
 
     [ClientRpc]

@@ -52,6 +52,10 @@ public class MonsterMovement : NetworkBehaviour {
     //
     private void OnTriggerEnter(Collider other)
     {
+		//check that we have a parent when we collide w/ something
+		if (other.gameObject.transform.parent == null) {
+			return;
+		}
         var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
         if(player != null && !players.Contains(player))
         {
@@ -61,6 +65,10 @@ public class MonsterMovement : NetworkBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
+		//check that we have a parent when we collide w/ something
+		if (other.gameObject.transform.parent == null) {
+			return;
+		}
         var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
         if (player != null && players.Contains(player))
         {

@@ -50,31 +50,33 @@ public class MonsterMovement : NetworkBehaviour {
     // ------- On Trigger Enter/Exit definitions ----------------------------------------------------------------
     // Using Colliders, we can detect when a player is close enough.  This is far less expensive then using GameObject.FindGameObjectsWithTag every frame.
     //
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider collider)
     {
-		//check that we have a parent when we collide w/ something
-		if (other.gameObject.transform.parent == null) {
-			return;
-		}
-        var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+		var player = TryToGetPlayerFromCollision(collider);
         if(player != null && !players.Contains(player))
         {
             players.Add(player);
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider collider)
     {
-		//check that we have a parent when we collide w/ something
-		if (other.gameObject.transform.parent == null) {
-			return;
-		}
-        var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+		var player = TryToGetPlayerFromCollision(collider);
         if (player != null && players.Contains(player))
         {
             players.Remove(player);
         }
     }
+
+
+	private NetworkPlayerConnection TryToGetPlayerFromCollision(Collider collider) {
+			//check that we have a parent when we collide w/ something
+		if (collider.gameObject.transform.parent == null) {
+			return null;
+		}
+        var player = collider.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+		return player;	
+	}
     // ------------------------------------------------------------------------------------------------------------
     // ----
 

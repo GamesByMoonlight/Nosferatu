@@ -17,12 +17,12 @@ public class MonsterMovement : NetworkBehaviour {
     public AttributesObject MonsterAttributes;
     private Attributes attributes = new Attributes();
 
-    public int MoveSpeed { get { return (int)attributes.ForwardSpeed; } } // = 3;
-	public int RotationSpeed { get { return (int)attributes.StrafeSpeed; } } // = 5;
-    public float DetectionRange { get { return attributes.ProjectileRange; } } // = 10f;
-    public float FightingRange { get { return attributes.ProjectileSpeed; } } // = 5f;
-    public float AttackDamage { get { return attributes.Attack; } } // = 10.0f;
-    public float AttackCoolDownTime { get { return attributes.FireRate; } } // = 1.5f;
+    public int ForwardSpeed { get { return (int)attributes.ForwardSpeed; } } // = 3;
+	public int StrafeSpeed { get { return (int)attributes.StrafeSpeed; } } // = 5;
+    public float DetectionRange { get { return attributes.DetectionRange; } } // = 10f;
+    public float FightingRange { get { return attributes.ProjectileRange; } } // = 5f;
+    public float Attack { get { return attributes.Attack; } } // = 10.0f;
+    public float FireRate { get { return attributes.FireRate; } } // = 1.5f;
     public float CheckForPlayerEvery = 1f;
 
     private float lastAttackTime = 0.0f;
@@ -50,23 +50,33 @@ public class MonsterMovement : NetworkBehaviour {
     // ------- On Trigger Enter/Exit definitions ----------------------------------------------------------------
     // Using Colliders, we can detect when a player is close enough.  This is far less expensive then using GameObject.FindGameObjectsWithTag every frame.
     //
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider collider)
     {
-        var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+		var player = TryToGetPlayerFromCollision(collider);
         if(player != null && !players.Contains(player))
         {
             players.Add(player);
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider collider)
     {
-        var player = other.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+		var player = TryToGetPlayerFromCollision(collider);
         if (player != null && players.Contains(player))
         {
             players.Remove(player);
         }
     }
+
+
+	private NetworkPlayerConnection TryToGetPlayerFromCollision(Collider collider) {
+			//check that we have a parent when we collide w/ something
+		if (collider.gameObject.transform.parent == null) {
+			return null;
+		}
+        var player = collider.gameObject.transform.parent.GetComponent<NetworkPlayerConnection>();
+		return player;	
+	}
     // ------------------------------------------------------------------------------------------------------------
     // ----
 
@@ -111,7 +121,7 @@ public class MonsterMovement : NetworkBehaviour {
 
 			//move towards player.  might need to use something else
 			if (distance > FightingRange) {
-				lastAttackTime = 100;
+				lastAttackTime = RESET_ATTACK_TIME;
 				RunTowardsPlayer( player );
 			}
 			else {
@@ -126,6 +136,10 @@ public class MonsterMovement : NetworkBehaviour {
 
 	}
 
+	private const int UNKNOWN_PLAYER_INDEX = -1;
+	private const float UNKOWN_PLAYER_DISTANCE = 10000000.0f;
+	private const int RESET_ATTACK_TIME = 100;
+
 	private GameObject FindClosestPlayerAvatar() {
         //may need to only run this every few seconds for performance reasons
         if (Time.time - LastPlayerCheckTime < CheckForPlayerEvery)
@@ -133,8 +147,8 @@ public class MonsterMovement : NetworkBehaviour {
         LastPlayerCheckTime = Time.time;
 
 		//loop thru players and find the nearest one
-		var lastPlayerIndex = -1;
-		var lastDistance = 10000000.0f;
+		var lastPlayerIndex = UNKNOWN_PLAYER_INDEX;
+		var lastDistance =UNKOWN_PLAYER_DISTANCE ;
 
 		for (var i = 0; i<this.players.Count; i++) {
 			var possibleTarget = this.players[i];
@@ -163,14 +177,14 @@ public class MonsterMovement : NetworkBehaviour {
 	private void FacePlayer(GameObject player) {
 		//rotate towards player
 		var rotation = Quaternion.LookRotation(player.transform.position - this.transform.position);
-		this.transform.rotation = Quaternion.Slerp(this.transform.rotation, rotation, RotationSpeed*Time.deltaTime);			
+		this.transform.rotation = Quaternion.Slerp(this.transform.rotation, rotation, StrafeSpeed*Time.deltaTime);			
 
 	}
 
 	private void RunTowardsPlayer(GameObject player) {
 		this.SetCurrentAnimation(AnimationTypes.run);
 		// this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
-		this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, MoveSpeed* Time.deltaTime);
+		this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, ForwardSpeed* Time.deltaTime);
 	}
 
 
@@ -182,7 +196,7 @@ public class MonsterMovement : NetworkBehaviour {
 		}
 
 
-		if (lastAttackTime <= AttackCoolDownTime) {
+		if (lastAttackTime <= FireRate) {
 			lastAttackTime += Time.deltaTime;
 			return;
 		}
@@ -198,7 +212,7 @@ public class MonsterMovement : NetworkBehaviour {
 		yield return new  WaitForSeconds(0.5f);
 
 		var playerHeath = playerAvatar.transform.parent.GetComponent<NetworkHealthController>();
-		playerHeath.TakeDamage(AttackDamage);
+		playerHeath.TakeDamage(Attack);
 
 		yield return null;
 

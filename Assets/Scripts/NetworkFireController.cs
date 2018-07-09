@@ -7,9 +7,12 @@ public class NetworkFireController : NetworkBehaviour {
     public string FireAxis = "Fire1";
     public GameObject BulletPrefab;
     public Transform BulletSpawn;
-    public int BulletPoolLength = 20;
+    [SerializeField]
+    private int BulletPoolLength = 20;
     [SerializeField]
     public Attributes WeaponAttributes;
+
+    private bool playerFired { get { return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate; } }
 
     private float cooldown;
     private bool bulletPoolSpawned = false;
@@ -19,6 +22,14 @@ public class NetworkFireController : NetworkBehaviour {
     private void Awake()
     {
         cooldown = Time.time;
+    }
+
+    private void Start()
+    {
+        if (!isServer)
+        {
+            StartCoroutine(WaitForBulletsToSpawn(BulletPoolLength));
+        }
     }
 
     public void SpawnBulletPool()
@@ -40,31 +51,63 @@ public class NetworkFireController : NetworkBehaviour {
         bulletPoolSpawned = true;
     }
 
+    IEnumerator WaitForBulletsToSpawn(int length)
+    {
+        BulletController[] bullets = GetComponentsInChildren<BulletController>();
+
+        while (bullets.Length != length)
+        {
+            yield return new WaitForSeconds(.1f);
+            bullets = GetComponentsInChildren<BulletController>();
+        }
+
+        BulletPool = bullets;
+    }
+
     // Update is called once per frame
     void Update () {
         if (!isLocalPlayer)
             return;
 
 
-        if(PlayerFire()) 
+        if(playerFired) 
         {
             cooldown = Time.time;
-            CmdFire(BulletSpawn.position, BulletSpawn.forward * WeaponAttributes.ProjectileSpeed);
+            FireOnNetwork(BulletSpawn.position, BulletSpawn.forward);
         }
 	}
 
-    bool PlayerFire()
+    void FireOnNetwork(Vector3 position, Vector3 direction)
     {
-        return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate;
+        var x = Mathf.FloatToHalf(position.x);  
+        var y = Mathf.FloatToHalf(position.y);
+        var z = Mathf.FloatToHalf(position.z);
+        var dirX = Mathf.FloatToHalf(direction.x);
+        var dirY = Mathf.FloatToHalf(direction.y);
+        var dirZ = Mathf.FloatToHalf(direction.z);
+
+        Fire(x, y, z, dirX, dirY, dirZ);
+        CmdFire(x, y, z, dirX, dirY, dirZ);
+    }
+
+    void Fire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
+    {
+        var position = new Vector3(Mathf.HalfToFloat(x), Mathf.HalfToFloat(y), Mathf.HalfToFloat(z));
+        var direction = new Vector3(Mathf.HalfToFloat(dirX), Mathf.HalfToFloat(dirY), Mathf.HalfToFloat(dirZ));
+
+        BulletPool[nextBulletIndex++ % BulletPool.Length].Fired(position, direction * WeaponAttributes.ProjectileSpeed);
     }
 
     [Command]
-    void CmdFire(Vector3 position, Vector3 velocity)
+    void CmdFire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
     {
-        BulletPool[nextBulletIndex++ % BulletPool.Length].RpcFired(position, velocity);
-        if(nextBulletIndex >= 100000)
-        {
-            nextBulletIndex = 0;
-        }
+        RpcFire(x, y, z, dirX, dirY, dirZ);
+    }
+
+    [ClientRpc]
+    void RpcFire(ushort x, ushort y, ushort z, ushort dirX, ushort dirY, ushort dirZ)
+    {
+        if (!isLocalPlayer)
+            Fire(x, y, z, dirX, dirY, dirZ);
     }
 }

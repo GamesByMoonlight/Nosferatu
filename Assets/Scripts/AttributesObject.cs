@@ -24,6 +24,7 @@ public class AttributesObject : ScriptableObject
         attr.ForwardSpeed = attributes.ForwardSpeed;
         attr.BackwardSpeed = attributes.BackwardSpeed;
         attr.StrafeSpeed = attributes.StrafeSpeed;
+        attr.DetectionRange = attributes.DetectionRange;
 }
 
     // Use when this Attribute set defines a change to existing values
@@ -55,6 +56,7 @@ public class AttributesObject : ScriptableObject
         attr.ForwardSpeed /= attributes.ForwardSpeed;
         attr.BackwardSpeed /= attributes.BackwardSpeed;
         attr.StrafeSpeed /= attributes.StrafeSpeed;
+        attr.DetectionRange /= attributes.DetectionRange;
     }
 }
 
@@ -82,6 +84,8 @@ public class Attributes
     public float ForwardSpeed;
     public float BackwardSpeed;
     public float StrafeSpeed;
+
+    public float DetectionRange;
     //Add special ability
     //Add magic
 
@@ -104,5 +108,6 @@ public class Attributes
         ForwardSpeed *= attr.ForwardSpeed;
         BackwardSpeed *= attr.BackwardSpeed;
         StrafeSpeed *= attr.StrafeSpeed;
+        DetectionRange *= attr.DetectionRange;
     }
 }

@@ -55,9 +55,8 @@ public class BulletController : NetworkBehaviour {
         CancelInvoke();
         SetChildrenActive(active);
     }
-
-    [ClientRpc]
-    public void RpcFired(Vector3 position, Vector3 velocity)//, float attack)
+    
+    public void Fired(Vector3 position, Vector3 velocity)
     {
         var atk = bulletAttributes.Attack;
 

@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 4564043634947956}
   - component: {fileID: 114770379494991392}
   - component: {fileID: 114443998752054884}
+  - component: {fileID: 114525815793217842}
   - component: {fileID: 54025596565838530}
   m_Layer: 0
   m_Name: Bullet (Fire)
@@ -223,7 +224,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &114443998752054884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,6 +237,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletGameObject: {fileID: 1179606668630720}
+--- !u!114 &114525815793217842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294267764648022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373dbf6cc10d6824ca0cf0a2606450f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForParticleSystem: {fileID: 198628158545548210}
+  DisableLightAfter: 2
 --- !u!114 &114770379494991392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,7 +289,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1179606668630720}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

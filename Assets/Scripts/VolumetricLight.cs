@@ -94,6 +94,13 @@ public class VolumetricLight : MonoBehaviour
         _cascadeShadowCommandBuffer.SetGlobalTexture("_CascadeShadowMapTexture", new UnityEngine.Rendering.RenderTargetIdentifier(UnityEngine.Rendering.BuiltinRenderTextureType.CurrentActive));
 
         _light = GetComponent<Light>();
+        
+        if(_light == null)
+        {
+            Debug.Log("Grabbing light from particle system");
+            _light = GetComponent<ParticleSystem>().lights.light;
+        }
+
         //_light.RemoveAllCommandBuffers();
         if(_light.type == LightType.Directional)
         {

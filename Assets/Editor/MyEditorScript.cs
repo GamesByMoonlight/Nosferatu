@@ -5,9 +5,8 @@ using UnityEditor;
 public class MyEditorScript
 {
 
-	 static string[] scenes = { "Assets/Scenes/Lobby (offline).unity", 
+	 static string[] scenes = {
 		"Assets/Scenes/LobbyNetwork.unity",
-		"Assets/Scenes/Online.unity",
 		"Assets/Scenes/Maze (online).unity"  };
 
 	public static void PerformBuild ()

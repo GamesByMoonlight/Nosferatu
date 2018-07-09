@@ -12,6 +12,7 @@ public class BulletController : NetworkBehaviour {
     private float baseScale = .3f / 20f;
     private Rigidbody rb;
     private Attributes bulletAttributes;    // Needs to point to player attributes
+    private ParticleLightSuppressor lightSuppressor;
 
     [SerializeField]
     private GameObject bulletGameObject;
@@ -19,7 +20,9 @@ public class BulletController : NetworkBehaviour {
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        
+        lightSuppressor = GetComponent<ParticleLightSuppressor>();
+
+
     }
 
     private void Start()
@@ -33,6 +36,7 @@ public class BulletController : NetworkBehaviour {
     private void SetChildrenActive(bool active)
     {
         bulletGameObject.gameObject.SetActive(active);
+        lightSuppressor.ReEnableSuppression(active);
     }
 
     private void OnCollisionEnter(Collision collision)

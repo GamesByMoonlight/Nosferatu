@@ -40,6 +40,9 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         GetComponent<NetworkHealthController>().ForGameObject = PlayerAttributes;
         GetComponent<NetworkFireController>().WeaponAttributes = PlayerAttributes;
 
+        Debug.Log("playerType in NetworkPlayerConnection.cs is " + playerType);
+        avatar.GetComponentInChildren<ModelSelector>().ChooseModel(playerType); 
+
         if(isServer)
         {
             GetComponent<NetworkFireController>().SpawnBulletPool();
@@ -47,7 +50,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
 
         if (isLocalPlayer)
         {
-            avatar.GetComponentInChildren<MeshRenderer>().material.color = playerColor;
+            //avatar.GetComponentInChildren<MeshRenderer>().material.color = playerColor;
             var inputController = avatar.GetComponent<FPSMouseLookController>();
             inputController.movementSettings.ForwardSpeed = PlayerAttributes.ForwardSpeed;
             inputController.movementSettings.BackwardSpeed = PlayerAttributes.BackwardSpeed;

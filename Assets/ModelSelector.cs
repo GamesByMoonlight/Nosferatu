@@ -8,7 +8,7 @@ public class ModelSelector : MonoBehaviour {
 
 	public void ChooseModel(PlayerClass playerClass)
     {
-        Debug.Log("Model chosen is " + playerClass);
+        //Debug.Log("Model chosen is " + playerClass);
 
         GameObject myModel = Instantiate(models[(int)playerClass], transform, false);
 

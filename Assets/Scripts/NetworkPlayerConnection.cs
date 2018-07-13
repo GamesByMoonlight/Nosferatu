@@ -40,7 +40,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
         GetComponent<NetworkHealthController>().ForGameObject = PlayerAttributes;
         GetComponent<NetworkFireController>().WeaponAttributes = PlayerAttributes;
 
-        Debug.Log("playerType in NetworkPlayerConnection.cs is " + playerType);
+        //Debug.Log("playerType in NetworkPlayerConnection.cs is " + playerType);
         avatar.GetComponentInChildren<ModelSelector>().ChooseModel(playerType); 
 
         if(isServer)

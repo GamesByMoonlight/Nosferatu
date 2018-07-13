@@ -310,7 +310,7 @@ namespace Prototype.NetworkLobby
         public void CmdPlayerTypeChanged(int index)
         {
             PlayerClass type = (PlayerClass)(index - 1);
-            Debug.Log(playerName + " class chosen: " + type);
+            //Debug.Log(playerName + " class chosen: " + type);
             playerType = type;
         }
 

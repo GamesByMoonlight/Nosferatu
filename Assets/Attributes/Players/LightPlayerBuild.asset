@@ -19,7 +19,8 @@ MonoBehaviour:
     Attack: 5
     ProjectileSpeed: 30
     FireRate: 0.2
-    ProjectileRange: 10
+    ProjectileRange: 5
     ForwardSpeed: 8
     BackwardSpeed: 5
     StrafeSpeed: 5
+    DetectionRange: 0

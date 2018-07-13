@@ -4,33 +4,26 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetworkPlayerConnection : NetworkBehaviour {
-    [SerializeField]
-    private AttributesObject[] PossibleClassTypes;
-
+    [SerializeField] private AttributesObject[] PossibleClassTypes;
+    [SyncVar] public string playerName;
+    [SyncVar] public Color playerColor;
+    [SyncVar] public PlayerClass playerType;
     public GameObject PlayerAvatar;
 
     
-    [SerializeField]
     private AttributesObject PlayerAttributesScriptableObject;
     public Attributes PlayerAttributes { get; private set; }
 
-    [SyncVar] public string playerName;
-    [SyncVar] public Color playerColor;
-    [SyncVar (hook ="OnPlayerTypeChanged")] public PlayerClass playerType;
-
-
-
-    private void Awake()
-    {
-        PlayerAttributes = new Attributes();
-        PlayerAttributesScriptableObject.Initialize(PlayerAttributes);
-    }
+    
 
     // Use this for initialization
     void Start () {
+        PlayerAttributesScriptableObject = PossibleClassTypes[(int)playerType];
+        PlayerAttributes = new Attributes();
+        PlayerAttributesScriptableObject.Initialize(PlayerAttributes);
         GameManager.Instance.RegisterPlayer(gameObject, isLocalPlayer);
         InitAvatar();
-	}
+    }
 
     private void OnDisconnectedFromServer(NetworkDisconnection info)
     {
@@ -69,14 +62,6 @@ public class NetworkPlayerConnection : NetworkBehaviour {
             avatar.GetComponentInChildren<AudioListener>().enabled = false;
         }
     }
-
-    void OnPlayerTypeChanged(PlayerClass value)
-    {
-        playerType = value;
-        PlayerAttributesScriptableObject = PossibleClassTypes[(int)value];
-        PlayerAttributesScriptableObject.Initialize(PlayerAttributes);
-    }
-	
 
     public void ModifyAttributes(AttributesObject modification)
     {

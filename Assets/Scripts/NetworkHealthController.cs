@@ -22,9 +22,11 @@ public class NetworkHealthController : NetworkBehaviour {
     public override void OnStartLocalPlayer()
     {
         cg.alpha = 0f;
+    }
 
-        //if(GetComponent<NetworkPlayerConnection>()) //This is a player object, so it has a HUD.
-        //    hudManager = FindObjectOfType<HUDManager>();
+    private void Start()
+    {
+        GameManager.Instance.AttributesUpdatedFor.AddListener(AttributesUpdateListener);
     }
 
     public void TakeDamage(float amount)
@@ -32,7 +34,9 @@ public class NetworkHealthController : NetworkBehaviour {
         if (!isServer)
             return;
 
-        CurrentHealth -= amount;
+        var health = ForGameObject.CurrentHealth;
+        health -= amount;
+        CurrentHealth = health;
 
         if(CurrentHealth < 0)
         {
@@ -47,12 +51,22 @@ public class NetworkHealthController : NetworkBehaviour {
         if (attributes == null || ForGameObject == null)
             return;
 
+        UpdateHealthBar(updatedHealth);
+            
+        ForGameObject.CurrentHealth = updatedHealth;
+    }
+
+    void AttributesUpdateListener(GameObject player)
+    {
+        UpdateHealthBar(ForGameObject.CurrentHealth);
+    }
+
+    void UpdateHealthBar(float updatedHealth)
+    {
         if (HealthBar != null)
         {
             var health = (updatedHealth / attributes.MaxHealth) * 100f;
             HealthBar.sizeDelta = new Vector2(health, HealthBar.sizeDelta.y);
         }
-            
-        ForGameObject.CurrentHealth = updatedHealth;
     }
 }

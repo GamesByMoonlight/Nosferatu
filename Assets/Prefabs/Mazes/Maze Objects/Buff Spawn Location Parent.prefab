@@ -984,6 +984,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffsAvailable:
-  - {fileID: 1665656851287216, guid: bd3db99e77a945449ac98ecadab17045, type: 2}
   - {fileID: 1137833233071504, guid: ed566fae5b9f69740b473419ee41b676, type: 2}
+  - {fileID: 1665656851287216, guid: bd3db99e77a945449ac98ecadab17045, type: 2}
   - {fileID: 1091224372893658, guid: b0d8b9283594bb84e8927ab5c39fb00e, type: 2}

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 65352836875601902}
   - component: {fileID: 114410917159838904}
   - component: {fileID: 108981496027927642}
+  - component: {fileID: 114587306697019112}
   m_Layer: 0
   m_Name: SpdBuffZone
   m_TagString: Untagged
@@ -133,6 +134,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Attributes: {fileID: 11400000, guid: 7c011ea18100ff74f90f01ae662a6f02, type: 2}
+--- !u!114 &114587306697019112
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1091224372893658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 176
+    i1: 216
+    i2: 185
+    i3: 40
+    i4: 53
+    i5: 148
+    i6: 187
+    i7: 132
+    i8: 232
+    i9: 146
+    i10: 122
+    i11: 181
+    i12: 195
+    i13: 159
+    i14: 176
+    i15: 14
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!198 &198973316029883546
 ParticleSystem:
   m_ObjectHideFlags: 1

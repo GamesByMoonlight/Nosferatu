@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BuffSpawner : MonoBehaviour {
+public class BuffSpawner : NetworkBehaviour {
 
     // Add all possible buff prefabs to this array
     public GameObject[] buffsAvailable;
@@ -12,6 +13,8 @@ public class BuffSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (!isServer)
+            return;
 
         if (buffsAvailable.Length > 0)
         {
@@ -23,10 +26,7 @@ public class BuffSpawner : MonoBehaviour {
                 int index = Random.Range(0, buffsAvailable.Length);
 
                 GameObject createdBuff = Instantiate(buffsAvailable[index], buffLocation.transform.position, Quaternion.identity);
-
-                // A little housekeeping to put the buffs under the transform parent objects
-                createdBuff.transform.parent = buffLocation.transform;
-
+                NetworkServer.Spawn(createdBuff);
             }
         } else { Debug.Log("No buffs have been assigned to buffsAvailable array in BuffSpawner"); }
         

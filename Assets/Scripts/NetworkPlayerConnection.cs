@@ -81,6 +81,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
     public void RpcModify(Attributes attr)
     {
         PlayerAttributes.Modify(attr);
+        GameManager.Instance.AttributesUpdatedFor.Invoke(gameObject);
     }
 
 

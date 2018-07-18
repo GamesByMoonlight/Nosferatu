@@ -10,4 +10,5 @@ public class CustomMessagingEventSystem : NetworkBehaviour {
 
     public GameObjectEvent EntityDiedEvent;
     public UnityEvent GameStateChanged;
+    public GameObjectEvent AttributesUpdatedFor;
 }

@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 65969774108168520}
   - component: {fileID: 114869919622991060}
   - component: {fileID: 108505941163368812}
+  - component: {fileID: 114343602287998362}
   m_Layer: 0
   m_Name: AtkBuffZone
   m_TagString: Untagged
@@ -121,6 +122,38 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114343602287998362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1665656851287216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 189
+    i1: 61
+    i2: 185
+    i3: 158
+    i4: 119
+    i5: 169
+    i6: 69
+    i7: 68
+    i8: 154
+    i9: 201
+    i10: 142
+    i11: 202
+    i12: 218
+    i13: 177
+    i14: 112
+    i15: 69
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114869919622991060
 MonoBehaviour:
   m_ObjectHideFlags: 1

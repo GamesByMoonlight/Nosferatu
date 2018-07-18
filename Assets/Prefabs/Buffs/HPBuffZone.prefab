@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 65609853529869278}
   - component: {fileID: 114739452631963658}
   - component: {fileID: 108168375737657294}
+  - component: {fileID: 114020088990113434}
   m_Layer: 0
   m_Name: HPBuffZone
   m_TagString: Untagged
@@ -121,6 +122,38 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114020088990113434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1137833233071504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 237
+    i1: 86
+    i2: 111
+    i3: 174
+    i4: 91
+    i5: 159
+    i6: 105
+    i7: 116
+    i8: 11
+    i9: 71
+    i10: 52
+    i11: 25
+    i12: 238
+    i13: 65
+    i14: 182
+    i15: 118
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114739452631963658
 MonoBehaviour:
   m_ObjectHideFlags: 1

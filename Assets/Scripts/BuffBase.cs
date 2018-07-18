@@ -12,4 +12,9 @@ public abstract class BuffBase : NetworkBehaviour
     {
         Attributes.Initialize(attr);
     }
+
+    protected virtual void Start()
+    {
+        transform.SetParent(FindObjectOfType<BuffSpawner>().transform);
+    }
 }

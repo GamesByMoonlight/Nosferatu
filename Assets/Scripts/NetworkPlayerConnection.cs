@@ -69,6 +69,7 @@ public class NetworkPlayerConnection : NetworkBehaviour {
     public void ModifyAttributes(AttributesObject modification)
     {
         CmdModify(modification.attributes);
+        Debug.Log("");
     }
 
     [Command]

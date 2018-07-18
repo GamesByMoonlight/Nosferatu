@@ -7,11 +7,6 @@ public class BuffAutoTrigger : BuffBase {
 
     public float bombDamage = 50;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-
     private void OnTriggerEnter(Collider collision)
     {
         var player = collision.gameObject.GetComponentInParent<NetworkPlayerConnection>();

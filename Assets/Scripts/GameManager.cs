@@ -10,6 +10,7 @@ public class GameManager : CustomMessagingEventSystem {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+    [SyncVar(hook = "GameStateChangeHook")]
     public GameState CurrentState = GameState.ReadyToStart;
     public float MatchTime = 10f * 60f; // 10min
     public float CurrentTime;
@@ -18,6 +19,7 @@ public class GameManager : CustomMessagingEventSystem {
     public GameObject LocalPlayer { get { return localPlayer; } }
 
     private float TimeLastSyncSent;
+    [SyncVar]
     private bool running = false;
     private List<GameObject> connectedPlayers;
     private GameObject localPlayer;
@@ -54,7 +56,7 @@ public class GameManager : CustomMessagingEventSystem {
         if(running && CurrentTime <= 0f)
         {
             SynchronizeTime();
-            RpcMatchOver(GameState.VampireWinsByTime);
+            MatchOver(GameState.VampireWinsByTime);
         }
     }
 
@@ -78,7 +80,7 @@ public class GameManager : CustomMessagingEventSystem {
         // Check coffin death
         if(entity.GetComponent<CoffinController>() != null)
         {
-            RpcMatchOver(GameState.AdventurersWin);
+            MatchOver(GameState.AdventurersWin);
             return;
         }
 
@@ -96,12 +98,11 @@ public class GameManager : CustomMessagingEventSystem {
 
         if(!somePlayersAlive)
         {
-            RpcMatchOver(GameState.VampireWinsByElimination);
+            MatchOver(GameState.VampireWinsByElimination);
         }
     }
 
-    [ClientRpc]
-    private void RpcMatchOver(GameState state)
+    private void MatchOver(GameState state)
     {
         running = false;
         CurrentState = state;
@@ -118,12 +119,14 @@ public class GameManager : CustomMessagingEventSystem {
                 Debug.Log("Vampire wins.  Time ran out and adventurers lost forever.");
                 break;
         }
-
         GameStateChanged.Invoke();
     }
 
     public void StartMatch()
     {
+        if (!isServer)
+            return;
+
         running = true;
         CurrentState = GameState.Running;
         GameStateChanged.Invoke();
@@ -131,14 +134,17 @@ public class GameManager : CustomMessagingEventSystem {
 
     public void ResetMatch()
     {
+        if (!isServer)
+            return;
+
         CurrentTime = MatchTime;
         running = false;
         CurrentState = GameState.ReadyToStart;
-        if (isServer)
-        {
-            SynchronizeTime();
-        }
+        GameStateChanged.Invoke();
+    }
 
+    private void GameStateChangeHook(GameState state)
+    {
         GameStateChanged.Invoke();
     }
 

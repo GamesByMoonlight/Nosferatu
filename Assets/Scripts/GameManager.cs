@@ -107,18 +107,18 @@ public class GameManager : CustomMessagingEventSystem {
         running = false;
         CurrentState = state;
 
-        switch (state)
-        {
-            case GameState.AdventurersWin:
-                Debug.Log("Adventurers win!");
-                break;
-            case GameState.VampireWinsByElimination:
-                Debug.Log("Vampire wins.  All adventurers dead or converted.");
-                break;
-            case GameState.VampireWinsByTime:
-                Debug.Log("Vampire wins.  Time ran out and adventurers lost forever.");
-                break;
-        }
+        //switch (state)
+        //{
+        //    case GameState.AdventurersWin:
+        //        Debug.Log("Adventurers win!");
+        //        break;
+        //    case GameState.VampireWinsByElimination:
+        //        Debug.Log("Vampire wins.  All adventurers dead or converted.");
+        //        break;
+        //    case GameState.VampireWinsByTime:
+        //        Debug.Log("Vampire wins.  Time ran out and adventurers lost forever.");
+        //        break;
+        //}
         GameStateChanged.Invoke();
     }
 
@@ -145,6 +145,7 @@ public class GameManager : CustomMessagingEventSystem {
 
     private void GameStateChangeHook(GameState state)
     {
+        CurrentState = state;
         GameStateChanged.Invoke();
     }
 

@@ -20,7 +20,7 @@ public class GameStateHelperScript : MonoBehaviour {
                 GameStateText.text = message + "Stopped";
                 break;
             case GameState.Running:
-                GameStateText.text = message + "Running";
+                GameStateText.text = message + "";
                 break;
             case GameState.VampireWinsByElimination:
                 GameStateText.text = "Game over.  Vampire wins by eliminating adventurers.";

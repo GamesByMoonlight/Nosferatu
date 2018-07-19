@@ -19,6 +19,9 @@ public class NetworkFireController : NetworkBehaviour {
     private BulletController[] BulletPool;
     private int nextBulletIndex = 0;
 
+    private float bulletAimAngle = -10f;  // This will override x rotation angle of BulletSpawn from inspector
+    private float adjustAngleDistance = 50f;  // Will adjust the bulletAimAngle by a % equal to  ( Distance to target / adjustAngleDistance ) * bulletAimAngle
+
     private void Awake()
     {
         cooldown = Time.time;
@@ -30,6 +33,8 @@ public class NetworkFireController : NetworkBehaviour {
         {
             StartCoroutine(WaitForBulletsToSpawn(BulletPoolLength));
         }
+        
+
     }
 
     public void SpawnBulletPool()
@@ -83,6 +88,10 @@ public class NetworkFireController : NetworkBehaviour {
         RaycastHit target;
         Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out target, 1000f, ~0, QueryTriggerInteraction.Ignore);
         BulletSpawn.transform.LookAt(target.point);
+
+        var distance = Vector3.Distance(target.point, BulletSpawn.transform.position);
+        distance = distance > adjustAngleDistance ? adjustAngleDistance : distance;
+        BulletSpawn.transform.Rotate(Vector3.right, (distance / adjustAngleDistance) * bulletAimAngle);
     }
 
     void FireOnNetwork(Vector3 position, Vector3 direction)

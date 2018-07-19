@@ -73,9 +73,17 @@ public class NetworkFireController : NetworkBehaviour {
         if(playerFired) 
         {
             cooldown = Time.time;
+            Aim();
             FireOnNetwork(BulletSpawn.position, BulletSpawn.forward);
         }
 	}
+
+    void Aim()
+    {
+        RaycastHit target;
+        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out target, 1000f, ~0, QueryTriggerInteraction.Ignore);
+        BulletSpawn.transform.LookAt(target.point);
+    }
 
     void FireOnNetwork(Vector3 position, Vector3 direction)
     {

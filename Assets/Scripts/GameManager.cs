@@ -26,6 +26,12 @@ public class GameManager : CustomMessagingEventSystem {
 
     private void Awake()
     {
+        if(_instance != null)
+        {
+            //Debug.Log("Another gamemanager was created.  Destroying this one.");
+            Destroy(gameObject);
+            return;
+        }
         _instance = this;
         connectedPlayers = new List<GameObject>();
     }
@@ -162,4 +168,5 @@ public class GameManager : CustomMessagingEventSystem {
     {
         connectedPlayers.Remove(player);
     }
+
 }

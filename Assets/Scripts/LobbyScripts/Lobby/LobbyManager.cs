@@ -160,6 +160,7 @@ namespace Prototype.NetworkLobby
         public BackButtonDelegate backDelegate;
         public void GoBackButton()
         {
+            Debug.Log(backDelegate.Method);
             backDelegate();
 			topPanel.isInGame = false;
         }
@@ -185,15 +186,13 @@ namespace Prototype.NetworkLobby
         {
             if (_isMatchmaking)
             {
-				matchMaker.DestroyMatch((NetworkID)_currentMatchID, 0, OnDestroyMatch);
+                matchMaker.DestroyMatch((NetworkID)_currentMatchID, 0, OnDestroyMatch);
 				_disconnectServer = true;
             }
             else
             {
                 StopHost();
             }
-
-            
             ChangeTo(mainMenuPanel);
         }
 
@@ -212,6 +211,7 @@ namespace Prototype.NetworkLobby
         public void StopServerClbk()
         {
             StopServer();
+            
             ChangeTo(mainMenuPanel);
         }
 
@@ -421,16 +421,18 @@ namespace Prototype.NetworkLobby
         public override void OnLobbyServerSceneChanged(string scene)
         {
             base.OnLobbyServerSceneChanged(scene);
+            GameManager.Instance.ResetMatch();
+            GameManager.Instance.StartMatch();
 
-            switch (GameManager.Instance.CurrentState)
-            {
-                case GameState.ReadyToStart:
-                    GameManager.Instance.StartMatch();
-                    break;
-                default:
-                    GameManager.Instance.ResetMatch();
-                    break;
-            }
+            //switch (GameManager.Instance.CurrentState)
+            //{
+            //    case GameState.ReadyToStart:
+            //        GameManager.Instance.StartMatch();
+            //        break;
+            //    default:
+            //        GameManager.Instance.ResetMatch();
+            //        break;
+            //}
         }
     }
 }

@@ -12,12 +12,24 @@ public class NetworkFireController : NetworkBehaviour {
     [SerializeField]
     public Attributes WeaponAttributes;
 
+    [SerializeField]
+    [Header("This will override x rotation angle of BulletSpawn from inspector")]
+    private float maxBulletAimAngle = -10f;
+    [SerializeField]
+    [Header("Denominator for % of maxBulletAimAngle to use")]
+    private float baseProjectileDistance = 30f;
+    [SerializeField]
+    [Header("Denominator for % of baseProjectileDistance to use")]
+    private float baseProjectileSpeed = 30f;
+
     private bool playerFired { get { return Mathf.Abs(Input.GetAxis(FireAxis)) > Mathf.Epsilon && Time.time - cooldown > WeaponAttributes.FireRate; } }
 
     private float cooldown;
     private bool bulletPoolSpawned = false;
     private BulletController[] BulletPool;
     private int nextBulletIndex = 0;
+
+    
 
     private void Awake()
     {
@@ -30,6 +42,8 @@ public class NetworkFireController : NetworkBehaviour {
         {
             StartCoroutine(WaitForBulletsToSpawn(BulletPoolLength));
         }
+        
+
     }
 
     public void SpawnBulletPool()
@@ -81,8 +95,21 @@ public class NetworkFireController : NetworkBehaviour {
     void Aim()
     {
         RaycastHit target;
-        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out target, 1000f, ~0, QueryTriggerInteraction.Ignore);
+        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out target, 100f, ~0, QueryTriggerInteraction.Ignore);
         BulletSpawn.transform.LookAt(target.point);
+
+        var distance = target.distance;
+
+        if(distance < Mathf.Epsilon)
+        {
+            var pointAtMaxDistance = Camera.main.transform.position + Camera.main.transform.forward * 100f;
+            BulletSpawn.transform.LookAt(pointAtMaxDistance);
+            distance = baseProjectileDistance;
+        }
+        distance = distance > baseProjectileDistance ? baseProjectileDistance : distance;
+
+        var adjustAnglePercent = (distance / (baseProjectileDistance * (WeaponAttributes.ProjectileSpeed / baseProjectileSpeed)));
+        BulletSpawn.transform.Rotate(Vector3.right, adjustAnglePercent * maxBulletAimAngle);
     }
 
     void FireOnNetwork(Vector3 position, Vector3 direction)

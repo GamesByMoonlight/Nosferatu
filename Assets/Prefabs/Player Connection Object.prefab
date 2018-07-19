@@ -658,6 +658,8 @@ MonoBehaviour:
     BackwardSpeed: 0
     StrafeSpeed: 0
     DetectionRange: 0
+  maxBulletAimAngle: -10
+  adjustAngleDistance: 30
 --- !u!114 &114294871521577956
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -36,6 +36,7 @@ public class MonsterMovement : NetworkBehaviour {
         if(hasAuthority)
 		    this.SetCurrentAnimation(AnimationTypes.dance);
         MonsterAttributes.Initialize(attributes);
+        GetComponent<NetworkHealthController>().ForGameObject = attributes;
 	}
 	
 	// Update is called once per frame
@@ -44,7 +45,14 @@ public class MonsterMovement : NetworkBehaviour {
             return;
 
 		ChasePlayers();
+        CheckHealth();
 	}
+
+    void CheckHealth()
+    {
+        if (attributes.CurrentHealth < 0f)
+            Destroy(gameObject);
+    }
 
 
     // ------- On Trigger Enter/Exit definitions ----------------------------------------------------------------

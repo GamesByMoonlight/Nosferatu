@@ -423,16 +423,6 @@ namespace Prototype.NetworkLobby
             base.OnLobbyServerSceneChanged(scene);
             GameManager.Instance.ResetMatch();
             GameManager.Instance.StartMatch();
-
-            //switch (GameManager.Instance.CurrentState)
-            //{
-            //    case GameState.ReadyToStart:
-            //        GameManager.Instance.StartMatch();
-            //        break;
-            //    default:
-            //        GameManager.Instance.ResetMatch();
-            //        break;
-            //}
         }
     }
 }

@@ -228,7 +228,8 @@ namespace Prototype.NetworkLobby
 
         public void OnPlayerTypeChanged(int index)
         {
-            CmdPlayerTypeChanged(index);
+            if(hasAuthority)
+                CmdPlayerTypeChanged(index);
         }
 
         public void OnNameChanged(string str)

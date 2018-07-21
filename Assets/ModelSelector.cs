@@ -23,10 +23,10 @@ public class ModelSelector : MonoBehaviour {
                 CC.height = 1.6f;
                 myModel.transform.localPosition = new Vector3(0f, 0.33f, 0f);
                 return;
-            case PlayerClass.Wizard:
+            case PlayerClass.HeavyMage:
                 myModel.transform.localPosition = new Vector3(0f, 0.24f, 0f);
                 return;
-            case PlayerClass.Archer:
+            case PlayerClass.RangedWizard:
                 myModel.transform.localPosition = new Vector3(0f, 0.25f, 0f);
                 return;
         }

@@ -75,6 +75,7 @@ namespace Prototype.NetworkLobby
             //will be created with the right value currently on server
             OnMyName(playerName);
             OnMyColor(playerColor);
+            ddPlayerType.value = (int)playerType;
         }
 
         public override void OnStartAuthority()
@@ -227,7 +228,8 @@ namespace Prototype.NetworkLobby
 
         public void OnPlayerTypeChanged(int index)
         {
-            CmdPlayerTypeChanged(index);
+            if(hasAuthority)
+                CmdPlayerTypeChanged(index);
         }
 
         public void OnNameChanged(string str)
@@ -309,11 +311,18 @@ namespace Prototype.NetworkLobby
         [Command]
         public void CmdPlayerTypeChanged(int index)
         {
-            PlayerClass type = (PlayerClass)(index - 1);
-            //Debug.Log(playerName + " class chosen: " + type);
+            PlayerClass type = (PlayerClass)(index);
             playerType = type;
+            RpcPlayerTypeUpdate(index);
         }
 
+        [ClientRpc]
+        private void RpcPlayerTypeUpdate(int index)
+        {
+            PlayerClass type = (PlayerClass)(index);
+            playerType = type;
+            ddPlayerType.value = index;
+        }
 
         [Command]
         public void CmdNameChanged(string name)

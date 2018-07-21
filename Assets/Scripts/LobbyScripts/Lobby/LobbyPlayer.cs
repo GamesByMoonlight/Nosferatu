@@ -29,7 +29,6 @@ namespace Prototype.NetworkLobby
         //OnMyName function will be invoked on clients when server change the value of playerName
         [SyncVar]
         public PlayerClass playerType;
-        public int dropDownIndex;
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
         [SyncVar(hook = "OnMyColor")]
@@ -76,7 +75,7 @@ namespace Prototype.NetworkLobby
             //will be created with the right value currently on server
             OnMyName(playerName);
             OnMyColor(playerColor);
-            ddPlayerType.value = dropDownIndex;
+            ddPlayerType.value = (int)playerType;
         }
 
         public override void OnStartAuthority()
@@ -311,7 +310,7 @@ namespace Prototype.NetworkLobby
         [Command]
         public void CmdPlayerTypeChanged(int index)
         {
-            PlayerClass type = (PlayerClass)(index - 1);
+            PlayerClass type = (PlayerClass)(index);
             playerType = type;
             RpcPlayerTypeUpdate(index);
         }
@@ -319,9 +318,8 @@ namespace Prototype.NetworkLobby
         [ClientRpc]
         private void RpcPlayerTypeUpdate(int index)
         {
-            PlayerClass type = (PlayerClass)(index - 1);
+            PlayerClass type = (PlayerClass)(index);
             playerType = type;
-            dropDownIndex = index;
             ddPlayerType.value = index;
         }
 

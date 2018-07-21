@@ -160,7 +160,6 @@ namespace Prototype.NetworkLobby
         public BackButtonDelegate backDelegate;
         public void GoBackButton()
         {
-            Debug.Log(backDelegate.Method);
             backDelegate();
 			topPanel.isInGame = false;
         }

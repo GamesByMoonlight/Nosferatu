@@ -27,6 +27,13 @@ public class BulletController : NetworkBehaviour {
 
     private void Start()
     {
+        StartCoroutine(WaitForPlayer());
+    }
+
+    IEnumerator WaitForPlayer()
+    {
+        while(!Manager.Instance.ConnectedObjects.ContainsKey(playerNetID))
+            yield return null;
         var myPlayer = Manager.Instance.ConnectedObjects[playerNetID];
         transform.SetParent(myPlayer.transform);
         bulletAttributes = myPlayer.GetComponent<NetworkPlayerConnection>().PlayerAttributes;

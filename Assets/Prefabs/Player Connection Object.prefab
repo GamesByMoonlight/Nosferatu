@@ -659,7 +659,8 @@ MonoBehaviour:
     StrafeSpeed: 0
     DetectionRange: 0
   maxBulletAimAngle: -10
-  adjustAngleDistance: 30
+  baseProjectileDistance: 30
+  baseProjectileSpeed: 30
 --- !u!114 &114294871521577956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -672,6 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PossibleClassTypes:
+  - {fileID: 11400000, guid: e519a1db0dc450748b6fde761882ec52, type: 2}
   - {fileID: 11400000, guid: e519a1db0dc450748b6fde761882ec52, type: 2}
   - {fileID: 11400000, guid: d503afedbc508424888027ba8153c9a0, type: 2}
   - {fileID: 11400000, guid: e12274366f77ba34e93d312e239f7b55, type: 2}
@@ -799,9 +801,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   models:
   - {fileID: 1225289440978074, guid: 07f126d9419a27a4086458ea2b48c7b8, type: 2}
+  - {fileID: 1225289440978074, guid: 07f126d9419a27a4086458ea2b48c7b8, type: 2}
   - {fileID: 1542594569034986, guid: da086ee40baa99048a9cbb9fc58edf15, type: 2}
   - {fileID: 1688401121283630, guid: 53c3dd951143cc34487d7f1770116ad2, type: 2}
-  - {fileID: 1542594569034986, guid: da086ee40baa99048a9cbb9fc58edf15, type: 2}
   - {fileID: 1225289440978074, guid: 07f126d9419a27a4086458ea2b48c7b8, type: 2}
 --- !u!114 &114628634805458972
 MonoBehaviour:
